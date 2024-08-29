@@ -34,14 +34,12 @@
                 newWidth = 0;
 
             parentGrid.ColumnDefinitions[_columnIndexToResize].Width = new GridLength(newWidth);
-
             ForceGridRedraw(parentGrid);
         }
 
-        private static void ForceGridRedraw(Grid parentGrid)
+        private void ForceGridRedraw(Grid parentGrid)
         {
-            parentGrid.WidthRequest += 1;
-            parentGrid.WidthRequest -= 1;
+            this.InvalidateLayout();
         }
 
         private void DragGestureRecognizer_DragStarting(object? sender, DragStartingEventArgs e)

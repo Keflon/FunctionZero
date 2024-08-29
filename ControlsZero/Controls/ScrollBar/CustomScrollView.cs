@@ -74,16 +74,36 @@ BindableProperty.Create(nameof(ScrollYRequest), typeof(double), typeof(CustomScr
         // Ignoring small changes prevents the storm.
         private static object CoerceScrollYValue(BindableObject bindable, object value)
         {
-            var self = (CustomScrollView)bindable;
-            if (Math.Abs(self.ScrollY - (double)value) < 1.0)
-                return self.ScrollY;
+            //var self = (CustomScrollView)bindable;
+            //if (Math.Abs(self.ScrollY - (double)value) < 1.0)
+            //    return self.ScrollY;
             return value;
         }
-
+        private bool _isBusy;
         private static void ScrollYRequestChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var self = (CustomScrollView)bindable;
-            self.ScrollToAsync(0, (double)newValue, false);
+
+            if (self._isBusy == true)
+                return;
+
+            self._isBusy = true;
+
+            self.Dispatcher.Dispatch(self.DoTheThing);
+
+        }
+
+        private async void DoTheThing()
+        {
+            if (ScrollYRequest != ScrollY)
+            {
+                 await ScrollToAsync(0, (double)ScrollYRequest, false);
+                if (ScrollYRequest != ScrollY)
+                {
+                    //Dispatcher.Dispatch(DoTheThing);
+                }
+            }
+            _isBusy = false;
         }
 
         public void Dispose()

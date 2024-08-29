@@ -36,20 +36,20 @@ public partial class TreeGridExperimentalPage : ContentPage
     {
         if (_kingOfEverything == lv0)
         {
-            lv1.ScrollOffset = lv0.ScrollOffset;
+            //lv1.ScrollView.ScrollYRequest = lv0.ScrollOffset;
 
-            lv1.ScrollOffset = lv0.ScrollOffset;
-            lv2.ScrollOffset = lv0.ScrollOffset;
+            lv1.ScrollView.ScrollYRequest = lv0.ScrollOffset;
+            lv2.ScrollView.ScrollYRequest = lv0.ScrollOffset;
         }
         else if (_kingOfEverything == lv1)
         {
-            lv0.ScrollOffset = lv1.ScrollOffset;
-            lv2.ScrollOffset = lv1.ScrollOffset;
+            lv0.ScrollView.ScrollYRequest = lv1.ScrollOffset;
+            lv2.ScrollView.ScrollYRequest = lv1.ScrollOffset;
         }
         else if (_kingOfEverything == lv2)
         {
-            lv0.ScrollOffset = lv2.ScrollOffset;
-            lv1.ScrollOffset = lv2.ScrollOffset;
+            lv0.ScrollView.ScrollYRequest = lv2.ScrollOffset;
+            lv1.ScrollView.ScrollYRequest = lv2.ScrollOffset;
         }
         else
         {

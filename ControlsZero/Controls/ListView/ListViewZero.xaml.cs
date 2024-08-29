@@ -1,4 +1,5 @@
 using FunctionZero.Maui.Controls;
+using FunctionZero.Maui.Controls.ScrollBar;
 using FunctionZero.Maui.Services.Cache;
 using Microsoft.Maui.Controls;
 using System.Collections;
@@ -173,17 +174,17 @@ public partial class ListViewZero : ContentView
 
     #region ScrollOffsetProperty
 
-    public static readonly BindableProperty ScrollOffsetProperty = BindableProperty.Create(nameof(ScrollOffset), typeof(double), typeof(ListViewZero), (double)0.0, BindingMode.TwoWay, null, ScrollOffsetChanged, null, CoerceScrollOffsetValue);
+    public static readonly BindableProperty ScrollOffsetProperty = BindableProperty.Create(nameof(ScrollOffset), typeof(double), typeof(ListViewZero), (double)0.0, BindingMode.TwoWay, null, ScrollOffsetChanged, null/*, CoerceScrollOffsetValue*/);
     // ATTENTION: TwoWay Binding a double to a ScrollOffset on a ScrollView can lose precision by varying amounts on different platforms, causing an event storm!
     // Ignoring small changes prevents the storm.
-    private static object CoerceScrollOffsetValue(BindableObject bindable, object value)
-    {
-        var self = (ListViewZero)bindable;
+    //private static object CoerceScrollOffsetValue(BindableObject bindable, object value)
+    //{
+    //    var self = (ListViewZero)bindable;
 
-        if (Math.Abs(self.ScrollOffset - (double)value) < 1.0)
-            return self.ScrollOffset;
-        return value;
-    }
+    //    if (Math.Abs(self.ScrollOffset - (double)value) < 1.0)
+    //        return self.ScrollOffset;
+    //    return value;
+    //}
 
     private static void ScrollOffsetChanged(BindableObject bindable, object oldValue, object newValue)
     {
@@ -199,8 +200,9 @@ public partial class ListViewZero : ContentView
 
         double actualScrollOffset = self.scrollView.ScrollY / self._scaleToControl;
 
-        if(self.ScrollOffset != actualScrollOffset)
-            self.DeferredScrollTo(self.ScrollOffset * self._scaleToControl);
+        if (self.ScrollOffset != actualScrollOffset)
+            //self.DeferredScrollTo(self.ScrollOffset * self._scaleToControl);
+            self.scrollView.ScrollYRequest = self.ScrollOffset * self._scaleToControl;
     }
     public double ScrollOffset
     {
@@ -209,22 +211,35 @@ public partial class ListViewZero : ContentView
     }
 
     #endregion
+    //int _count = 0;
+    //private async void DeferredScrollTo(double scrollOffset)
+    //{
+    //    if (_pendingScrollUpdate == false)
+    //    {
+    //        _pendingScrollUpdate = true;
+    //        // We want the ListItemZero instances updated before the scroll container
+    //        // to reduce visual artifacts.
+    //        Dispatcher.Dispatch(async () =>
+    //        {
+    //            _count++;
+    //            if(_count == 2)
+    //            {
+    //                throw new InvalidOperationException();
+    //            }
+    //            //await scrollView.ScrollToAsync(0, ScrollOffset * _scaleToControl, false);
+    //            //if(ScrollView.ScrollY != ScrollOffset * _scaleToControl)
+    //            //{
+    //            //    throw new InvalidOperationException();
+    //            //}
 
-    private void DeferredScrollTo(double scrollOffset)
-    {
-        if (_pendingScrollUpdate == false)
-        {
-            _pendingScrollUpdate = true;
-            // We want the ListItemZero instances updated before the scroll container
-            // to reduce visual artifacts.
-            Dispatcher.Dispatch(() =>
-            {
-                _ = scrollView.ScrollToAsync(0, scrollOffset, false);
-                _pendingScrollUpdate = false;
-            }
-            );
-        }
-    }
+    //            scrollView.ScrollYRequest = 
+
+    //            _pendingScrollUpdate = false;
+    //            _count--;
+    //        }
+    //        );
+    //    }
+    //}
 
     public static readonly BindableProperty ItemHeightProperty = BindableProperty.Create(nameof(ItemHeight), typeof(double), typeof(ListViewZero), (double)40.0, BindingMode.OneWay);
 
@@ -343,7 +358,7 @@ public partial class ListViewZero : ContentView
         UpdateScrollViewContentHeight();
         DeferredUpdateItemContainers();
     }
-    public ScrollView ScrollView { get { return scrollView; } }
+    public CustomScrollView ScrollView { get { return scrollView; } }
     private void ScrollView_Scrolled(object sender, ScrolledEventArgs e)
     {
         ScrollOffset = e.ScrollY / _scaleToControl;
