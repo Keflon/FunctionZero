@@ -1,0 +1,9 @@
+namespace FunctionZero.Maui.Showcase.Mvvm.Pages.Flyout;
+
+public partial class FlyoutFlyoutPage : ContentPage
+{
+	public FlyoutFlyoutPage()
+	{
+		InitializeComponent();
+	}
+}

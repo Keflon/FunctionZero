@@ -1,0 +1,54 @@
+﻿<ContentView  
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+        xmlns:cz="clr-namespace:FunctionZero.Maui.Controls"
+        x:Class="FunctionZero.Maui.Controls.TreeViewZero"
+    VerticalOptions="Fill"
+    x:Name="Self">
+
+    <ContentView.Resources>
+        <ControlTemplate x:Key="defaultControlTemplate">
+
+            <HorizontalStackLayout >
+                <!--
+                The ControlTemplate sets the TreeNodeSpacer BindingContext to "{Binding Source={RelativeSource TemplatedParent}}" for us,
+                i.e. a ListItemZero.
+                The TreeNodeSpacer walks up the visual-tree to find the containing TreeViewZero, to get the IndentMultiplier.
+                It then sets its WidthRequest to the IndentMultiplier * (ListItemZero.BindingContext.Indent - 1)
+                -->
+                <cz:TreeNodeSpacer />
+
+                <cz:Chevron
+                    IsExpanded="{TemplateBinding BindingContext.IsExpanded, Mode=TwoWay}" 
+                    ShowChevron="{TemplateBinding BindingContext.ShowChevron, Mode=TwoWay}" 
+                    />
+                <!--This is-a ContentPresenter that allows us to specify a BindingContext for the Content-->
+                <cz:TreeContentPresenter 
+                    VerticalOptions="Fill" 
+                    HorizontalOptions="Fill"   
+                    BindingContext="{TemplateBinding BindingContext.Data, Mode=OneWay}"
+                    />
+            </HorizontalStackLayout>
+        </ControlTemplate>
+
+        <!--This Style can be replaced in the resource dictionary by code-behind that tracks self.TreeItemContainerStyle-->
+        <Style x:Name ="ListItemStyle" TargetType="cz:ListItemZero" Class="Local">
+            <Setter Property="ControlTemplate" Value="{StaticResource defaultControlTemplate}"/>
+        </Style>
+    </ContentView.Resources>
+
+    <ContentView.Content>
+        <cz:ListViewZero 
+            x:Name="TheListView"
+            ItemHeight="{Binding ItemHeight, Source={x:Reference Self}}"
+            ItemTemplate="{Binding TreeItemTemplate, Source={x:Reference Self}}"
+            ScrollOffset="{Binding ScrollOffset, Source={x:Reference Self}, Mode=TwoWay}"
+            SelectedItem="{Binding SelectedItem, Source={x:Reference Self}, Mode=TwoWay}"
+            SelectionMode="{Binding SelectionMode, Source={x:Reference Self}, Mode=TwoWay}"
+            SelectedItems="{Binding SelectedItems, Source={x:Reference Self}, Mode=TwoWay}"
+            ItemContainerStyle="{Binding ItemContainerStyle, Source={x:Reference Self}}"
+         />
+        <!--ItemContainerStyle="{StaticResource Key=floop}"-->
+
+    </ContentView.Content>
+</ContentView>
