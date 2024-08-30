@@ -2,6 +2,24 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>FunctionZero.$(MSBuildProjectName)</AssemblyName>
+    <Version>1.0.1</Version>
+    <Authors>Keith Pickford</Authors>
+    <Company>FunctionZero Ltd</Company>
+    <Description>Net Standard library to help manage a hierarchy of nodes.</Description>
+    <Copyright>2019-2024 Function Zero Ltd</Copyright>
+    <PackageIcon>F0 gravatar.png</PackageIcon>
+    <PackageTags>net standard; tree node manager; graph; dag; acyclic;</PackageTags>
+    <PackageReleaseNotes>Improved error reporting if a node is added to the same parent more than once.</PackageReleaseNotes>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Update="F0 gravatar.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>

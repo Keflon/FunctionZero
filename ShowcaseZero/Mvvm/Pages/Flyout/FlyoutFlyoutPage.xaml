@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:z="clr-namespace:FunctionZero.Maui.zBind.z;assembly=BindZero"
-             xmlns:cz="clr-namespace:FunctionZero.Maui.Controls;assembly=ControlsZero"
+             xmlns:cz="clr-namespace:FunctionZero.Maui.Controls;assembly=FunctionZero.Maui.ControlsZero"
              x:Class="FunctionZero.Maui.Showcase.Mvvm.Pages.Flyout.FlyoutFlyoutPage"
              Title="FlyoutFlyoutPage"
              BackgroundColor="LightGoldenrodYellow"

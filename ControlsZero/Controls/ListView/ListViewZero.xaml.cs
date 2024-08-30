@@ -1,5 +1,4 @@
 using FunctionZero.Maui.Controls;
-using FunctionZero.Maui.Controls.ScrollBar;
 using FunctionZero.Maui.Services.Cache;
 using Microsoft.Maui.Controls;
 using System.Collections;

@@ -2,8 +2,7 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FunctionZero.Maui.Controls.ListViewZero" 
-             xmlns:cz="clr-namespace:FunctionZero.Maui.Controls;assembly=ControlsZero"
-             xmlns:sb="clr-namespace:FunctionZero.Maui.Controls.ScrollBar;assembly=ControlsZero"
+             xmlns:cz="clr-namespace:FunctionZero.Maui.Controls;assembly=FunctionZero.Maui.ControlsZero"
              HorizontalOptions="FillAndExpand" 
              VerticalOptions="FillAndExpand" 
              x:Name="Self"
@@ -41,7 +40,7 @@
     </ContentView.Resources>
 
 
-    <sb:CustomScrollView x:Name="scrollView"
+    <cz:CustomScrollView x:Name="scrollView"
              VerticalOptions="Fill" />
 
 

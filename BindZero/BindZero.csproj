@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst</TargetFrameworks>
@@ -16,6 +16,21 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<AssemblyName>FunctionZero.$(MSBuildProjectName)</AssemblyName>
+		<RootNamespace>FunctionZero.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+		<Title>FunctionZero.$(AssemblyName)</Title>
+		<Version>8.1.1</Version>
+		<Authors>Keith Pickford</Authors>
+		<Company>FunctionZero Ltd</Company>
+		<Description>DataBind to Expressions rather than just to Properties</Description>
+		<Copyright>(c) 2024 FunctionZero Ltd</Copyright>
+		<PackageIcon>F0 gravatar.png</PackageIcon>
+		<PackageReadmeFile>ReadMe.NuGet.md</PackageReadmeFile>
+		<PackageTags>zBind z:Bind Bind Binding Databind xaml MAUI ios android WinUI maccatalyst expression parser evaluator short circuit POCO </PackageTags>
+		<PackageReleaseNotes>Built using lates MAUI libraries.</PackageReleaseNotes>
+		<PackageLicenseFile></PackageLicenseFile>
+		<IncludeSymbols>True</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -24,6 +39,21 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\ExpressionParserZero\ExpressionParserZero.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="F0 gravatar.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Update="License.txt">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Update="ReadMe.NuGet.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
 
 </Project>

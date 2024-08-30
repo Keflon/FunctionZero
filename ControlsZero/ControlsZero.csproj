@@ -16,7 +16,38 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<AssemblyName>FunctionZero.Maui.$(MSBuildProjectName)</AssemblyName>
+		<Title>FunctionZero Controls library including virtualizing TreeView and ListView</Title>
+		<Version>8.0.0.5</Version>
+		<Authors>Keith Pickford</Authors>
+		<Company>FunctionZero Ltd</Company>
+		<Description>A MAUI Controls library featuring a cross-platform virtualizing TreeView and ListView and Expander and a really cool MaskControl and the awesome MultiView and even more. For all MAUI platforms.</Description>
+		<Copyright>FunctionZero Ltd</Copyright>
+		<PackageProjectUrl>https://github.com/Keflon/FunctionZero.Maui.Controls</PackageProjectUrl>
+		<PackageIcon>F0 gravatar.png</PackageIcon>
+		<PackageReadmeFile>Readme.Nuget.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/Keflon/FunctionZero.Maui.Controls</RepositoryUrl>
+		<PackageTags>MAUI; ListView; ListViewZero; TreeView; TreeViewZero; MaskView; iOS; WinUI; Windows; Android; Control </PackageTags>
+		<PackageReleaseNotes>MultiviewZero is stable and outrageously versatile. Localisation has been moved to a new LocalisationZero library.</PackageReleaseNotes>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<IncludeSymbols>True</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\MvvmZero\F0 gravatar.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Include="..\MvvmZero\LICENSE.txt">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Include="..\MvvmZero\Readme.Nuget.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />

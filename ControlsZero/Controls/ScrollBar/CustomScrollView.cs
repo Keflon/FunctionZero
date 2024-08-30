@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace FunctionZero.Maui.Controls.ScrollBar
+namespace FunctionZero.Maui.Controls
 {
     public class CustomScrollView : ScrollView, IDisposable
     {

@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>FunctionZero.$(AssemblyName)</PackageId>
+    <Title>AnimationZero</Title>
+    <Version>1.0.0.0-pre1</Version>
+    <Authors>Keith Pickford</Authors>
+    <Company>FunctionZero Ltd</Company>
+    <Product>FunctionZero.$(AssemblyName)</Product>
+    <Description>An animation library that is not coupled to a UI framework.</Description>
+    <Copyright>Function Zero Ltd 2024</Copyright>
+    <PackageProjectUrl>https://github.com/Keflon/Maui.MvvmZero</PackageProjectUrl>
+    <PackageIcon>F0 gravatar.png</PackageIcon>
+    <RepositoryUrl>https://github.com/Keflon/Maui.MvvmZero</RepositoryUrl>
+    <PackageTags>Animation; Easing; ViewModel </PackageTags>
+    <PackageReleaseNotes>First release.</PackageReleaseNotes>
+    <PackageLicenseFile>License.txt</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Update="F0 gravatar.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="License.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
