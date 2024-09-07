@@ -19,6 +19,8 @@ public partial class GridViewZero : ContentView
 
     public GridViewZero()
     {
+        ((ObservableCollection<GridColumnZero>)ColumnsSource).CollectionChanged += ColumnsSource_CollectionChanged;
+
         InitializeComponent();
         TheScrollView.Scrolled += ScrollView_Scrolled;
 
@@ -32,11 +34,11 @@ public partial class GridViewZero : ContentView
 
     #region ColumnsSourceProperty
 
-    public static readonly BindableProperty ColumnsSourceProperty = BindableProperty.Create(nameof(ColumnsSource), typeof(ObservableCollection<GridColumnZero>), typeof(GridViewZero), null, BindingMode.OneWay, null, ColumnsSourceChanged);
+    public static readonly BindableProperty ColumnsSourceProperty = BindableProperty.Create(nameof(ColumnsSource), typeof(IList<GridColumnZero>), typeof(GridViewZero), new ObservableCollection<GridColumnZero>(), BindingMode.OneWay, null, ColumnsSourceChanged);
 
-    public ObservableCollection<GridColumnZero> ColumnsSource
+    public IList<GridColumnZero> ColumnsSource
     {
-        get { return (ObservableCollection<GridColumnZero>)GetValue(ColumnsSourceProperty); }
+        get { return (IList<GridColumnZero>)GetValue(ColumnsSourceProperty); }
         set { SetValue(ColumnsSourceProperty, value); }
     }
 
@@ -69,10 +71,10 @@ public partial class GridViewZero : ContentView
 
         var killList = new List<GridColumnZero>();
         foreach (var item in theGrid.Children)
-            if(item is GridColumnZero gcz)
-            killList.Add(gcz);
+            if (item is GridColumnZero gcz)
+                killList.Add(gcz);
 
-        foreach(var item in killList)
+        foreach (var item in killList)
             theGrid.Children.Remove(item);
 
         //theGrid.Children.Clear();
@@ -85,7 +87,7 @@ public partial class GridViewZero : ContentView
             {
                 theGrid.ColumnDefinitions.Add(new ColumnDefinition(35));
                 var splitter = new GridSplitterZero() { BackgroundColor = Colors.Purple };
-                theGrid.Children.Insert(0,splitter);
+                theGrid.Children.Insert(0, splitter);
                 splitter.SetValue(Grid.ColumnProperty, index);
                 index++;
             }
@@ -414,9 +416,13 @@ public partial class GridViewZero : ContentView
 
     private void UpdateItemContainers()
     {
+        BatchBegin();
+
         foreach (var item in ColumnsSource)
         {
             item.UpdateItemContainers(this);
         }
+
+        BatchCommit();
     }
 }

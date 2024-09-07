@@ -10,114 +10,28 @@
         ItemsSource="{Binding ListChildren}"
          
         Margin="10">
-        <!--<cz:GridViewZero.ColumnsSource>
-            <cz:GridColumnZero BackgroundColor="Red" />
-            <cz:GridColumnZero BackgroundColor="Green" />
-            <cz:GridColumnZero BackgroundColor="Blue" />
-        </cz:GridViewZero.ColumnsSource>-->
+        <cz:GridViewZero.ColumnsSource>
+            <cz:GridColumnZero BackgroundColor="Red" >
+                <!--<cz:GridColumnZero.ItemTemplate>
+                    <DataTemplate>
+                        <Label Text="{Binding}"/>
+                    </DataTemplate>
+                </cz:GridColumnZero.ItemTemplate>-->
+            </cz:GridColumnZero>
+            <cz:GridColumnZero BackgroundColor="Green" >
+                <!--<cz:GridColumnZero.ItemTemplate>
+                    <DataTemplate>
+                        <Label Text="{Binding}"/>
+                    </DataTemplate>
+                </cz:GridColumnZero.ItemTemplate>-->
+            </cz:GridColumnZero>
+            <cz:GridColumnZero BackgroundColor="Blue" >
+                <!--<cz:GridColumnZero.ItemTemplate>
+                    <DataTemplate>
+                        <Label Text="{Binding}"/>
+                    </DataTemplate>
+                </cz:GridColumnZero.ItemTemplate>-->
+            </cz:GridColumnZero>
+        </cz:GridViewZero.ColumnsSource>
     </cz:GridViewZero>
-
-    <!--<Grid ColumnDefinitions="*,*">
-
-        <Grid Grid.Column="0" ColumnDefinitions="200, 20, 200, 20, 200, 20, 200">
-
-            <cz:ListViewZero x:Name="lv0" Grid.Column="0" ItemsSource="{Binding ListChildren}" SelectionMode="Single" PropertyChanged="lvx_PropertyChanged">
-                <cz:ListViewZero.ItemTemplate>
-                    <DataTemplate>
-                        <Label Text="{Binding}"/>
-                    </DataTemplate>
-                </cz:ListViewZero.ItemTemplate>
-
-            </cz:ListViewZero>
-
-            <cz:GridSplitterZero Grid.Column="1" BackgroundColor="AliceBlue"/>
-
-
-            -->
-    <!--<sb:CustomScrollView x:Name="scrollView"
-             VerticalOptions="Fill" />-->
-    <!--
-
-
-            <cz:ListViewZero x:Name="lv1" Grid.Column="2" ItemsSource="{Binding ListChildren}" SelectionMode="Single" PropertyChanged="lvx_PropertyChanged" SelectedItem="{Binding SelectedItem, Source={x:Reference lv0}}">
-                <cz:ListViewZero.ItemTemplate>
-                    <DataTemplate>
-                        <Label Text="{Binding}"/>
-                    </DataTemplate>
-                </cz:ListViewZero.ItemTemplate>
-
-            </cz:ListViewZero>
-
-            <cz:GridSplitterZero Grid.Column="3" BackgroundColor="AliceBlue"/>
-
-            <cz:ListViewZero x:Name="lv2" Grid.Column="4" ItemsSource="{Binding ListChildren}" SelectionMode="Single" PropertyChanged="lvx_PropertyChanged" SelectedItem="{Binding SelectedItem, Source={x:Reference lv0}}">
-                <cz:ListViewZero.ItemTemplate>
-                    <DataTemplate>
-                        <Label Text="{Binding}"/>
-                    </DataTemplate>
-                </cz:ListViewZero.ItemTemplate>
-
-            </cz:ListViewZero>
-
-            <cz:GridSplitterZero Grid.Column="5" BackgroundColor="AliceBlue"/>
-
-            <Label Grid.Column="6" Text="{Binding RemainingItems, Source={x:Reference lv0}}"/>
-
-        </Grid>-->
-    <!--
-
-        <Grid Grid.Column="1" ColumnDefinitions="200, 20, 200, 20, 200, 20, 200">
-            
-            -->
-    <!--<cz:CustomScrollView Grid.Column="0" Grid.ColumnSpan="7" ZIndex="0" VerticalOptions="Fill" />-->
-    <!--
-            
-            <cz:ListViewZero x:Name="lva" Grid.Column="0" Grid.ColumnSpan="7" ItemsSource="{Binding ListChildren}" SelectionMode="Single">
-                <cz:ListViewZero.ItemTemplate>
-                    <DataTemplate>
-                        <Label Text="{Binding}"/>
-                    </DataTemplate>
-                </cz:ListViewZero.ItemTemplate>
-
-            </cz:ListViewZero>
-
-            <cz:GridSplitterZero Grid.Column="1" BackgroundColor="AliceBlue"/>
-
-
-
-
-
-            -->
-    <!--<cz:ListViewZero x:Name="lvb" Grid.Column="2" ItemsSource="{Binding ListChildren}" SelectionMode="Single" SelectedItem="{Binding SelectedItem, Source={x:Reference lv0}}">
-                <cz:ListViewZero.ItemTemplate>
-                    <DataTemplate>
-                        <Label Text="{Binding}"/>
-                    </DataTemplate>
-                </cz:ListViewZero.ItemTemplate>
-
-            </cz:ListViewZero>-->
-    <!--
-
-            <cz:GridSplitterZero Grid.Column="3" BackgroundColor="AliceBlue"/>
-
-            -->
-    <!--<cz:ListViewZero x:Name="lvc" Grid.Column="4" ItemsSource="{Binding ListChildren}" SelectionMode="Single" SelectedItem="{Binding SelectedItem, Source={x:Reference lv0}}">
-                <cz:ListViewZero.ItemTemplate>
-                    <DataTemplate>
-                        <Label Text="{Binding}"/>
-                    </DataTemplate>
-                </cz:ListViewZero.ItemTemplate>
-
-            </cz:ListViewZero>-->
-    <!--
-
-            <cz:GridSplitterZero Grid.Column="5" BackgroundColor="AliceBlue"/>
-
-            <Label Grid.Column="6" Text="{Binding RemainingItems, Source={x:Reference lv0}}"/>
-
-        -->
-    <!--</Grid>-->
-    <!--
-
-    </Grid>-->
 </ContentPage>

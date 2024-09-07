@@ -1,13 +1,6 @@
-using FunctionZero.Maui.Controls;
 using FunctionZero.Maui.Services.Cache;
-using Microsoft.Extensions.Logging.Abstractions;
-using Microsoft.Maui.Controls;
-using System.Collections;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Windows.Input;
 
 namespace FunctionZero.Maui.Controls;
 
@@ -15,26 +8,28 @@ public partial class GridColumnZero : ContentView
 {
     private readonly BucketDictionary<DataTemplate, ListItemZero> _cache;
     private readonly List<ListItemZero> _killList;
-    private bool _pendingUpdateItemContainers = false;
-    private bool _pendingSelectionUpdate = false;
-    private bool _pendingScrollUpdate = false;
     private bool _updatingItemContainers = false;
-    private bool _pendingUpdateScrollViewContentHeight = false;
-    private double _scaleToControl = 1.0;
-
-    private const double MAX_SCROLL_HEIGHT = 2000000.0;
-
 
     #region bindable properties
 
     #region ItemTemplateProperty
 
-    public static readonly BindableProperty ItemTemplateProperty = BindableProperty.Create(nameof(ItemTemplate), typeof(DataTemplate), typeof(GridColumnZero), null, BindingMode.OneWay);
+    public static readonly BindableProperty ItemTemplateProperty = BindableProperty.Create(nameof(ItemTemplate), typeof(DataTemplate), typeof(GridColumnZero), GetDefaultTemplate(), BindingMode.OneWay);
 
     public DataTemplate ItemTemplate
     {
         get { return (DataTemplate)GetValue(ItemTemplateProperty); }
         set { SetValue(ItemTemplateProperty, value); }
+    }
+    private static DataTemplate GetDefaultTemplate()
+    {
+        var template = new DataTemplate(() =>
+        {
+            var retval = new Label();
+            retval.SetBinding(Label.TextProperty, ".");
+            return retval;
+        });
+        return template;
     }
 
     #endregion
@@ -64,7 +59,6 @@ public partial class GridColumnZero : ContentView
     {
         _cache = new();
         _killList = new(50);
-
         InitializeComponent();
     }
 
