@@ -10,11 +10,4 @@ public partial class TreeGridExperimentalPage : ContentPage
     {
         InitializeComponent();
     }
-
-    private object GetTempTemplate()
-    {
-        var retval = new Label();
-        retval.SetBinding(Label.TextProperty, ".");
-        return retval;
-    }
 }

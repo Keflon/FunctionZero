@@ -75,7 +75,10 @@ public partial class GridViewZero : ContentView
                 killList.Add(gcz);
 
         foreach (var item in killList)
+        {
+            item.ListItemIsSelectedChanged -= Item_ListItemIsSelectedChanged;
             theGrid.Children.Remove(item);
+        }
 
         //theGrid.Children.Clear();
 
@@ -92,9 +95,47 @@ public partial class GridViewZero : ContentView
                 index++;
             }
             theGrid.ColumnDefinitions.Add(new ColumnDefinition(250));
+            item.ListItemIsSelectedChanged += Item_ListItemIsSelectedChanged;
             theGrid.Children.Insert(0, item);
             item.SetValue(Grid.ColumnProperty, index);
             index++;
+        }
+    }
+
+    private void Item_ListItemIsSelectedChanged(object? sender, ListItemIsSelectedChangedEventArgs e)
+    {
+        // A ListItemZero cell has changed IsSelected, either from
+        // user input => We're the first to know
+        // or
+        // from code, including in response .
+
+        
+
+        if (e.Instance.BindingContext != null)
+        {
+            if (SelectionMode != SelectionMode.None)
+            {
+                if (e.Instance.IsSelected)
+                {
+                    // Adding to SelectedItems will cause a deferred update.
+                    // SelectedItem must be set prior to that call.
+                    SelectedItem = e.Instance.BindingContext;
+                    SelectedItems.Add(e.Instance.BindingContext);
+                }
+                else
+                {
+                    SelectedItems.Remove(e.Instance.BindingContext);
+                    if (SelectedItem == e.Instance.BindingContext)
+                    {
+                        if (SelectedItems?.Count > 0)
+                            SelectedItem = SelectedItems[SelectedItems.Count - 1];
+                        else
+                            SelectedItem = null;
+                    }
+                }
+            }
+            else
+                e.Instance.IsSelected = false;
         }
     }
 

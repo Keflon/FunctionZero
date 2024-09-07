@@ -200,18 +200,15 @@ public partial class GridColumnZero : ContentView
             // No need to unsubscribe, because this object is cached for re-use rather than disposed.
             retVal.PropertyChanged += ListItemZero_PropertyChanged;
         }
-
-        //retVal.HeightRequest = ItemHeight;
         return retVal;
     }
 
+    public event EventHandler<ListItemIsSelectedChangedEventArgs> ListItemIsSelectedChanged;
     private void ListItemZero_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(ListItemZero.IsSelected))
         {
-            var listItem = (ListItemZero)sender;
-
-            throw new NotImplementedException();
+            ListItemIsSelectedChanged?.Invoke(this, new ListItemIsSelectedChangedEventArgs((ListItemZero)sender));
 
             //if (listItem.BindingContext != null)
             //{

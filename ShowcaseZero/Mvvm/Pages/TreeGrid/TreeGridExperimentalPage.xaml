@@ -7,6 +7,7 @@
 
     <cz:GridViewZero 
         x:Name="gvz" 
+        SelectionMode="Single"
         ItemsSource="{Binding ListChildren}"
          
         Margin="10">
