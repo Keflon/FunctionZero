@@ -5,7 +5,11 @@
              x:Class="ShowcaseZero.Mvvm.Pages.TreeGrid.TreeGridExperimentalPage"
              Title="Welcome to TreeGridExperimentalPage!">
 
-    <cz:GridViewZero x:Name="gvz" BackgroundColor="Yellow" Margin="10">
+    <cz:GridViewZero 
+        x:Name="gvz" 
+        ItemsSource="{Binding ListChildren}"
+         
+        Margin="10">
         <!--<cz:GridViewZero.ColumnsSource>
             <cz:GridColumnZero BackgroundColor="Red" />
             <cz:GridColumnZero BackgroundColor="Green" />

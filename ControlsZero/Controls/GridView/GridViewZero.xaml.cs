@@ -1,5 +1,6 @@
 using FunctionZero.Maui.Controls;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows.Input;
@@ -19,6 +20,12 @@ public partial class GridViewZero : ContentView
     public GridViewZero()
     {
         InitializeComponent();
+        TheScrollView.Scrolled += ScrollView_Scrolled;
+
+    }
+    private void ScrollView_Scrolled(object sender, ScrolledEventArgs e)
+    {
+        ScrollOffset = e.ScrollY / _scaleToControl;
     }
 
     #region bindable properties
@@ -59,7 +66,16 @@ public partial class GridViewZero : ContentView
         // TODO: For now, just brute-force it.
 
         theGrid.ColumnDefinitions.Clear();
-        theGrid.Children.Clear();
+
+        var killList = new List<GridColumnZero>();
+        foreach (var item in theGrid.Children)
+            if(item is GridColumnZero gcz)
+            killList.Add(gcz);
+
+        foreach(var item in killList)
+            theGrid.Children.Remove(item);
+
+        //theGrid.Children.Clear();
 
         int index = 0;
 
@@ -69,12 +85,12 @@ public partial class GridViewZero : ContentView
             {
                 theGrid.ColumnDefinitions.Add(new ColumnDefinition(35));
                 var splitter = new GridSplitterZero() { BackgroundColor = Colors.Purple };
-                theGrid.Children.Add(splitter);
+                theGrid.Children.Insert(0,splitter);
                 splitter.SetValue(Grid.ColumnProperty, index);
                 index++;
             }
             theGrid.ColumnDefinitions.Add(new ColumnDefinition(250));
-            theGrid.Children.Add(item);
+            theGrid.Children.Insert(0, item);
             item.SetValue(Grid.ColumnProperty, index);
             index++;
         }
@@ -146,7 +162,7 @@ public partial class GridViewZero : ContentView
 
     #region SelectedItemsProperty
 
-    public static readonly BindableProperty SelectedItemsProperty = BindableProperty.Create(nameof(SelectedItems), typeof(IList), typeof(GridViewZero), null, BindingMode.TwoWay, null, SelectedItemsChanged);
+    public static readonly BindableProperty SelectedItemsProperty = BindableProperty.Create(nameof(SelectedItems), typeof(IList), typeof(GridViewZero), new List<object>(), BindingMode.TwoWay, null, SelectedItemsChanged);
 
     private static void SelectedItemsChanged(BindableObject bindable, object oldValue, object newValue)
     {

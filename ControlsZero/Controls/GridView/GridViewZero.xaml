@@ -5,8 +5,15 @@
              xmlns:cz="clr-namespace:FunctionZero.Maui.Controls;assembly=FunctionZero.Maui.ControlsZero"
              >
     <Grid x:Name="theGrid">
-        <cz:CustomScrollView x:Name="theScrollView"
+        <!--<Label Text="hello" BackgroundColor="Green"/>-->
+        <cz:CustomScrollView BackgroundColor="Transparent"
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="5"
+            x:Name="theScrollView" 
             VerticalOptions="Fill"
-            HorizontalOptions="Fill"/>
+            HorizontalOptions="Fill"
+
+            />
     </Grid>
 </ContentView>

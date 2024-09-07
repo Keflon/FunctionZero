@@ -11,10 +11,23 @@ public partial class TreeGridExperimentalPage : ContentPage
         InitializeComponent();
 
         var things = new ObservableCollection<GridColumnZero>();
-        things.Add(new GridColumnZero {BackgroundColor = Colors.Red });
-        things.Add(new GridColumnZero {BackgroundColor = Colors.Green });
-        things.Add(new GridColumnZero {BackgroundColor = Colors.Blue });
+        //things.Add(new GridColumnZero {BackgroundColor = Colors.Red });
+        //things.Add(new GridColumnZero {BackgroundColor = Colors.Green });
+        //things.Add(new GridColumnZero {BackgroundColor = Colors.Blue });
+
+        var template = new DataTemplate(GetTempTemplate);
+
+        things.Add(new GridColumnZero() { ItemTemplate = template});
+        things.Add(new GridColumnZero() { ItemTemplate = template });
+        things.Add(new GridColumnZero() { ItemTemplate = template });
         gvz.ColumnsSource = things;
+    }
+
+    private object GetTempTemplate()
+    {
+        var retval = new Label();
+        retval.SetBinding(Label.TextProperty, ".");
+        return retval;
     }
 
     //int _busyCount = 0;

@@ -75,7 +75,7 @@ public partial class GridColumnZero : ContentView
 
         if (owner.ItemsSource == null)
             return;
-
+         
         if (_updatingItemContainers == true)
         {
             Debug.WriteLine("Gotcha!");

@@ -34,6 +34,9 @@
 
     </ContentView.Resources>
     
-    <Grid x:Name="TheGridColumnCanvas" />
+    <AbsoluteLayout IsClippedToBounds="True"
+        x:Name="TheGridColumnCanvas" 
+        
+        />
 
 </ContentView>
