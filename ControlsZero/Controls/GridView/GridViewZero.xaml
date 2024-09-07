@@ -4,8 +4,8 @@
              x:Class="FunctionZero.Maui.Controls.GridViewZero"
              xmlns:cz="clr-namespace:FunctionZero.Maui.Controls;assembly=FunctionZero.Maui.ControlsZero"
              >
-    <Grid x:Name="theGrid">
-        <!--<Label Text="hello" BackgroundColor="Green"/>-->
+    <!--<Grid x:Name="theGrid">
+        --><!--<Label Text="hello" BackgroundColor="Green"/>--><!--
         <cz:CustomScrollView BackgroundColor="Transparent"
             Grid.Row="0"
             Grid.Column="0"
@@ -15,5 +15,34 @@
             HorizontalOptions="Fill"
 
             />
-    </Grid>
+    </Grid>-->
+
+
+
+
+
+        <!--<Label Text="hello" BackgroundColor="Green"/>-->
+        <cz:CustomScrollView BackgroundColor="Transparent"
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="5"
+            x:Name="theScrollView" 
+            VerticalOptions="Fill"
+            HorizontalOptions="Fill"
+
+            >
+        <Grid x:Name="theGrid"
+              VerticalOptions="Start">
+        </Grid>
+
+
+    </cz:CustomScrollView>
+
+
+
+
+
+
+
+
 </ContentView>

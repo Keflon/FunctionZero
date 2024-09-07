@@ -1,23 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-
-namespace FunctionZero.Maui.Controls
+﻿namespace FunctionZero.Maui.Controls
 {
     public class CustomScrollView : ScrollView, IDisposable
     {
         public CustomScrollView()
         {
-            var view = new AbsoluteLayout();
-            view.WidthRequest = 2;
-            view.HeightRequest = 2;
-            view.VerticalOptions = LayoutOptions.Start;
-            Content = view;
+            //var view = new AbsoluteLayout();
+            //view.WidthRequest = 2;
+            //view.HeightRequest = 2;
+            //view.VerticalOptions = LayoutOptions.Start;
+            //Content = view;
 
             base.Scrolled += CustomScrollView_Scrolled;
         }
@@ -33,7 +24,7 @@ namespace FunctionZero.Maui.Controls
             }
         }
 
-        public AbsoluteLayout Canvas => (AbsoluteLayout)Content;
+        public Layout Canvas => (Layout)Content;
 
         private void CustomScrollView_Scrolled(object sender, ScrolledEventArgs e)
         {
