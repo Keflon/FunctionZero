@@ -14,10 +14,12 @@ public partial class GridViewZero : ContentView
     private double _scaleToControl = 1.0;
     private bool _pendingSelectionUpdate = false;
 
+    internal CustomScrollView TheScrollView => theScrollView;
+
     public GridViewZero()
-	{
-		InitializeComponent();
-	}
+    {
+        InitializeComponent();
+    }
 
     #region bindable properties
 
@@ -39,7 +41,7 @@ public partial class GridViewZero : ContentView
             oldCollection.CollectionChanged -= self.ColumnsSource_CollectionChanged;
 
         if (newValue is INotifyCollectionChanged newCollection)
-            newCollection.CollectionChanged += self.ColumnsSource_CollectionChanged; 
+            newCollection.CollectionChanged += self.ColumnsSource_CollectionChanged;
 
         self.UpdateColumns();
         //self.DeferredUpdateScrollViewContentHeight();
@@ -63,7 +65,7 @@ public partial class GridViewZero : ContentView
 
         foreach (var item in ColumnsSource)
         {
-            if(index != 0)
+            if (index != 0)
             {
                 theGrid.ColumnDefinitions.Add(new ColumnDefinition(35));
                 var splitter = new GridSplitterZero() { BackgroundColor = Colors.Purple };
@@ -200,10 +202,11 @@ public partial class GridViewZero : ContentView
         }
         else
         {
-            var newContainer = self.GetViewForBindingContextFromCanvas(newValue);
+            throw new NotImplementedException();
+            //var newContainer = self.GetViewForBindingContextFromCanvas(newValue);
 
-            if (newContainer is ListItemZero listItem)
-                listItem.IsSelected = true;
+            //if (newContainer is ListItemZero listItem)
+            //    listItem.IsSelected = true;
         }
     }
     public object SelectedItem
@@ -364,7 +367,6 @@ public partial class GridViewZero : ContentView
     private void UpdateScrollViewContentHeight()
     {
         double desiredHeight = ItemHeight * ItemsSource?.Count ?? 0;
-
 
         if (desiredHeight > MAX_SCROLL_HEIGHT)
         {

@@ -33,10 +33,7 @@
         </Style>
 
     </ContentView.Resources>
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to GridColumnZero!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    
+    <Grid x:Name="TheGridColumnCanvas" />
+
 </ContentView>
