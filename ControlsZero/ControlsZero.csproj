@@ -68,6 +68,12 @@
 	  <MauiXaml Update="Controls\FocusScroll\FocusScrollZero.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Controls\GridView\GridColumnZero.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Controls\GridView\GridViewZero.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Controls\ListView\ListItemZero.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
