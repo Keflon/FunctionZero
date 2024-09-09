@@ -76,7 +76,7 @@ public partial class GridViewZero : ContentView
 
         foreach (var item in killList)
         {
-            item.ListItemIsSelectedChanged -= Item_ListItemIsSelectedChanged;
+            item.ItemTapped -= Item_ItemTapped;
             theGrid.Children.Remove(item);
         }
 
@@ -95,10 +95,46 @@ public partial class GridViewZero : ContentView
                 index++;
             }
             theGrid.ColumnDefinitions.Add(new ColumnDefinition(250));
-            item.ListItemIsSelectedChanged += Item_ListItemIsSelectedChanged;
+            //item.ListItemIsSelectedChanged += Item_ListItemIsSelectedChanged;
+            item.ItemTapped += Item_ItemTapped;
             theGrid.Children.Insert(0, item);
             item.SetValue(Grid.ColumnProperty, index);
             index++;
+        }
+    }
+
+    private void Item_ItemTapped(object? sender, ListItemTappedEventArgs e)
+    {
+        // A ListItemZero cell has been tapped by the user.
+
+        if (e.TappedItem.BindingContext != null)
+        {
+            if (SelectionMode != SelectionMode.None)
+            {
+                if (e.TappedItem.IsSelected == false)
+                {
+                    // Adding to SelectedItems will cause a deferred update.
+                    // SelectedItem must be set prior to that call.
+                    SelectedItem = e.TappedItem.BindingContext;
+                    SelectedItems.Add(e.TappedItem.BindingContext);
+                }
+                else
+                {
+                    SelectedItems.Remove(e.TappedItem.BindingContext);
+                    if (SelectedItem == e.TappedItem.BindingContext)
+                    {
+                        if (SelectedItems?.Count > 0)
+                            SelectedItem = SelectedItems[SelectedItems.Count - 1];
+                        else
+                            SelectedItem = null;
+                    }
+                }
+            }
+            else
+                e.TappedItem.IsSelected = false;
+
+            DeferredSelectionUpdate();
+
         }
     }
 
@@ -255,6 +291,8 @@ public partial class GridViewZero : ContentView
     {
         var self = (GridViewZero)bindable;
 
+        return;
+
         if (self.SelectionMode == SelectionMode.None)
         {
             self.SelectedItem = null;
@@ -379,12 +417,24 @@ public partial class GridViewZero : ContentView
                         SelectedItem = null;
                 }
 
-                foreach (View item in this.theScrollView.Canvas)
-                    if (item is ListItemZero listItem)
+                //foreach (View item in this.theScrollView.Canvas)
+                //    if (item is ListItemZero listItem)
+                //    {
+                //        listItem.IsSelected = SelectedItems.Contains(listItem.BindingContext);
+                //        listItem.IsPrimary = listItem.BindingContext == SelectedItem;
+                //    }
+
+                foreach (var column in this.ColumnsSource)
+                {
+                    foreach (View item in column.Canvas)
                     {
-                        listItem.IsSelected = SelectedItems.Contains(listItem.BindingContext);
-                        listItem.IsPrimary = listItem.BindingContext == SelectedItem;
+                        if (item is ListItemZero listItem)
+                        {
+                            listItem.IsSelected = SelectedItems.Contains(listItem.BindingContext);
+                            listItem.IsPrimary = listItem.BindingContext == SelectedItem;
+                        }
                     }
+                }
 
                 _pendingSelectionUpdate = false;
             }

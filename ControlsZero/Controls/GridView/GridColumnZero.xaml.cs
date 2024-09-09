@@ -10,6 +10,9 @@ public partial class GridColumnZero : ContentView
     private readonly List<ListItemZero> _killList;
     private bool _updatingItemContainers = false;
 
+    public event EventHandler<ListItemTappedEventArgs> ItemTapped;
+    public Layout Canvas => TheGridColumnCanvas;
+
     #region bindable properties
 
     #region ItemTemplateProperty
@@ -198,44 +201,15 @@ public partial class GridColumnZero : ContentView
                 retVal.Style = ItemContainerStyle;
 
             // No need to unsubscribe, because this object is cached for re-use rather than disposed.
-            retVal.PropertyChanged += ListItemZero_PropertyChanged;
+            //retVal.PropertyChanged += ListItemZero_PropertyChanged;
+            retVal.ItemTapped += RetVal_ItemTapped;
         }
         return retVal;
     }
 
-    public event EventHandler<ListItemIsSelectedChangedEventArgs> ListItemIsSelectedChanged;
-    private void ListItemZero_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    private void RetVal_ItemTapped(object? sender, ListItemTappedEventArgs e)
     {
-        if (e.PropertyName == nameof(ListItemZero.IsSelected))
-        {
-            ListItemIsSelectedChanged?.Invoke(this, new ListItemIsSelectedChangedEventArgs((ListItemZero)sender));
-
-            //if (listItem.BindingContext != null)
-            //{
-            //    if (SelectionMode != SelectionMode.None)
-            //    {
-            //        if (listItem.IsSelected)
-            //        {
-            //            // Adding to SelectedItems will cause a deferred update.
-            //            // SelectedItem must be set prior to that call.
-            //            SelectedItem = listItem.BindingContext;
-            //            SelectedItems.Add(listItem.BindingContext);
-            //        }
-            //        else
-            //        {
-            //            SelectedItems.Remove(listItem.BindingContext);
-            //            if (SelectedItem == listItem.BindingContext)
-            //            {
-            //                if (SelectedItems?.Count > 0)
-            //                    SelectedItem = SelectedItems[SelectedItems.Count - 1];
-            //                else
-            //                    SelectedItem = null;
-            //            }
-            //        }
-            //    }
-            //    else
-            //        listItem.IsSelected = false;
-            //}
-        }
+        // No need for null check, because if there is no subscriber, we have a problem!
+        ItemTapped(this, e);
     }
 }

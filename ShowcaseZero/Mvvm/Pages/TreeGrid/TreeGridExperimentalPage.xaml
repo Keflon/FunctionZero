@@ -3,11 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:cz="clr-namespace:FunctionZero.Maui.Controls;assembly=FunctionZero.Maui.ControlsZero"
              x:Class="ShowcaseZero.Mvvm.Pages.TreeGrid.TreeGridExperimentalPage"
-             Title="Welcome to TreeGridExperimentalPage!">
+             Title="Welcome to TreeGridExperimentalPagef!">
 
     <cz:GridViewZero 
         x:Name="gvz" 
-        SelectionMode="Single"
+        SelectionMode="Multiple"
         ItemsSource="{Binding ListChildren}"
          
         Margin="10">
@@ -20,11 +20,11 @@
                 </cz:GridColumnZero.ItemTemplate>-->
             </cz:GridColumnZero>
             <cz:GridColumnZero BackgroundColor="Green" >
-                <!--<cz:GridColumnZero.ItemTemplate>
+                <cz:GridColumnZero.ItemTemplate>
                     <DataTemplate>
-                        <Label Text="{Binding}"/>
+                        <Label Text="{Binding}" Scale="0.8"/>
                     </DataTemplate>
-                </cz:GridColumnZero.ItemTemplate>-->
+                </cz:GridColumnZero.ItemTemplate>
             </cz:GridColumnZero>
             <cz:GridColumnZero BackgroundColor="Blue" >
                 <!--<cz:GridColumnZero.ItemTemplate>

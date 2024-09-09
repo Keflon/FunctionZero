@@ -5,21 +5,25 @@ namespace FunctionZero.Maui.Controls;
 
 public partial class ListItemZero : ContentView
 {
+    public event EventHandler<ListItemTappedEventArgs> ItemTapped;
+    private readonly ListItemTappedEventArgs _itemTappedEventArgs;
+
     public ListItemZero()
     {
         InitializeComponent();
         
         var tgr = new TapGestureRecognizer();
         tgr.Tapped += Tgr_Tapped;
-        
-        
+
+        _itemTappedEventArgs = new ListItemTappedEventArgs(this);
+
         this.GestureRecognizers.Add(tgr);
     }
 
     private void Tgr_Tapped(object sender, TappedEventArgs e)
     {
-        IsSelected = !IsSelected;
-        Debug.WriteLine($"IsSelected:{IsSelected}");
+        // No need for null check, because if there is no subscriber, we have a problem!
+        ItemTapped(this, _itemTappedEventArgs);
     }
 
     public int ItemIndex { get; set; }
