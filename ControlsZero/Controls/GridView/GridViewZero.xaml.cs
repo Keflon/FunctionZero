@@ -290,21 +290,6 @@ public partial class GridViewZero : ContentView
     private static void SelectedItemChanged(BindableObject bindable, object oldValue, object newValue)
     {
         var self = (GridViewZero)bindable;
-
-        return;
-
-        if (self.SelectionMode == SelectionMode.None)
-        {
-            self.SelectedItem = null;
-        }
-        else
-        {
-            throw new NotImplementedException();
-            //var newContainer = self.GetViewForBindingContextFromCanvas(newValue);
-
-            //if (newContainer is ListItemZero listItem)
-            //    listItem.IsSelected = true;
-        }
     }
     public object SelectedItem
     {

@@ -48,7 +48,6 @@
             SelectedItems="{Binding SelectedItems, Source={x:Reference Self}, Mode=TwoWay}"
             ItemContainerStyle="{Binding ItemContainerStyle, Source={x:Reference Self}}"
          />
-        <!--ItemContainerStyle="{StaticResource Key=floop}"-->
 
     </ContentView.Content>
 </ContentView>

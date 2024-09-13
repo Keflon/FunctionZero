@@ -271,6 +271,8 @@ public partial class ListViewZero : ContentView
 
     private void DeferredSelectionUpdate()
     {
+        return;
+
         if (_pendingSelectionUpdate == false)
         {
             _pendingSelectionUpdate = true;

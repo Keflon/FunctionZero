@@ -5,34 +5,48 @@
              x:Class="ShowcaseZero.Mvvm.Pages.TreeGrid.TreeGridExperimentalPage"
              Title="Welcome to TreeGridExperimentalPagef!">
 
-    <cz:GridViewZero 
-        x:Name="gvz" 
+    <Grid ColumnDefinitions="*,*">
+        <cz:GridViewZero 
+            Grid.Column="0"
         SelectionMode="Multiple"
         ItemsSource="{Binding ListChildren}"
          
         Margin="10">
-        <cz:GridViewZero.ColumnsSource>
-            <cz:GridColumnZero BackgroundColor="Red" >
-                <!--<cz:GridColumnZero.ItemTemplate>
+            <cz:GridViewZero.ColumnsSource>
+                <cz:GridColumnZero BackgroundColor="Red" >
+                    <!--<cz:GridColumnZero.ItemTemplate>
                     <DataTemplate>
                         <Label Text="{Binding}"/>
                     </DataTemplate>
                 </cz:GridColumnZero.ItemTemplate>-->
-            </cz:GridColumnZero>
-            <cz:GridColumnZero BackgroundColor="Green" >
-                <cz:GridColumnZero.ItemTemplate>
-                    <DataTemplate>
-                        <Label Text="{Binding}" Scale="0.8"/>
-                    </DataTemplate>
-                </cz:GridColumnZero.ItemTemplate>
-            </cz:GridColumnZero>
-            <cz:GridColumnZero BackgroundColor="Blue" >
-                <!--<cz:GridColumnZero.ItemTemplate>
+                </cz:GridColumnZero>
+                <cz:GridColumnZero BackgroundColor="Green" >
+                    <cz:GridColumnZero.ItemTemplate>
+                        <DataTemplate>
+                            <Label Text="{Binding}" Scale="0.8"/>
+                        </DataTemplate>
+                    </cz:GridColumnZero.ItemTemplate>
+                </cz:GridColumnZero>
+                <cz:GridColumnZero BackgroundColor="Blue" >
+                    <!--<cz:GridColumnZero.ItemTemplate>
                     <DataTemplate>
                         <Label Text="{Binding}"/>
                     </DataTemplate>
                 </cz:GridColumnZero.ItemTemplate>-->
-            </cz:GridColumnZero>
-        </cz:GridViewZero.ColumnsSource>
-    </cz:GridViewZero>
+                </cz:GridColumnZero>
+            </cz:GridViewZero.ColumnsSource>
+        </cz:GridViewZero>
+
+        <!--<cz:ListViewZero 
+        Grid.Column="1"
+        ItemsSource="{Binding ListChildren}"
+        SelectionMode="None"
+        ItemHeight="30">
+            <cz:ListViewZero.ItemTemplate>
+                <DataTemplate>
+                    <Label Text="{Binding}"/>
+                </DataTemplate>
+            </cz:ListViewZero.ItemTemplate>
+        </cz:ListViewZero>-->
+    </Grid>
 </ContentPage>
