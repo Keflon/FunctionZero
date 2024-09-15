@@ -3,26 +3,35 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Windows.Input;
 
 namespace FunctionZero.Maui.Controls;
 
 public partial class GridViewZero : ContentView
 {
-    private bool _pendingUpdateItemContainers = false;
-    private bool _pendingUpdateScrollViewContentHeight = false;
+    private bool _updateItemContainersRequested = false;
+    private bool _updateScrollViewContentHeightRequested = false;
+    private bool _updateSelectionRequested = false;
+    private bool _updateColumnsRequested;
     private const double MAX_SCROLL_HEIGHT = 2000000.0;
     private double _scaleToControl = 1.0;
-    private bool _pendingSelectionUpdate = false;
 
     internal CustomScrollView TheScrollView => theScrollView;
+    private static int _instanceIndex = 0;
+    private int _thisIndex;
 
     public GridViewZero()
     {
-        ((ObservableCollection<GridColumnZero>)ColumnsSource).CollectionChanged += ColumnsSource_CollectionChanged;
+        var columns = new ObservableCollection<GridColumnZero>();
+        columns.CollectionChanged += ColumnsSource_CollectionChanged;
+        ColumnsSource = columns;
 
         InitializeComponent();
         TheScrollView.Scrolled += ScrollView_Scrolled;
+
+        _instanceIndex++;
+        _thisIndex = _instanceIndex;
 
     }
     private void ScrollView_Scrolled(object sender, ScrolledEventArgs e)
@@ -34,7 +43,7 @@ public partial class GridViewZero : ContentView
 
     #region ColumnsSourceProperty
 
-    public static readonly BindableProperty ColumnsSourceProperty = BindableProperty.Create(nameof(ColumnsSource), typeof(IList<GridColumnZero>), typeof(GridViewZero), new ObservableCollection<GridColumnZero>(), BindingMode.OneWay, null, ColumnsSourceChanged);
+    public static readonly BindableProperty ColumnsSourceProperty = BindableProperty.Create(nameof(ColumnsSource), typeof(IList<GridColumnZero>), typeof(GridViewZero), null, BindingMode.OneWay, null, ColumnsSourceChanged);
 
     public IList<GridColumnZero> ColumnsSource
     {
@@ -52,29 +61,43 @@ public partial class GridViewZero : ContentView
         if (newValue is INotifyCollectionChanged newCollection)
             newCollection.CollectionChanged += self.ColumnsSource_CollectionChanged;
 
-        self.UpdateColumns();
+        self.RequestUpdateColumns();
         //self.DeferredUpdateScrollViewContentHeight();
         //self.DeferredUpdateItemContainers();
     }
 
     private void ColumnsSource_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        UpdateColumns();
+        RequestUpdateColumns();
+    }
+    private void RequestUpdateColumns()
+    {
+        if (_updateColumnsRequested == false)
+        {
+            _updateColumnsRequested = true;
+            Dispatcher.Dispatch(() => DeferredUpdateColumns());
+        }
     }
 
-    private void UpdateColumns()
+    private void DeferredUpdateColumns()
     {
         // TODO: Force TheGrid to reflect ColumnsSource.
         // TODO: For now, just brute-force it.
 
         theGrid.ColumnDefinitions.Clear();
 
-        var killList = new List<GridColumnZero>();
+        var columnKillList = new List<GridColumnZero>();
+        var splitterKillList = new List<GridSplitterZero>();
         foreach (var item in theGrid.Children)
             if (item is GridColumnZero gcz)
-                killList.Add(gcz);
+                columnKillList.Add(gcz);
+            else if (item is GridSplitterZero gsz)
+                splitterKillList.Add(gsz);
 
-        foreach (var item in killList)
+        foreach (var item in splitterKillList)
+            theGrid.Children.Remove(item);
+
+        foreach (var item in columnKillList)
         {
             item.ItemTapped -= Item_ItemTapped;
             theGrid.Children.Remove(item);
@@ -84,8 +107,9 @@ public partial class GridViewZero : ContentView
 
         int index = 0;
 
-        foreach (var item in ColumnsSource)
+        foreach (var columnZero in ColumnsSource)
         {
+            Debug.WriteLine($"Instance Count:{_instanceIndex}, Instance Index:{_thisIndex}, Column Index: {index}");
             if (index != 0)
             {
                 theGrid.ColumnDefinitions.Add(new ColumnDefinition(35));
@@ -95,12 +119,15 @@ public partial class GridViewZero : ContentView
                 index++;
             }
             theGrid.ColumnDefinitions.Add(new ColumnDefinition(250));
-            //item.ListItemIsSelectedChanged += Item_ListItemIsSelectedChanged;
-            item.ItemTapped += Item_ItemTapped;
-            theGrid.Children.Insert(0, item);
-            item.SetValue(Grid.ColumnProperty, index);
+
+            columnZero.ItemTapped += Item_ItemTapped;
+            if (columnZero.Parent != null)
+                columnZero.Parent = null;
+            theGrid.Children.Insert(0, columnZero);
+            columnZero.SetValue(Grid.ColumnProperty, index);
             index++;
         }
+        _updateColumnsRequested = false;
     }
 
     private void Item_ItemTapped(object? sender, ListItemTappedEventArgs e)
@@ -135,43 +162,6 @@ public partial class GridViewZero : ContentView
 
             DeferredSelectionUpdate();
 
-        }
-    }
-
-    private void Item_ListItemIsSelectedChanged(object? sender, ListItemIsSelectedChangedEventArgs e)
-    {
-        // A ListItemZero cell has changed IsSelected, either from
-        // user input => We're the first to know
-        // or
-        // from code, including in response .
-
-        
-
-        if (e.Instance.BindingContext != null)
-        {
-            if (SelectionMode != SelectionMode.None)
-            {
-                if (e.Instance.IsSelected)
-                {
-                    // Adding to SelectedItems will cause a deferred update.
-                    // SelectedItem must be set prior to that call.
-                    SelectedItem = e.Instance.BindingContext;
-                    SelectedItems.Add(e.Instance.BindingContext);
-                }
-                else
-                {
-                    SelectedItems.Remove(e.Instance.BindingContext);
-                    if (SelectedItem == e.Instance.BindingContext)
-                    {
-                        if (SelectedItems?.Count > 0)
-                            SelectedItem = SelectedItems[SelectedItems.Count - 1];
-                        else
-                            SelectedItem = null;
-                    }
-                }
-            }
-            else
-                e.Instance.IsSelected = false;
         }
     }
 
@@ -369,9 +359,9 @@ public partial class GridViewZero : ContentView
 
     private void DeferredSelectionUpdate()
     {
-        if (_pendingSelectionUpdate == false)
+        if (_updateSelectionRequested == false)
         {
-            _pendingSelectionUpdate = true;
+            _updateSelectionRequested = true;
             // The underlying collection can have items added / removed in a foreach,
             // and this buffers that down to 1 operation.
             Dispatcher.Dispatch(() =>
@@ -421,7 +411,7 @@ public partial class GridViewZero : ContentView
                     }
                 }
 
-                _pendingSelectionUpdate = false;
+                _updateSelectionRequested = false;
             }
             );
         }
@@ -435,9 +425,9 @@ public partial class GridViewZero : ContentView
 
     private void DeferredUpdateScrollViewContentHeight()
     {
-        if (_pendingUpdateScrollViewContentHeight == false)
+        if (_updateScrollViewContentHeightRequested == false)
         {
-            _pendingUpdateScrollViewContentHeight = true;
+            _updateScrollViewContentHeightRequested = true;
 
             Dispatcher.Dispatch(() =>
             {
@@ -452,7 +442,7 @@ public partial class GridViewZero : ContentView
                 //canvas.HeightRequest = 2098600; //clip region massive/ not working 
                 //canvas.HeightRequest = 2097589; 
 #endif
-                _pendingUpdateScrollViewContentHeight = false;
+                _updateScrollViewContentHeightRequested = false;
             }
             );
         }
@@ -476,15 +466,15 @@ public partial class GridViewZero : ContentView
 
     private void DeferredUpdateItemContainers()
     {
-        if (_pendingUpdateItemContainers == false)
+        if (_updateItemContainersRequested == false)
         {
-            _pendingUpdateItemContainers = true;
+            _updateItemContainersRequested = true;
             // The underlying collection can have items added / removed in a foreach,
             // and this buffers that down to 1 call to UpdateItemContainers.
             Dispatcher.Dispatch(() =>
             {
                 UpdateItemContainers();
-                _pendingUpdateItemContainers = false;
+                _updateItemContainersRequested = false;
             }
             );
         }

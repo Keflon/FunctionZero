@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:cz="clr-namespace:FunctionZero.Maui.Controls;assembly=FunctionZero.Maui.ControlsZero"
              x:Class="ShowcaseZero.Mvvm.Pages.TreeGrid.TreeGridExperimentalPage"
-             Title="Welcome to TreeGridExperimentalPagef!">
+             Title="Welcome to TreeGridExperimentalPage!">
 
     <Grid ColumnDefinitions="*,*">
         <cz:GridViewZero 
@@ -14,11 +14,6 @@
         Margin="10">
             <cz:GridViewZero.ColumnsSource>
                 <cz:GridColumnZero BackgroundColor="Red" >
-                    <!--<cz:GridColumnZero.ItemTemplate>
-                    <DataTemplate>
-                        <Label Text="{Binding}"/>
-                    </DataTemplate>
-                </cz:GridColumnZero.ItemTemplate>-->
                 </cz:GridColumnZero>
                 <cz:GridColumnZero BackgroundColor="Green" >
                     <cz:GridColumnZero.ItemTemplate>
@@ -28,25 +23,21 @@
                     </cz:GridColumnZero.ItemTemplate>
                 </cz:GridColumnZero>
                 <cz:GridColumnZero BackgroundColor="Blue" >
-                    <!--<cz:GridColumnZero.ItemTemplate>
-                    <DataTemplate>
-                        <Label Text="{Binding}"/>
-                    </DataTemplate>
-                </cz:GridColumnZero.ItemTemplate>-->
                 </cz:GridColumnZero>
             </cz:GridViewZero.ColumnsSource>
         </cz:GridViewZero>
 
-        <!--<cz:ListViewZero 
-        Grid.Column="1"
-        ItemsSource="{Binding ListChildren}"
-        SelectionMode="None"
-        ItemHeight="30">
+        <cz:ListViewZero 
+            Grid.Column="1"
+            BackgroundColor="Azure"
+            ItemsSource="{Binding ListChildren}"
+            SelectionMode="Multiple"
+>
             <cz:ListViewZero.ItemTemplate>
                 <DataTemplate>
                     <Label Text="{Binding}"/>
                 </DataTemplate>
             </cz:ListViewZero.ItemTemplate>
-        </cz:ListViewZero>-->
+        </cz:ListViewZero>
     </Grid>
 </ContentPage>

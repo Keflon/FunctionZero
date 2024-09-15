@@ -5,45 +5,39 @@
              xmlns:cz="clr-namespace:FunctionZero.Maui.Controls;assembly=FunctionZero.Maui.ControlsZero"
              HorizontalOptions="FillAndExpand" 
              VerticalOptions="FillAndExpand" 
-             x:Name="Self"
+             x:Name="Self"        
+        Margin="30"
              >
-
-    <ContentView.Resources>
-        <Style TargetType="cz:ListItemZero" >
-            <Setter Property="VisualStateManager.VisualStateGroups" >
-                <VisualStateGroupList>
-                    <VisualStateGroup x:Name="CommonStates" >
-
-                        <VisualState x:Name="Normal" >
-                            <VisualState.Setters>
-                                <Setter Property="BackgroundColor" Value="Transparent" />
-                            </VisualState.Setters>
-                        </VisualState>
-
-                        <VisualState x:Name="ItemFocused">
-                            <VisualState.Setters>
-                                <Setter Property="BackgroundColor" Value="Cyan" />
-                            </VisualState.Setters>
-                        </VisualState>
-
-                        <VisualState x:Name="Selected">
-                            <VisualState.Setters>
-                                <Setter Property="BackgroundColor" Value="AliceBlue" />
-                            </VisualState.Setters>
-                        </VisualState>
-
-                    </VisualStateGroup>
-                </VisualStateGroupList>
-            </Setter>
-        </Style>
-
-    </ContentView.Resources>
+    <cz:GridViewZero 
+        HorizontalOptions="Fill"
+        VerticalOptions="Fill"
 
 
-    <cz:CustomScrollView x:Name="scrollView"
-             VerticalOptions="Fill" />
+            ItemHeight="{Binding ItemHeight, Source={x:Reference Self}}"
+            ItemsSource="{Binding ItemsSource, Source={x:Reference Self}}"
+            ScrollOffset="{Binding ScrollOffset, Source={x:Reference Self}, Mode=TwoWay}"
+            SelectedItem="{Binding SelectedItem, Source={x:Reference Self}, Mode=TwoWay}"
+            SelectionMode="{Binding SelectionMode, Source={x:Reference Self}, Mode=TwoWay}"
+            SelectedItems="{Binding SelectedItems, Source={x:Reference Self}, Mode=TwoWay}"
+         >
+        <!--ItemContainerStyle="{Binding ItemContainerStyle, Source={x:Reference Self}}"-->
+        <!--ItemTemplate="{Binding ItemTemplate, Source={x:Reference Self}}"-->
+
+        <cz:GridViewZero.ColumnsSource>
+
+
+            <cz:GridColumnZero BackgroundColor="Green" 
+        ItemTemplate="{Binding ItemTemplate, Source={x:Reference Self}}"
+                ItemContainerStyle="{Binding ItemContainerStyle, Source={x:Reference Self}}"
+
+                >
+                <!--ItemContainerStyle="{Binding ItemContainerStyle, Source={x:Reference Self}}"-->
+
+            </cz:GridColumnZero>
+        </cz:GridViewZero.ColumnsSource>
+    </cz:GridViewZero>
 
 
 </ContentView>
-<!--ZIndex breaks release build.-->
+<!--ZIndex breaks release build. Old comment; is this still true?-->
     
