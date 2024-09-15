@@ -123,7 +123,7 @@ namespace FunctionZero.Maui.Controls
             {
                 self.TryDetach(self._rootContainer);
                 self._rootContainer.NodeChanged -= self._rootContainer_NodeChanged;
-                self.TheListView.ItemsSource = null;
+                self.TheGridView.ItemsSource = null;
             }
 
             if (newValue != null)
@@ -131,7 +131,7 @@ namespace FunctionZero.Maui.Controls
                 var rootNode = newValue;       // Get your tree data from somewhere
                 self._rootContainer = new TreeItemsSourceManager<object>(self.IsRootVisible, rootNode, self.GetCanHaveChildren, self.GetChildrenForNode);
                 self._rootContainer.NodeChanged += self._rootContainer_NodeChanged;
-                self.TheListView.ItemsSource = self._rootContainer.TreeNodeChildren;
+                self.TheGridView.ItemsSource = self._rootContainer.TreeNodeChildren;
 
                 self.TryAttach(self._rootContainer);
 

@@ -38,7 +38,7 @@
     </ContentView.Resources>
 
     <ContentView.Content>
-        <cz:ListViewZero 
+        <!--<cz:ListViewZero 
             x:Name="TheListView"
             ItemHeight="{Binding ItemHeight, Source={x:Reference Self}}"
             ItemTemplate="{Binding TreeItemTemplate, Source={x:Reference Self}}"
@@ -47,7 +47,33 @@
             SelectionMode="{Binding SelectionMode, Source={x:Reference Self}, Mode=TwoWay}"
             SelectedItems="{Binding SelectedItems, Source={x:Reference Self}, Mode=TwoWay}"
             ItemContainerStyle="{Binding ItemContainerStyle, Source={x:Reference Self}}"
-         />
+         />-->
+
+        <cz:GridViewZero 
+            x:Name="TheGridView"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill"
+
+            ItemHeight="{Binding ItemHeight, Source={x:Reference Self}}"
+            ItemsSource="{Binding ItemsSource, Source={x:Reference Self}}"
+            ScrollOffset="{Binding ScrollOffset, Source={x:Reference Self}, Mode=TwoWay}"
+            SelectedItem="{Binding SelectedItem, Source={x:Reference Self}, Mode=TwoWay}"
+            SelectionMode="{Binding SelectionMode, Source={x:Reference Self}, Mode=TwoWay}"
+            SelectedItems="{Binding SelectedItems, Source={x:Reference Self}, Mode=TwoWay}"
+        >
+            <!--ItemContainerStyle="{Binding ItemContainerStyle, Source={x:Reference Self}}"-->
+            <!--ItemTemplate="{Binding ItemTemplate, Source={x:Reference Self}}"-->
+
+            <cz:GridViewZero.ColumnsSource>
+                <cz:GridColumnZero BackgroundColor="Green" 
+                ItemTemplate="{Binding TreeItemTemplate, Source={x:Reference Self}}"
+                ItemContainerStyle="{Binding ItemContainerStyle, Source={x:Reference Self}}"
+                >
+                    <!--ItemContainerStyle="{Binding ItemContainerStyle, Source={x:Reference Self}}"-->
+
+                </cz:GridColumnZero>
+            </cz:GridViewZero.ColumnsSource>
+        </cz:GridViewZero>
 
     </ContentView.Content>
 </ContentView>

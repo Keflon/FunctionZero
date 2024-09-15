@@ -25,7 +25,7 @@ namespace ShowcaseZero.Mvvm.PageViewModels.TreeGrid
         {
             _pageService = pageService;
 
-            //_ = treeBuilder.CreateTreeAsync().ContinueWith((thing) => Children = thing.Result);
+            _ = treeBuilder.CreateTreeAsync().ContinueWith((thing) => Children = thing.Result);
 
             var listChildren = new ObservableCollection<string>();
 
@@ -35,17 +35,17 @@ namespace ShowcaseZero.Mvvm.PageViewModels.TreeGrid
             ListChildren = listChildren;
         }
 
-        //protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        //{
-        //    base.OnPropertyChanged(propertyName);
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
 
-        //    if (propertyName == nameof(Children))
-        //    {
-        //        Debug.WriteLine("XXX");
-        //        RootNode = new FlyoutItemVm("Root Node", null);
-        //        foreach (var item in Children)
-        //            RootNode.Children.Add(item);
-        //    }
-        //}
+            if (propertyName == nameof(Children))
+            {
+                Debug.WriteLine("XXX");
+                RootNode = new FlyoutItemVm("Root Node", null);
+                foreach (var item in Children)
+                    RootNode.Children.Add(item);
+            }
+        }
     }
 }
