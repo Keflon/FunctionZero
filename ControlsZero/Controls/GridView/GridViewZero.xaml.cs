@@ -17,6 +17,16 @@ public partial class GridViewZero : ContentView
     private const double MAX_SCROLL_HEIGHT = 2000000.0;
     private double _scaleToControl = 1.0;
 
+    protected override Size ArrangeOverride(Rect bounds)
+    {
+        // This is here so the GridColumnZero instances initially render even if their ItemsSource is already set.
+        DeferredUpdateScrollViewContentHeight();
+        DeferredUpdateItemContainers();
+
+        return base.ArrangeOverride(bounds);
+
+    }
+
     internal CustomScrollView TheScrollView => theScrollView;
     private static int _instanceIndex = 0;
     private int _thisIndex;
@@ -121,8 +131,7 @@ public partial class GridViewZero : ContentView
             theGrid.ColumnDefinitions.Add(new ColumnDefinition(250));
 
             columnZero.ItemTapped += Item_ItemTapped;
-            if (columnZero.Parent != null)
-                columnZero.Parent = null;
+
             theGrid.Children.Insert(0, columnZero);
             columnZero.SetValue(Grid.ColumnProperty, index);
             index++;

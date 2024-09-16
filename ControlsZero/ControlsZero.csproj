@@ -86,6 +86,9 @@
 	  <MauiXaml Update="Controls\TransformContentPresenter\BackdropContentContainer.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Controls\TreeGridView\TreeGridViewZero.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Controls\TreeView\TreeViewZero.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
