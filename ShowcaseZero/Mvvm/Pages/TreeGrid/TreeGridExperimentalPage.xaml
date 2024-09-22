@@ -5,7 +5,7 @@
              x:Class="ShowcaseZero.Mvvm.Pages.TreeGrid.TreeGridExperimentalPage"
              Title="Welcome to TreeGridExperimentalPage!">
 
-    <Grid ColumnDefinitions="4*,*,*">
+    <Grid ColumnDefinitions="11*,*,*">
         <cz:TreeGridViewZero 
             Grid.Column="0"
             SelectionMode="Single"
@@ -17,7 +17,7 @@
             <cz:TreeGridViewZero.TreeItemTemplate>
                 <cz:TreeItemDataTemplate ChildrenPropertyName="Children" IsExpandedPropertyName="IsExpanded">
                     <DataTemplate>
-                        <Label Text="{Binding Title}" BackgroundColor="Brown" />
+                        <Label Text="{Binding Title}" BackgroundColor="LightBlue" />
                     </DataTemplate>
                 </cz:TreeItemDataTemplate>
             </cz:TreeGridViewZero.TreeItemTemplate>
@@ -26,7 +26,7 @@
                 <cz:GridColumnZero BackgroundColor="Red" >
                     <cz:GridColumnZero.ItemTemplate>
                         <DataTemplate>
-                            <Label Text="{Binding Title}"/>
+                            <Label Text="{Binding Title}" />
                         </DataTemplate>
                     </cz:GridColumnZero.ItemTemplate>
                 </cz:GridColumnZero>

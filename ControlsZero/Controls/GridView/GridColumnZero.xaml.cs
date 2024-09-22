@@ -13,6 +13,8 @@ public partial class GridColumnZero : ContentView
     public event EventHandler<ListItemTappedEventArgs> ItemTapped;
     public Layout Canvas => TheGridColumnCanvas;
 
+    public bool IsPartOfTree_controlTemplateBugWorkaround { get; set; }
+
     #region bindable properties
 
     #region ItemTemplateProperty

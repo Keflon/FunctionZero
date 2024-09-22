@@ -17,9 +17,9 @@
                 The TreeNodeSpacer walks up the visual-tree to find the containing TreeViewZero, to get the IndentMultiplier.
                 It then sets its WidthRequest to the IndentMultiplier * (ListItemZero.BindingContext.Indent - 1)
                 -->
-                <cz:TreeNodeSpacer />
-
-                <cz:Chevron
+                <cz:TreeNodeSpacer  IsVisible="{TemplateBinding Parent.Parent.IsPartOfTree_controlTemplateBugWorkaround}"/>
+                <!--<Label Text="{TemplateBinding Parent.Parent.IsPartOfTree_controlTemplateBugWorkaround}"/>-->
+                <cz:Chevron IsVisible="{TemplateBinding Parent.Parent.IsPartOfTree_controlTemplateBugWorkaround}"
                     IsExpanded="{TemplateBinding BindingContext.IsExpanded, Mode=TwoWay}" 
                     ShowChevron="{TemplateBinding BindingContext.ShowChevron, Mode=TwoWay}" 
                     />
@@ -80,7 +80,7 @@
 
 
             <cz:GridViewZero.ColumnsSource>
-                <cz:GridColumnZero BackgroundColor="Green" 
+                <cz:GridColumnZero BackgroundColor="Green" IsPartOfTree_controlTemplateBugWorkaround="True"
                     ItemTemplate="{Binding TreeItemTemplate, Source={x:Reference Self}}"
                     ItemContainerStyle="{Binding ItemContainerStyle, Source={x:Reference Self}}"
                 />
