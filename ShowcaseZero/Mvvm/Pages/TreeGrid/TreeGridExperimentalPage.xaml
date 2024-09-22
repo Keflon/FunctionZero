@@ -24,15 +24,25 @@
             
             <cz:TreeGridViewZero.ColumnsSource>
                 <cz:GridColumnZero BackgroundColor="Red" >
+                    <cz:GridColumnZero.ItemTemplate>
+                        <DataTemplate>
+                            <Label Text="{Binding Title}"/>
+                        </DataTemplate>
+                    </cz:GridColumnZero.ItemTemplate>
                 </cz:GridColumnZero>
                 <cz:GridColumnZero BackgroundColor="Green" >
                     <cz:GridColumnZero.ItemTemplate>
                         <DataTemplate>
-                            <Label Text="{Binding}" Scale="0.8"/>
+                            <Label Text="{Binding Title}" Scale="0.8"/>
                         </DataTemplate>
                     </cz:GridColumnZero.ItemTemplate>
                 </cz:GridColumnZero>
                 <cz:GridColumnZero BackgroundColor="Blue" >
+                    <cz:GridColumnZero.ItemTemplate>
+                        <DataTemplate>
+                            <Label Text="{Binding Title}"/>
+                        </DataTemplate>
+                    </cz:GridColumnZero.ItemTemplate>
                 </cz:GridColumnZero>
             </cz:TreeGridViewZero.ColumnsSource>
 
