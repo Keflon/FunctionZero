@@ -5,8 +5,8 @@
              x:Class="ShowcaseZero.Mvvm.Pages.TreeGrid.TreeGridExperimentalPage"
              Title="Welcome to TreeGridExperimentalPage!">
 
-    <Grid ColumnDefinitions="*,*,*">
-        <cz:TreeViewZero 
+    <Grid ColumnDefinitions="4*,*,*">
+        <cz:TreeGridViewZero 
             Grid.Column="0"
             SelectionMode="Single"
             ItemsSource="{Binding RootNode}" 
@@ -14,15 +14,32 @@
             ItemHeight="30"
             IndentMultiplier="20" 
             >
-            <cz:TreeViewZero.TreeItemTemplate>
+            <cz:TreeGridViewZero.TreeItemTemplate>
                 <cz:TreeItemDataTemplate ChildrenPropertyName="Children" IsExpandedPropertyName="IsExpanded">
                     <DataTemplate>
                         <Label Text="{Binding Title}" BackgroundColor="Brown" />
                     </DataTemplate>
                 </cz:TreeItemDataTemplate>
-            </cz:TreeViewZero.TreeItemTemplate>
-        </cz:TreeViewZero>
-        
+            </cz:TreeGridViewZero.TreeItemTemplate>
+            
+            <cz:TreeGridViewZero.ColumnsSource>
+                <cz:GridColumnZero BackgroundColor="Red" >
+                </cz:GridColumnZero>
+                <cz:GridColumnZero BackgroundColor="Green" >
+                    <cz:GridColumnZero.ItemTemplate>
+                        <DataTemplate>
+                            <Label Text="{Binding}" Scale="0.8"/>
+                        </DataTemplate>
+                    </cz:GridColumnZero.ItemTemplate>
+                </cz:GridColumnZero>
+                <cz:GridColumnZero BackgroundColor="Blue" >
+                </cz:GridColumnZero>
+            </cz:TreeGridViewZero.ColumnsSource>
+
+        </cz:TreeGridViewZero>
+
+
+
         <cz:GridViewZero 
             Grid.Column="1"
         SelectionMode="Multiple"

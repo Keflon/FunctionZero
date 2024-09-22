@@ -4,7 +4,7 @@ namespace FunctionZero.Maui.Controls
 {
     public class TreeNodeSpacer : TemplatedView
     {
-        private TreeViewZero _treeView;
+        private TreeGridViewZero _treeView;
 
         public TreeNodeSpacer()
         {
@@ -20,12 +20,16 @@ namespace FunctionZero.Maui.Controls
         {
             base.OnBindingContextChanged();
 
-            _treeView = GetTreeViewForElement((Element)this);
+            _treeView = GetTreeGridViewForElement((Element)this);
 
-            var listItem = (ListItemZero)BindingContext;
-            // This instance belongs to a ListItemZero that draws it using a ControlTemplate that is tailored for a tree-node.
-            // As the instance will ALWAYS have its BindingContext 
-            listItem.BindingContextChanged += ListItem_BindingContextChanged;
+            try
+            {
+                var listItem = (ListItemZero)BindingContext;
+                // This instance belongs to a ListItemZero that draws it using a ControlTemplate that is tailored for a tree-node.
+                // As the instance will ALWAYS have its BindingContext 
+                listItem.BindingContextChanged += ListItem_BindingContextChanged;
+            }
+            catch { }
         }
 
         private void ListItem_BindingContextChanged(object sender, EventArgs e)
@@ -37,10 +41,10 @@ namespace FunctionZero.Maui.Controls
                 WidthRequest = _treeView.IndentMultiplier * (context.Indent - 1);
         }
 
-        private TreeViewZero GetTreeViewForElement(Element parameter)
+        private TreeGridViewZero GetTreeGridViewForElement(Element parameter)
         {
             while (parameter != null)
-                if (parameter is TreeViewZero treeView)
+                if (parameter is TreeGridViewZero treeView)
                     return treeView;
                 else
                     parameter = parameter.Parent;

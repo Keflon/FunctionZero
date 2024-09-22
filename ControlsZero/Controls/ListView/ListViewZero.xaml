@@ -24,13 +24,10 @@
         <!--ItemTemplate="{Binding ItemTemplate, Source={x:Reference Self}}"-->
 
         <cz:GridViewZero.ColumnsSource>
-
-
             <cz:GridColumnZero BackgroundColor="Green" 
-        ItemTemplate="{Binding ItemTemplate, Source={x:Reference Self}}"
+                ItemTemplate="{Binding ItemTemplate, Source={x:Reference Self}}"
                 ItemContainerStyle="{Binding ItemContainerStyle, Source={x:Reference Self}}"
-
-                >
+            >
                 <!--ItemContainerStyle="{Binding ItemContainerStyle, Source={x:Reference Self}}"-->
 
             </cz:GridColumnZero>
