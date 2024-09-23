@@ -39,11 +39,17 @@ public partial class GridViewZero : ContentView
 
         InitializeComponent();
         TheScrollView.Scrolled += ScrollView_Scrolled;
-
+        theGrid.MeasureInvalidated += TheGrid_MeasureInvalidated;
         _instanceIndex++;
         _thisIndex = _instanceIndex;
 
     }
+
+    private void TheGrid_MeasureInvalidated(object? sender, EventArgs e)
+    {
+        UpdateItemContainers();
+    }
+
     private void ScrollView_Scrolled(object sender, ScrolledEventArgs e)
     {
         ScrollOffset = e.ScrollY / _scaleToControl;
