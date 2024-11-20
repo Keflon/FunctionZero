@@ -47,7 +47,8 @@ public partial class GridViewZero : ContentView
 
     private void TheGrid_MeasureInvalidated(object? sender, EventArgs e)
     {
-        UpdateItemContainers();
+        //UpdateItemContainers();
+        DeferredUpdateItemContainers();
     }
 
     private void ScrollView_Scrolled(object sender, ScrolledEventArgs e)
