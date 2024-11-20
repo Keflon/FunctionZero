@@ -3,19 +3,35 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>FunctionZero.$(MSBuildProjectName)</AssemblyName>
-    <Version>1.0.1</Version>
+    <Version>2.0.0</Version>
     <Authors>Keith Pickford</Authors>
     <Company>FunctionZero Ltd</Company>
     <Description>Net Standard library to help manage a hierarchy of nodes.</Description>
     <Copyright>2019-2024 Function Zero Ltd</Copyright>
     <PackageIcon>F0 gravatar.png</PackageIcon>
     <PackageTags>net standard; tree node manager; graph; dag; acyclic;</PackageTags>
-    <PackageReleaseNotes>Improved error reporting if a node is added to the same parent more than once.</PackageReleaseNotes>
+    <PackageReleaseNotes>Test release</PackageReleaseNotes>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Title>Net Standard library to help manage a hierarchy of nodes.</Title>
+    <PackageReadmeFile></PackageReadmeFile>
+    <PackageOutputPath>C:\Users\kpick\OneDrive - Function Zero Ltd\FunctionZeroBuildResources\NuGet</PackageOutputPath>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Update="Documentation\readme_nuget.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Update="F0 gravatar.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
