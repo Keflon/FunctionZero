@@ -1,32 +1,47 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageId>FunctionZero.$(AssemblyName)</PackageId>
-    <Title>AnimationZero</Title>
-    <Version>1.0.0.0-pre1</Version>
-    <Authors>Keith Pickford</Authors>
-    <Company>FunctionZero Ltd</Company>
-    <Product>FunctionZero.$(AssemblyName)</Product>
-    <Description>An animation library that is not coupled to a UI framework.</Description>
-    <Copyright>Function Zero Ltd 2024</Copyright>
-    <PackageProjectUrl>https://github.com/Keflon/Maui.MvvmZero</PackageProjectUrl>
-    <PackageIcon>F0 gravatar.png</PackageIcon>
-    <RepositoryUrl>https://github.com/Keflon/Maui.MvvmZero</RepositoryUrl>
-    <PackageTags>Animation; Easing; ViewModel </PackageTags>
-    <PackageReleaseNotes>First release.</PackageReleaseNotes>
-    <PackageLicenseFile>License.txt</PackageLicenseFile>
-  </PropertyGroup>
+	<PropertyGroup>
+		<AssemblyName>FunctionZero.$(MSBuildProjectName)</AssemblyName>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<PackageId>FunctionZero.$(AssemblyName)</PackageId>
+		<Title>AnimationZero</Title>
+		<Version>$(VersionPrefix)</Version>
+		<Authors>Keith Pickford</Authors>
+		<Company>FunctionZero Ltd</Company>
+		<Product>FunctionZero.$(AssemblyName)</Product>
+		<Description>An animation library that is not coupled to a UI framework.</Description>
+		<Copyright>Function Zero Ltd 2024</Copyright>
+		<PackageProjectUrl>https://github.com/Keflon/Maui.MvvmZero</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Keflon/Maui.MvvmZero</RepositoryUrl>
+		<PackageTags>Animation; Easing; ViewModel </PackageTags>
+		<PackageReleaseNotes>First release.</PackageReleaseNotes>
+		<PackageLicenseFile>License.txt</PackageLicenseFile>
+		<ApplicationIcon>F0 gravatar.png</ApplicationIcon>
+		<PackageReadmeFile>Readme.Nuget.md</PackageReadmeFile>
+		<PackageOutputPath>C:\Users\kpick\OneDrive - Function Zero Ltd\FunctionZeroBuildResources\NuGet</PackageOutputPath>
+		<PackageIcon>F0 gravatar.png</PackageIcon>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Update="F0 gravatar.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Update="License.txt">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+	  <Content Include="F0 gravatar.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="..\F0 gravatar.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="Readme.Nuget.md">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+		</None>
+		<None Update="License.txt">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
 </Project>

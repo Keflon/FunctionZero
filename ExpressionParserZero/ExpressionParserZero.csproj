@@ -21,10 +21,6 @@ Removed accidental hard cast to int.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="F0 gravatar.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
     <None Update="License.txt">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
