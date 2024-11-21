@@ -5,19 +5,22 @@
 	  <AssemblyName>FunctionZero.$(MSBuildProjectName)</AssemblyName>
 	  <VersionPrefix>3.0.0-pre1</VersionPrefix>
 	  <PackageIcon>F0 gravatar.png</PackageIcon>
-	  <PackageReadmeFile>readme_nuget.md</PackageReadmeFile>
 	  <PackageOutputPath>C:\Users\kpick\OneDrive - Function Zero Ltd\FunctionZeroBuildResources\NuGet</PackageOutputPath>
+
+	<VersionPrefix>2.0.0-pre1</VersionPrefix>
+
+	<Authors>Keith Pickford</Authors>
+	<Company>FunctionZero Ltd</Company>
+	<Copyright>FunctionZero Ltd</Copyright>
+	<PackageIcon>F0 gravatar.png</PackageIcon>
+	<IncludeSymbols>True</IncludeSymbols>
+	<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	<PackageOutputPath>C:\Users\kpick\OneDrive - Function Zero Ltd\FunctionZeroBuildResources\NuGet</PackageOutputPath>
+
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="..\F0 gravatar.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="readme_nuget.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

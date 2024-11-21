@@ -1,34 +1,46 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageId>FunctionZero.$(AssemblyName)</PackageId>
-    <Version>5.3.1</Version>
-    <Authors>Keith Pickford</Authors>
-    <Company>FunctionZero Ltd</Company>
-    <Description>RPN Expression Parser and Evaluator with databinding to POCO and INPC instances.</Description>
-    <Copyright>Copyright 2017-2024 (c) Function Zero Ltd.</Copyright>
-    <PackageProjectUrl>https://github.com/Keflon/FunctionZero.ExpressionParserZero</PackageProjectUrl>
-    <PackageIcon>F0 gravatar.png</PackageIcon>
-    <PackageReadmeFile>Readme.NuGet.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/Keflon/FunctionZero.ExpressionParserZero</RepositoryUrl>
-    <PackageTags>RPN; postfix; expression parser; evaluator; infix; reverse polish; overload; typesafe; variable; variables; bind; binding; zbind; z:bind; cast; casting;</PackageTags>
-    <PackageReleaseNotes>Added PathBindMode.
-Removed accidental hard cast to int.</PackageReleaseNotes>
-    <PackageLicenseFile>License.txt</PackageLicenseFile>
-    <IncludeSymbols>True</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+	  <AssemblyName>FunctionZero.$(MSBuildProjectName)</AssemblyName>
+				<!--<PackageId>FunctionZero.$(AssemblyName)</PackageId>-->
+		<VersionPrefix>6.0.0-pre1</VersionPrefix>
+	  <PackageIcon>F0 gravatar.png</PackageIcon>
+		
+		<Authors>Keith Pickford</Authors>
+		<Company>FunctionZero Ltd</Company>
+		<Description>RPN Expression Parser and Evaluator with databinding to POCO and INPC instances.</Description>
+		<Copyright>Copyright 2017-2024 (c) Function Zero Ltd.</Copyright>
+		<PackageProjectUrl>https://github.com/Keflon/FunctionZero.ExpressionParserZero</PackageProjectUrl>
+		<PackageReadmeFile>readme_nuget.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/Keflon/FunctionZero.ExpressionParserZero</RepositoryUrl>
+		<PackageTags>RPN; postfix; expression parser; evaluator; infix; reverse polish; overload; typesafe; variable; variables; bind; binding; zbind; z:bind; cast; casting;</PackageTags>
+		<PackageReleaseNotes>
+			Added PathBindMode.
+			Removed accidental hard cast to int.
+		</PackageReleaseNotes>
+		<PackageLicenseFile>License.txt</PackageLicenseFile>
+		<IncludeSymbols>True</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<PackageOutputPath>C:\Users\kpick\OneDrive - Function Zero Ltd\FunctionZeroBuildResources\NuGet</PackageOutputPath>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Update="License.txt">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Update="Readme.NuGet.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\F0 gravatar.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="License.txt">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Update="readme_nuget.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
 </Project>

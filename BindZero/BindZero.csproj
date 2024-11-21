@@ -20,19 +20,31 @@
 		<AssemblyName>FunctionZero.Maui.$(MSBuildProjectName)</AssemblyName>
 		<RootNamespace>FunctionZero.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
 		<Title>FunctionZero.$(AssemblyName)</Title>
-		<Version>8.1.1</Version>
+		<VersionPrefix>9.0.0-pre1</VersionPrefix>
+
 		<Authors>Keith Pickford</Authors>
 		<Company>FunctionZero Ltd</Company>
 		<Description>DataBind to Expressions rather than just to Properties</Description>
 		<Copyright>(c) 2024 FunctionZero Ltd</Copyright>
 		<PackageIcon>F0 gravatar.png</PackageIcon>
-		<PackageReadmeFile>ReadMe.NuGet.md</PackageReadmeFile>
+		<PackageReadmeFile>readme_nuget.md</PackageReadmeFile>
 		<PackageTags>zBind z:Bind Bind Binding Databind xaml MAUI ios android WinUI maccatalyst expression parser evaluator short circuit POCO </PackageTags>
 		<PackageReleaseNotes>Built using lates MAUI libraries.</PackageReleaseNotes>
 		<PackageLicenseFile></PackageLicenseFile>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\F0 gravatar.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Include=".\readme_nuget.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
@@ -47,7 +59,11 @@
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>
-	  <None Update="ReadMe.NuGet.md">
+	  <None Update="ReadMe.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Update="readme_nuget.md">
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>

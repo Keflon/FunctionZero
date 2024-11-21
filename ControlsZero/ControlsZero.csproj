@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<AssemblyName>FunctionZero.$(MSBuildProjectName)</AssemblyName>
+		<AssemblyName>FunctionZero.Maui.$(MSBuildProjectName)</AssemblyName>
 		<TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
@@ -17,9 +17,9 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
-		<AssemblyName>FunctionZero.Maui.$(MSBuildProjectName)</AssemblyName>
 		<Title>FunctionZero Controls library including virtualizing TreeView and ListView</Title>
-		<Version>8.0.0.5</Version>
+		<VersionPrefix>9.0.0-pre1</VersionPrefix>
+
 		<Authors>Keith Pickford</Authors>
 		<Company>FunctionZero Ltd</Company>
 		<Description>A MAUI Controls library featuring a cross-platform virtualizing TreeView and ListView and Expander and a really cool MaskControl and the awesome MultiView and even more. For all MAUI platforms.</Description>
@@ -33,8 +33,16 @@
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<PackageOutputPath>C:\Users\kpick\OneDrive - Function Zero Ltd\FunctionZeroBuildResources\NuGet</PackageOutputPath>
 	</PropertyGroup>
 
+	<ItemGroup>
+		<None Include="..\F0 gravatar.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+	
 	<ItemGroup>
 	  <None Include="..\MvvmZero\LICENSE.txt">
 	    <Pack>True</Pack>
