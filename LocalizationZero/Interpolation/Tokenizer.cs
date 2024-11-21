@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace LocalisationZero.Interpolation
+namespace LocalizationZero.Interpolation
 {
     internal class Tokenizer
     {

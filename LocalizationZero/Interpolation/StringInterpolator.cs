@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LocalisationZero.Interpolation
+namespace LocalizationZero.Interpolation
 {
     internal class StringInterpolator
     {

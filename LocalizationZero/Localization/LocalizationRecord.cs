@@ -1,14 +1,14 @@
 ﻿using FunctionZero.ExpressionParserZero.BackingStore;
 using FunctionZero.ExpressionParserZero.Binding;
 using FunctionZero.ExpressionParserZero.Operands;
-using LocalisationZero.Interpolation;
+using LocalizationZero.Interpolation;
 
-namespace LocalisationZero.Localisation
+namespace LocalizationZero.Localization
 {
-    public class LocalisationRecord : IBackingStore
+    public class LocalizationRecord : IBackingStore
     {
         private readonly IDictionary<string, object> _backingStore;
-        public LocalisationRecord(IEnumerable<LocalisationItem> items, params string[] argumentNames)
+        public LocalizationRecord(IEnumerable<LocalizationItem> items, params string[] argumentNames)
         {
             Items = items;
 
@@ -18,7 +18,7 @@ namespace LocalisationZero.Localisation
                 _backingStore[item] = null;
         }
 
-        public IEnumerable<LocalisationItem> Items { get; }
+        public IEnumerable<LocalizationItem> Items { get; }
 
         public string GetText(object[] arguments)
         {

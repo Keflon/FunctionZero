@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LocalisationZero.Localisation
+namespace LocalizationZero.Localization
 {
-    public class LocalisationItem
+    public class LocalizationItem
     {
-        public LocalisationItem(string conditionExpression, string localisedText)
+        public LocalizationItem(string conditionExpression, string localisedText)
         {
             ConditionExpression = conditionExpression;
             LocalisedText = localisedText;

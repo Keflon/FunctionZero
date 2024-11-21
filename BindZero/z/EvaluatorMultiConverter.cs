@@ -90,6 +90,11 @@ namespace FunctionZero.Maui.zBind.z
                 //if (targetType.IsValueType && Nullable.GetUnderlyingType(targetType) == null)
                 //    return Activator.CreateInstance(targetType);
                 //else
+                //    return null;
+
+                if (targetType.IsValueType)
+                    return Activator.CreateInstance(targetType);
+                else
                     return null;
             }
             finally

@@ -26,10 +26,10 @@
 		<Copyright>FunctionZero Ltd</Copyright>
 		<PackageProjectUrl>https://github.com/Keflon/FunctionZero.Maui.Controls</PackageProjectUrl>
 		<PackageIcon>F0 gravatar.png</PackageIcon>
-		<PackageReadmeFile>Readme.Nuget.md</PackageReadmeFile>
+		<PackageReadmeFile></PackageReadmeFile>
 		<RepositoryUrl>https://github.com/Keflon/FunctionZero.Maui.Controls</RepositoryUrl>
 		<PackageTags>MAUI; ListView; ListViewZero; TreeView; TreeViewZero; MaskView; iOS; WinUI; Windows; Android; Control </PackageTags>
-		<PackageReleaseNotes>MultiviewZero is stable and outrageously versatile. Localisation has been moved to a new LocalisationZero library.</PackageReleaseNotes>
+		<PackageReleaseNotes>MultiviewZero is stable and outrageously versatile. Localization has been moved to a new LocalisationZero library.</PackageReleaseNotes>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -45,10 +45,6 @@
 	
 	<ItemGroup>
 	  <None Include="..\MvvmZero\LICENSE.txt">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
-	  <None Include="..\MvvmZero\Readme.Nuget.md">
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>

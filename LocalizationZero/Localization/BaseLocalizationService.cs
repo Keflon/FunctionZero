@@ -1,16 +1,17 @@
-﻿using System.ComponentModel;
+﻿using LocalizationZero.Localization;
+using System.ComponentModel;
 
-namespace LocalisationZero.Localisation
+namespace LocalizationZero.Localization
 {
     /// <summary>
     /// Goal. To be decoupled enough to allow downloading and selection of new or updated language packs on the fly.
     /// </summary>
-    public abstract partial class BaseLocalisationService<TEnum> : INotifyPropertyChanged where TEnum : Enum
+    public abstract partial class BaseLocalizationService<TEnum> : INotifyPropertyChanged where TEnum : Enum
     {
         private readonly string _resourceKey;
         private ResourceDictionary _resourceHost;
-        private Dictionary<string, LocalisationProvider> _languages;
-        public event EventHandler<LocalisationChangedEventArgs> LanguageChanged;
+        private Dictionary<string, LocalizationProvider> _languages;
+        public event EventHandler<LocalizationChangedEventArgs> LanguageChanged;
 
         // INPC raised by SetLanguage(..)
         public string CurrentLanguageId { get; protected set; }
@@ -19,7 +20,7 @@ namespace LocalisationZero.Localisation
         public event PropertyChangedEventHandler PropertyChanged;
 
 
-        public BaseLocalisationService(string resourceKey = "languageResource")
+        public BaseLocalizationService(string resourceKey = "languageResource")
         {
             _resourceKey = resourceKey;
             _languages = new();
@@ -31,7 +32,7 @@ namespace LocalisationZero.Localisation
             SetLanguage(initialLanguage);
         }
 
-        public void RegisterLanguage(string id, LocalisationProvider language)
+        public void RegisterLanguage(string id, LocalizationProvider language)
         {
             _languages[id] = language;
         }
@@ -54,19 +55,19 @@ namespace LocalisationZero.Localisation
 
             CurrentLanguageId = id;
 
-            LanguageChanged?.Invoke(this, new LocalisationChangedEventArgs(id));
+            LanguageChanged?.Invoke(this, new LocalizationChangedEventArgs(id));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentLanguageId)));
         }
 
         //public string[] CurrentLookup => _resourceHost[_resourceKey] as string[];
 
 
-        public string GetText(TEnum textId, params object[]arguments)
+        public string GetText(TEnum textId, params object[] arguments)
         {
             if (_resourceHost == null)
                 throw new InvalidOperationException("You must call Init on the LanguageService before you call SetLanguage(string id), e.g. Init(Application.Current.Resources);");
 
-            LocalisationProvider currentLanguage = _languages[CurrentLanguageId];
+            LocalizationProvider currentLanguage = _languages[CurrentLanguageId];
             return currentLanguage.GetLookup().GetString((int)(object)textId, arguments);
         }
     }
