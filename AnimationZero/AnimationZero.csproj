@@ -16,15 +16,11 @@
 		<PackageTags>Animation; Easing; ViewModel </PackageTags>
 		<PackageReleaseNotes>First release.</PackageReleaseNotes>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
-		<ApplicationIcon>F0 gravatar.png</ApplicationIcon>
 		<PackageReadmeFile>Readme.Nuget.md</PackageReadmeFile>
 		<PackageOutputPath>C:\Users\kpick\OneDrive - Function Zero Ltd\FunctionZeroBuildResources\NuGet</PackageOutputPath>
 		<PackageIcon>F0 gravatar.png</PackageIcon>
 	</PropertyGroup>
 
-	<ItemGroup>
-	  <Content Include="F0 gravatar.png" />
-	</ItemGroup>
 
 	<ItemGroup>
 	  <None Include="..\F0 gravatar.png">
