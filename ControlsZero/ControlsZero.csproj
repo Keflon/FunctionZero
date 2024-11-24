@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<AssemblyName>FunctionZero.Maui.$(MSBuildProjectName)</AssemblyName>
@@ -18,16 +18,16 @@
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 		<Title>FunctionZero Controls library including virtualizing TreeView and ListView</Title>
-		<VersionPrefix>9.0.0-pre1</VersionPrefix>
+		<VersionPrefix>9.0.0-pre10</VersionPrefix>
 
 		<Authors>Keith Pickford</Authors>
 		<Company>FunctionZero Ltd</Company>
 		<Description>A MAUI Controls library featuring a cross-platform virtualizing TreeView and ListView and Expander and a really cool MaskControl and the awesome MultiView and even more. For all MAUI platforms.</Description>
 		<Copyright>FunctionZero Ltd</Copyright>
-		<PackageProjectUrl>https://github.com/Keflon/FunctionZero.Maui.Controls</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/Keflon/FunctionZero</PackageProjectUrl>
 		<PackageIcon>F0 gravatar.png</PackageIcon>
-		<PackageReadmeFile></PackageReadmeFile>
-		<RepositoryUrl>https://github.com/Keflon/FunctionZero.Maui.Controls</RepositoryUrl>
+		<PackageReadmeFile>readme_nuget.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/Keflon/FunctionZero</RepositoryUrl>
 		<PackageTags>MAUI; ListView; ListViewZero; TreeView; TreeViewZero; MaskView; iOS; WinUI; Windows; Android; Control </PackageTags>
 		<PackageReleaseNotes>MultiviewZero is stable and outrageously versatile. Localization has been moved to a new LocalisationZero library.</PackageReleaseNotes>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
@@ -93,6 +93,13 @@
 	  <MauiXaml Update="Controls\TreeView\TreeViewZero.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="readme_nuget.md">
+	    <PackagePath>\</PackagePath>
+	    <Pack>True</Pack>
+	  </None>
 	</ItemGroup>
 
 </Project>

@@ -19,7 +19,7 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 
 
-		<VersionPrefix>9.0.0-pre3</VersionPrefix>
+		<VersionPrefix>9.0.0-pre10</VersionPrefix>
 
 		<Authors>Keith Pickford</Authors>
 		<Company>FunctionZero Ltd</Company>
@@ -29,6 +29,8 @@
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<PackageOutputPath>C:\Users\kpick\OneDrive - Function Zero Ltd\FunctionZeroBuildResources\NuGet</PackageOutputPath>
+		<Title>FunctionZero.LocalizationZero</Title>
+		<PackageReadmeFile>readme_nuget.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -44,6 +46,13 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\ExpressionParserZero\ExpressionParserZero.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="readme_nuget.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
 
 </Project>

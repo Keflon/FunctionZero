@@ -11,14 +11,11 @@
 		<Company>FunctionZero Ltd</Company>
 		<Description>RPN Expression Parser and Evaluator with databinding to POCO and INPC instances.</Description>
 		<Copyright>Copyright 2017-2024 (c) Function Zero Ltd.</Copyright>
-		<PackageProjectUrl>https://github.com/Keflon/FunctionZero.ExpressionParserZero</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/Keflon/FunctionZero</PackageProjectUrl>
 		<PackageReadmeFile>readme_nuget.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/Keflon/FunctionZero.ExpressionParserZero</RepositoryUrl>
 		<PackageTags>RPN; postfix; expression parser; evaluator; infix; reverse polish; overload; typesafe; variable; variables; bind; binding; zbind; z:bind; cast; casting;</PackageTags>
-		<PackageReleaseNotes>
-			Added PathBindMode.
-			Removed accidental hard cast to int.
-		</PackageReleaseNotes>
+		<PackageReleaseNotes>	</PackageReleaseNotes>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>

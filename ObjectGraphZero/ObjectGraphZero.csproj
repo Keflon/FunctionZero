@@ -3,11 +3,9 @@
   <PropertyGroup>
 	  <TargetFramework>netstandard2.0</TargetFramework>
 	  <AssemblyName>FunctionZero.$(MSBuildProjectName)</AssemblyName>
-	  <VersionPrefix>3.0.0-pre1</VersionPrefix>
+	  <VersionPrefix>3.0.0-pre10</VersionPrefix>
 	  <PackageIcon>F0 gravatar.png</PackageIcon>
 	  <PackageOutputPath>C:\Users\kpick\OneDrive - Function Zero Ltd\FunctionZeroBuildResources\NuGet</PackageOutputPath>
-
-	<VersionPrefix>2.0.0-pre1</VersionPrefix>
 
 	<Authors>Keith Pickford</Authors>
 	<Company>FunctionZero Ltd</Company>
@@ -16,6 +14,10 @@
 	<IncludeSymbols>True</IncludeSymbols>
 	<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	<PackageOutputPath>C:\Users\kpick\OneDrive - Function Zero Ltd\FunctionZeroBuildResources\NuGet</PackageOutputPath>
+	<Title>FunctionZero.ObjectGraphZero</Title>
+	<PackageProjectUrl>https://github.com/Keflon/FunctionZero</PackageProjectUrl>
+	<PackageReadmeFile>readme_nuget.md</PackageReadmeFile>
+	<RepositoryUrl>https://github.com/Keflon/FunctionZero</RepositoryUrl>
 
   </PropertyGroup>
 
@@ -23,6 +25,13 @@
     <None Include="..\F0 gravatar.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="readme_nuget.md">
+      <PackagePath>\</PackagePath>
+      <Pack>True</Pack>
     </None>
   </ItemGroup>
 

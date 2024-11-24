@@ -28,11 +28,11 @@ The experimental localization has been removed (more completely) from the Contro
 		</PackageReleaseNotes>
 		<PackageId>FunctionZero.Maui.MvvmZero</PackageId>
 		<RootNamespace>FunctionZero.Maui.MvvmZero</RootNamespace>
-		<Version>9.0.0.0-pre1</Version>
+		<Version>9.0.0.0-pre10</Version>
 		<Title>Maui.MvvmZero</Title>
 		<PackageIcon>F0 gravatar.png</PackageIcon>
 		<PackageOutputPath>C:\Users\kpick\OneDrive - Function Zero Ltd\FunctionZeroBuildResources\NuGet</PackageOutputPath>
-		<PackageReadmeFile></PackageReadmeFile>
+		<PackageReadmeFile>readme_nuget.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
