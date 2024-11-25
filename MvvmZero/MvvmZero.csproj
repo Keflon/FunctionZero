@@ -32,7 +32,9 @@ The experimental localization has been removed (more completely) from the Contro
 		<Title>Maui.MvvmZero</Title>
 		<PackageIcon>F0 gravatar.png</PackageIcon>
 		<PackageOutputPath>C:\Users\kpick\OneDrive - Function Zero Ltd\FunctionZeroBuildResources\NuGet</PackageOutputPath>
-		<PackageReadmeFile>readme_nuget.md</PackageReadmeFile>
+		<PackageReadmeFile>readme.nuget.md</PackageReadmeFile>
+		<IncludeSymbols>True</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -54,7 +56,7 @@ The experimental localization has been removed (more completely) from the Contro
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>
-	  <None Update="readme_nuget.md">
+	  <None Update="readme.nuget.md">
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>

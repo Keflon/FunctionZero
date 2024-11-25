@@ -20,6 +20,8 @@
 		<PackageReadmeFile>Readme.Nuget.md</PackageReadmeFile>
 		<PackageOutputPath>C:\Users\kpick\OneDrive - Function Zero Ltd\FunctionZeroBuildResources\NuGet</PackageOutputPath>
 		<PackageIcon>F0 gravatar.png</PackageIcon>
+		<IncludeSymbols>True</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	</PropertyGroup>
 
 

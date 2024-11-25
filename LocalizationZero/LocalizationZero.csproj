@@ -30,11 +30,15 @@
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<PackageOutputPath>C:\Users\kpick\OneDrive - Function Zero Ltd\FunctionZeroBuildResources\NuGet</PackageOutputPath>
 		<Title>FunctionZero.LocalizationZero</Title>
-		<PackageReadmeFile>readme_nuget.md</PackageReadmeFile>
+		<PackageReadmeFile>readme.nuget.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
 	  <None Include="..\F0 gravatar.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Include="readme.nuget.md">
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>
@@ -49,7 +53,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="readme_nuget.md">
+	  <None Update="readme.nuget.md">
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>

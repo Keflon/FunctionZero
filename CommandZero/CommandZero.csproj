@@ -9,6 +9,7 @@
 		<PackageOutputPath>C:\Users\kpick\OneDrive - Function Zero Ltd\FunctionZeroBuildResources\NuGet</PackageOutputPath>
 		<Title>FunctionZero.CommandZero</Title>
 		<PackageProjectUrl>https://github.com/Keflon/FunctionZero</PackageProjectUrl>
+		<IncludeSymbols>True</IncludeSymbols>
 	</PropertyGroup>
 
 	<ItemGroup>

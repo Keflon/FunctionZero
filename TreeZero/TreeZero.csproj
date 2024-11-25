@@ -8,6 +8,8 @@
 	  <PackageReadmeFile>readme_nuget.md</PackageReadmeFile>
 	  <PackageOutputPath>C:\Users\kpick\OneDrive - Function Zero Ltd\FunctionZeroBuildResources\NuGet</PackageOutputPath>
 	  <Title>TreeZero</Title>
+	  <IncludeSymbols>True</IncludeSymbols>
+	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
