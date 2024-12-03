@@ -2,11 +2,11 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
-	  <AssemblyName>FunctionZero.$(MSBuildProjectName)</AssemblyName>
-				<!--<PackageId>FunctionZero.$(AssemblyName)</PackageId>-->
-		<VersionPrefix>6.0.0-pre1</VersionPrefix>
-	  <PackageIcon>F0 gravatar.png</PackageIcon>
-		
+		<AssemblyName>FunctionZero.$(MSBuildProjectName)</AssemblyName>
+		<!--<PackageId>FunctionZero.$(AssemblyName)</PackageId>-->
+		<VersionPrefix>6.0.0</VersionPrefix>
+		<PackageIcon>F0 gravatar.png</PackageIcon>
+
 		<Authors>Keith Pickford</Authors>
 		<Company>FunctionZero Ltd</Company>
 		<Description>RPN Expression Parser and Evaluator with databinding to POCO and INPC instances.</Description>
@@ -15,6 +15,7 @@
 		<PackageReadmeFile>readme_nuget.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/Keflon/FunctionZero.ExpressionParserZero</RepositoryUrl>
 		<PackageTags>RPN; postfix; expression parser; evaluator; infix; reverse polish; overload; typesafe; variable; variables; bind; binding; zbind; z:bind; cast; casting;</PackageTags>
+		<PackageIcon>F0 gravatar.png</PackageIcon>
 		<PackageReleaseNotes>	</PackageReleaseNotes>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
 		<IncludeSymbols>True</IncludeSymbols>
@@ -27,17 +28,15 @@
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Update="License.txt">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
 		<None Update="readme_nuget.md">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
+		<None Update="License.txt">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+
 	</ItemGroup>
 
 </Project>

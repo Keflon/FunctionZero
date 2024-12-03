@@ -20,7 +20,7 @@
 		<AssemblyName>FunctionZero.Maui.$(MSBuildProjectName)</AssemblyName>
 		<RootNamespace>FunctionZero.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
 		<Title>FunctionZero.$(AssemblyName)</Title>
-		<VersionPrefix>9.0.0-pre10</VersionPrefix>
+		<VersionPrefix>9.0.0</VersionPrefix>
 
 		<Authors>Keith Pickford</Authors>
 		<Company>FunctionZero Ltd</Company>
@@ -30,7 +30,7 @@
 		<PackageReadmeFile>readme_nuget.md</PackageReadmeFile>
 		<PackageTags>zBind z:Bind Bind Binding Databind xaml MAUI ios android WinUI maccatalyst expression parser evaluator short circuit POCO </PackageTags>
 		<PackageReleaseNotes>Built using lates MAUI libraries.</PackageReleaseNotes>
-		<PackageLicenseFile></PackageLicenseFile>
+		<PackageLicenseFile>License.txt</PackageLicenseFile>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<PackageOutputPath>C:\Users\kpick\OneDrive - Function Zero Ltd\FunctionZeroBuildResources\NuGet</PackageOutputPath>
@@ -57,7 +57,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="License.txt">
+	  <None Include="License.txt">
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>

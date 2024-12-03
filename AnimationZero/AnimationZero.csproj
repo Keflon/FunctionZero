@@ -5,7 +5,7 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<PackageId>FunctionZero.$(AssemblyName)</PackageId>
 		<Title>AnimationZero</Title>
-		<VersionPrefix>2.0.0-pre1</VersionPrefix>
+		<VersionPrefix>2.0.0</VersionPrefix>
 
 		<Authors>Keith Pickford</Authors>
 		<Company>FunctionZero Ltd</Company>
