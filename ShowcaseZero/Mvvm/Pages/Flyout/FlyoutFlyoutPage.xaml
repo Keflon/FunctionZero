@@ -15,13 +15,13 @@
                     DurationMilliseconds="400"
                     
                     IsExpanded="{Binding IsExpanded, Mode=TwoWay}"
-                    HorizontalOptions="FillAndExpand"
-                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Fill"
                 >
                 <cz:ExpanderZero.Header>
                     <Label Text="{TemplateBinding BindingContext.Title}"   Margin="5" Padding="15"                
-                               HorizontalOptions="FillAndExpand"
-                               VerticalOptions="FillAndExpand">
+                               HorizontalOptions="Fill"
+                               VerticalOptions="Fill">
                         <Label.Style>
                             <Style TargetType="Label">
                                 <Setter Property="Background" Value="AliceBlue" />
@@ -41,8 +41,8 @@
                 <HorizontalStackLayout>
                     <BoxView WidthRequest="20" BackgroundColor="Transparent"/>
                     <VerticalStackLayout
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Fill"
                         BindableLayout.ItemsSource="{Binding Children}"
                         BindableLayout.ItemTemplate="{StaticResource NodeTemplate}"/>
                 </HorizontalStackLayout>
