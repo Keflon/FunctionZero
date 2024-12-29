@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<LocalizationPack Language="en-gb" FriendlyName="English">
+	<Record Enum="E_Hello">
+		<Item Condition="true" Text="Hello"/>
+	</Record>
+
+	<Record Enum="E_MessageCount">
+		<Record Condition="NumMessages == 0" Text="You're all up to date"/>
+		<Record Condition="NumMessages == 1" Text="You have a message"/>
+		<Record Condition="NumMessages LTE MaxMessages" Text="You have {NumMessages} messages"/>
+		<Record Condition="PaidSubscription == true OR IsTrialActive == true" Text="You have {NumMessages} messages"/>
+		<Record Condition="NumMessages == 5" Text="There are {NumMessages} and 1 hidden message; upgrade to see the hidden message"/>
+		<Record Condition="true" Text="There are {NumMessages} and {NumMessages-5} hidden messages; upgrade to see the hidden messages"/>
+	</Record>
+
+
+</LocalizationPack>
