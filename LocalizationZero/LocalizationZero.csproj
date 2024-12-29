@@ -55,6 +55,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\ExpressionParserZero\ExpressionParserZero.csproj" />
+	  <ProjectReference Include="..\ObjectGraphZero\ObjectGraphZero.csproj" />
 	</ItemGroup>
 
 </Project>

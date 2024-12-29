@@ -4,6 +4,10 @@
 		<Node Title="Home Page" ActionKey="HomePage" Argument=""/>
 	</Node>
 
+	<Node Title="Localization">
+		<Node Title="Localization Sample" ActionKey="LocalizationSamplePage" Argument=""/>
+	</Node>
+
 	<Node Title="Controls">
 		<Node Title="ListView" ActionKey="ListView" Argument=""/>
 		<Node Title="TreeView" ActionKey="TreeView" Argument=""/>
@@ -14,20 +18,5 @@
 		<Node Title="TreeGrid" ActionKey="TreeGridExperimentalPage" Argument=""/>
 	</Node>
 
-
-	<Node Title="Test" >
-		<!--<Node Title="Memory Test" ActionKey="MemoryTest" Argument=""/>-->
-		<Node Title="Nest 1-1" >
-			<Node Title="Nest 1-2">
-				<Node Title="Nest 1-3"/>
-			</Node>
-		</Node>
-		<Node Title="Nest 2-1" >
-			<Node Title="Nest 2-2">
-				<Node Title="Nest 2-3"/>
-			</Node>
-		</Node>
-
-	</Node>
 
 </Root>

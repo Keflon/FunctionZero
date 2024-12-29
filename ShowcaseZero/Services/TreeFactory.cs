@@ -3,6 +3,7 @@ using FunctionZero.ObjectGraphZero.Factory;
 using SampleApp.Mvvm.ViewModels;
 using ShowcaseZero.Mvvm.PageViewModels;
 using ShowcaseZero.Mvvm.PageViewModels.ListView;
+using ShowcaseZero.Mvvm.PageViewModels.Localization;
 using ShowcaseZero.Mvvm.PageViewModels.TreeGrid;
 using ShowcaseZero.Mvvm.PageViewModels.TreeView;
 using System.Collections.ObjectModel;
@@ -22,6 +23,7 @@ namespace FunctionZero.Maui.Showcase.Services
             _actionLookup = new Dictionary<string, Action<object>>
             {
                 {"HomePage",   (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<HomePageVm>(true, vm => { }) },
+                {"LocalizationSamplePage",   (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<LocalizationSamplePageVm>(true, vm => { }) },
                 {"ListView",   (flyoutItemVm) => _pageService.FlyoutController.Detail = _pageService.GetMultiPage(vm=>true, typeof(ListViewAboutPageVm), typeof(ListViewBasicPageVm))},
                 {"TreeView",   (flyoutItemVm) => _pageService.FlyoutController.Detail = _pageService.GetMultiPage(vm=>true, typeof(TreeViewAboutPageVm), typeof(TreeViewBasicPageVm))},
                 {"MaskView",   (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<HomePageVm>(true, vm => { }) },
@@ -29,7 +31,7 @@ namespace FunctionZero.Maui.Showcase.Services
                 {"TreeGridExperimentalPage",   (flyoutItemVm) => _pageService.FlyoutController.Detail = _pageService.GetMultiPage(vm=>true, typeof(TreeGridExperimentalPageVm))},
             };
         }
-        public object Result { get; set; }
+        public object Result { get; private set; }
 
         public bool Create(FactoryData factoryData, out object createdObject)
         {

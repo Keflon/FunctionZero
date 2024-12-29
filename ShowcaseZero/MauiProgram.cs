@@ -5,11 +5,13 @@ using FunctionZero.Maui.Showcase.Services;
 using Microsoft.Extensions.Logging;
 using ShowcaseZero.Mvvm.Pages;
 using ShowcaseZero.Mvvm.Pages.ListView;
+using ShowcaseZero.Mvvm.Pages.Localization;
 using ShowcaseZero.Mvvm.Pages.TreeGrid;
 using ShowcaseZero.Mvvm.Pages.TreeView;
 using ShowcaseZero.Mvvm.PageViewModels;
 using ShowcaseZero.Mvvm.PageViewModels.Flyout;
 using ShowcaseZero.Mvvm.PageViewModels.ListView;
+using ShowcaseZero.Mvvm.PageViewModels.Localization;
 using ShowcaseZero.Mvvm.PageViewModels.TreeGrid;
 using ShowcaseZero.Mvvm.PageViewModels.TreeView;
 
@@ -34,7 +36,8 @@ namespace ShowcaseZero
                     .MapVmToView<TreeViewAboutPageVm, TreeViewAboutPage>()
                     .MapVmToView<TreeViewBasicPageVm, TreeViewBasicPage>()
                     .MapVmToView<TreeGridExperimentalPageVm, TreeGridExperimentalPage>()
-
+                    .MapVmToView<LocalizationSamplePageVm, LocalizationSamplePage>()
+                    
 
                     ;
                 })
@@ -68,6 +71,8 @@ namespace ShowcaseZero
                 .AddSingleton<FlyoutFlyoutPage>()
                 .AddSingleton<TreeGridExperimentalPageVm>()
                 .AddSingleton<TreeGridExperimentalPage>()
+                .AddSingleton<LocalizationSamplePageVm>()
+                .AddSingleton<LocalizationSamplePage>()
 
                 .AddSingleton<FlyoutFlyoutTreeBuilder>()
                 .AddSingleton<TreeFactory>()

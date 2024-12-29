@@ -91,6 +91,9 @@
 	  <MauiXaml Update="Mvvm\Pages\ListView\ListViewBasicPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Mvvm\Pages\Localization\LocalizationSamplePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Mvvm\Pages\TreeGrid\TreeGridExperimentalPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
