@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FunctionZero.Maui.BackingStore
+namespace FunctionZero.Maui.BackingStore 
 {
     public class BindableBackingStore : IBackingStore
     {

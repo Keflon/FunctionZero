@@ -25,6 +25,7 @@
 #endregion
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using FunctionZero.ExpressionParserZero.Exceptions;
@@ -188,14 +189,14 @@ namespace FunctionZero.ExpressionParserZero.Parser
 
             //return number;
             if (hasDecimal)
-                return new Operand(anchor, OperandType.Double, double.Parse(number));
+                return new Operand(anchor, OperandType.Double, double.Parse(number, CultureInfo.InvariantCulture));
             else
             {
                 // This matches csharp. var <someNumber> will be an int or long if it's too big.
                 if (int.TryParse(number, out var intNumber))
                     return new Operand(anchor, OperandType.Int, intNumber);
                 else
-                    return new Operand(anchor, OperandType.Long, long.Parse(number));
+                    return new Operand(anchor, OperandType.Long, long.Parse(number, CultureInfo.InvariantCulture));
             }
         }
 
