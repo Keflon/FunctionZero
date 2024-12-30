@@ -23,15 +23,15 @@ namespace FunctionZero.Maui.Showcase.Services
             {
                 using var stream = await FileSystem.OpenAppPackageFileAsync("FlyoutTree.xml");
                 using var reader = new XmlTextReader(stream);
+                {
+                    _factory.ResetState();
 
-                _factory.ResetState();
+                    var result = ObjectGraphZero.XmlDeserializer.BuildObjectGraphFromXml(reader, _factory).Result;
 
-                var result = FunctionZero.ObjectGraphZero.XmlDeserializer.BuildObjectGraphFromXml(reader, _factory).Result;
-
-                reader.Close();
-                stream.Close();
-
-                return (ObservableCollection<FlyoutItemVm>)result;
+                    //reader.Close();
+                    //stream.Close();
+                    return (ObservableCollection<FlyoutItemVm>)result;
+                }
             }
             catch (Exception ex)
             {

@@ -1,6 +1,5 @@
 ﻿using FunctionZero.Maui.MvvmZero;
-using FunctionZero.Maui.Showcase.Mvvm.Pages.Flyout;
-using Microsoft.Maui.Controls;
+using ShowcaseZero.Localization;
 using ShowcaseZero.Mvvm.PageViewModels.Flyout;
 
 namespace ShowcaseZero
@@ -9,13 +8,17 @@ namespace ShowcaseZero
     {
         private IPageServiceZero _pageService;
 
-        public App(IPageServiceZero pageService)
+        public App(IPageServiceZero pageService, LocalizationService langService)
         {
             _pageService = pageService;
+            InitializeComponent();
+
             _pageService.Init(this);
+            Task.Run(() => langService.InitAsync(this.Resources, "english")).Wait();
+
+            //var t = langService.GetText(LocalizationStrings.E_Hello);
 
             pageService.FlyoutController.FlyoutLayoutBehavior = FlyoutLayoutBehavior.Popover;
-            InitializeComponent();
         }
 
         protected override Window CreateWindow(IActivationState? activationState)

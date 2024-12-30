@@ -1,6 +1,7 @@
 ﻿using FunctionZero.Maui.MvvmZero;
 using FunctionZero.Maui.Showcase.Services;
 using SampleApp.Mvvm.ViewModels;
+using ShowcaseZero.Mvvm.PageViewModels.Localization;
 using ShowcaseZero.Mvvm.PageViewModels.TreeGrid;
 using System.Collections.ObjectModel;
 
@@ -24,7 +25,8 @@ namespace ShowcaseZero.Mvvm.PageViewModels.Flyout
         public override void OnOwnerPageAppearing()
         {
             base.OnOwnerPageAppearing();
-            _pageService.FlyoutController.SetDetailVm<TreeGridExperimentalPageVm>(true, vm => { });
+            //_pageService.FlyoutController.SetDetailVm<TreeGridExperimentalPageVm>(true, vm => { });
+            _pageService.FlyoutController.SetDetailVm<LocalizationSamplePageVm>(true, vm => { });
         }
     }
 }

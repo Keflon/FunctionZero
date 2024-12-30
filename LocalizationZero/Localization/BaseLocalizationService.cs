@@ -26,10 +26,10 @@ namespace LocalizationZero.Localization
             _languages = new();
         }
 
-        public void Init(ResourceDictionary resourceHost, string initialLanguage)
+        public async Task InitAsync(ResourceDictionary resourceHost, string initialLanguage)
         {
             _resourceHost = resourceHost;
-            SetLanguage(initialLanguage);
+            await SetLanguageAsync(initialLanguage);
         }
 
         public void RegisterLanguage(string id, LocalizationProvider language)
@@ -43,13 +43,13 @@ namespace LocalizationZero.Localization
         /// <param name="resourceHost"></param>
         /// <param name="id"></param>
         /// <exception cref="Exception"></exception>
-        public void SetLanguage(string id)
+        public async Task SetLanguageAsync(string id)
         {
             if (_resourceHost == null)
                 throw new InvalidOperationException("You must call Init on the LanguageService before you call SetLanguage(string id), e.g. Init(Application.Current.Resources);");
 
             if (_languages.TryGetValue(id, out var languageService))
-                _resourceHost[_resourceKey] = languageService.GetLookup();
+                _resourceHost[_resourceKey] = await languageService.GetLocalizationPackAsync();
             else
                 throw new Exception($"Register a language before trying to set it. Language: '{id}' ");
 
@@ -61,14 +61,14 @@ namespace LocalizationZero.Localization
 
         //public string[] CurrentLookup => _resourceHost[_resourceKey] as string[];
 
-
+        [Obsolete]
         public string GetText(TEnum textId, params object[] arguments)
         {
             if (_resourceHost == null)
                 throw new InvalidOperationException("You must call Init on the LanguageService before you call SetLanguage(string id), e.g. Init(Application.Current.Resources);");
 
             LocalizationProvider currentLanguage = _languages[CurrentLanguageId];
-            return currentLanguage.GetLookup().GetString((int)(object)textId, arguments);
+            return ((LocalizationPack)_resourceHost[_resourceKey]).GetString((int)(object)textId, arguments);
         }
     }
 }

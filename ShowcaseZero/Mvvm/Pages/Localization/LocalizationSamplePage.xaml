@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:z="clr-namespace:FunctionZero.Maui.zBind.z;assembly=FunctionZero.Maui.BindZero" 
+             xmlns:tz="clr-namespace:ShowcaseZero.Localization"
              x:Class="ShowcaseZero.Mvvm.Pages.Localization.LocalizationSamplePage"
              Title="LocalizationSamplePage">
     <VerticalStackLayout>
         <Label 
-            Text="Welcome to LocalizationSamplePage!"
+            Text="{tz:Lang TextId=E_Hello}"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+        <Label 
+            Text="{tz:Lang TextId=E_CatsAndDogs, Arguments={z:MultiBind 'NumCats, NumDogs'}}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
     </VerticalStackLayout>

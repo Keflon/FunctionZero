@@ -5,34 +5,34 @@ namespace LocalizationZero.Localization
 {
     public class LocalizationProvider
     {
-        public LocalizationProvider(Func<Stream> inputStreamGetter)
+        public LocalizationProvider(Func<Task<Stream>> xmlInputStreamGetter, string localizedName)
         {
-            using var stream = inputStreamGetter();
-            using var reader = new XmlTextReader(stream);
+            GetLocalizationPackAsync = async () =>
             {
-                var factory = new LocalizationPackFactory();
-
-                factory.ResetState();
-
-                var result = ((LocalizationPack LocalizationPack, string languageName))FunctionZero.ObjectGraphZero.XmlDeserializer.BuildObjectGraphFromXml(reader, factory).Result;
-
-                GetLookup = () => result.LocalizationPack;
-                LanguageName = result.languageName;
-            }
+                using var stream = await xmlInputStreamGetter();
+                using var reader = new XmlTextReader(stream);
+                {
+                    var factory = new LocalizationPackFactory();
+                    return (LocalizationPack)FunctionZero.ObjectGraphZero.XmlDeserializer.BuildObjectGraphFromXml(reader, factory).Result;
+                }
+            };
+            LocalizedName = localizedName;
         }
-        public LocalizationProvider(Func<LocalizationPack> getLookup, string languageName)
+
+        public LocalizationProvider(Func<LocalizationPack> getLookup, string localizedName)
         {
-            GetLookup = getLookup;
-            LanguageName = languageName;
+            GetLocalizationPackAsync = async () => getLookup();
+            LocalizedName = localizedName;
         }
-        public LocalizationProvider(Func<IEnumerable<string>> getLookup, string languageName)
+
+        public LocalizationProvider(Func<IEnumerable<string>> getLookup, string localizedName)
         {
-            GetLookup = () => GetLocalizationPackFromStringList(getLookup);
-            LanguageName = languageName;
+            GetLocalizationPackAsync = async () => GetLocalizationPackFromStringList(getLookup, localizedName);
+            LocalizedName = localizedName;
         }
 
 
-        private LocalizationPack GetLocalizationPackFromStringList(Func<IEnumerable<string>> getLookup)
+        private LocalizationPack GetLocalizationPackFromStringList(Func<IEnumerable<string>> getLookup, string localizedName)
         {
             // LocalizationPack
             //    LocalizationRecord      each translation
@@ -48,13 +48,13 @@ namespace LocalizationZero.Localization
                 recordList.Add(new LocalizationRecord(localizationItemList));
             }
 
-            return new LocalizationPack(recordList);
+            return new LocalizationPack(recordList, LocalizedName);
         }
 
 
 
 
-        public Func<LocalizationPack> GetLookup { get; }
-        public string LanguageName { get; }
+        public Func<Task<LocalizationPack>> GetLocalizationPackAsync { get; }
+        public string LocalizedName { get; }
     }
 }

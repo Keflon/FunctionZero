@@ -74,6 +74,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\BindZero\BindZero.csproj" />
 	  <ProjectReference Include="..\ControlsZero\ControlsZero.csproj" />
+	  <ProjectReference Include="..\LocalizationZero\LocalizationZero.csproj" />
 	  <ProjectReference Include="..\MvvmZero\MvvmZero.csproj" />
 	  <ProjectReference Include="..\ObjectGraphZero\ObjectGraphZero.csproj" />
 	</ItemGroup>

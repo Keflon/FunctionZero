@@ -5,12 +5,13 @@ namespace LocalizationZero.Factory
 {
     internal class LocalizationRecordProxy : IObjectConsumer
     {
-
-
-        public LocalizationRecordProxy(string id)
+        char[] comma = { ',' };
+        public string[] Parameters { get; }
+        public LocalizationRecordProxy(string id, string parameters)
         {
             Id = id;
-            Items = new List<LocalizationItem>()
+            Parameters = parameters?.Split(comma, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries) ?? new string[0];
+            Items = new List<LocalizationItem>();
         }
 
         public IList<LocalizationItem> Items { get; }

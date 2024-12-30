@@ -1,4 +1,5 @@
-﻿using FunctionZero.ObjectGraphZero.Factory;
+﻿using FunctionZero.ObjectGraphZero;
+using FunctionZero.ObjectGraphZero.Factory;
 using LocalizationZero.Localization;
 
 namespace LocalizationZero.Factory
@@ -21,23 +22,27 @@ namespace LocalizationZero.Factory
                 case "LocalizationPack":
                     {
                         string language;
-                        string friendlyName;
+                        string localizedName;
                         if (factoryData.Attributes.TryGetValue("Language", out language) == false)
                             throw new InvalidDataException($"Expected 'Language' attribute in 'LocalizationPack' element");
 
-                        if (factoryData.Attributes.TryGetValue("FriendlyName", out friendlyName) == false)
-                            throw new InvalidDataException($"Expected 'FriendlyName' attribute in 'LocalizationPack' element");
+                        if (factoryData.Attributes.TryGetValue("LocalizedName", out localizedName) == false)
+                            throw new InvalidDataException($"Expected 'LocalizedName' attribute in 'LocalizationPack' element");
 
-                        createdObject = new LocalizationPackProxy(language, friendlyName);
+                        createdObject = new LocalizationPackProxy(language, localizedName);
                         return true;
                     }
                 case "Record":
                     {
                         string id;
+                        string? parameters;
                         if (factoryData.Attributes.TryGetValue("Id", out id) == false)
                             throw new InvalidDataException($"Expected 'Id' attribute in 'Record' element");
 
-                        createdObject = new LocalizationRecordProxy(id);
+                        factoryData.Attributes.TryGetValue("Parameters", out parameters);
+
+                        createdObject = new LocalizationRecordProxy(id, parameters);
+
                         return true;
                     }
                 case "Item":
@@ -62,23 +67,26 @@ namespace LocalizationZero.Factory
 
         public void Created(object createdObject, string untrimmedContent, object parentObject)
         {
-            if(createdObject is LocalizationPackProxy localizationPackProxy)
+            if (parentObject is IObjectConsumer consumer)
+                consumer.ConsumeObject(createdObject);
+
+            if (createdObject is LocalizationPackProxy localizationPackProxy)
             {
                 // Create a LocalizationPack from the list of LocalizationRecord instances and set the Result.
 
                 if (Result != null)
                     throw new InvalidOperationException("There is more than one root LocalizationPack Element");
 
-                (LocalizationPack LocalizationPack, string languageName) result = (new LocalizationPack(_localizationRecordList), localizationPackProxy.FriendlyName);
+                var result = new LocalizationPack(_localizationRecordList, localizationPackProxy.LocalizedName);
                 Result = result;
             }
             else if (createdObject is LocalizationRecordProxy localizationRecordProxy)
             {
                 // Create a LocalizationRecord and add it to a list.
-                var record = new LocalizationRecord(localizationRecordProxy.Items);
+                var record = new LocalizationRecord(localizationRecordProxy.Items, localizationRecordProxy.Parameters);
                 _localizationRecordList.Add(record);
             }
-            else if(createdObject is LocalizationItem)
+            else if (createdObject is LocalizationItem)
             {
                 // Do nothing.
             }

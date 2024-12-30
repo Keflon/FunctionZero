@@ -9,12 +9,15 @@ namespace LocalizationZero.Localization
 {
     public class LocalizationPack
     {
-        public LocalizationPack(IList<LocalizationRecord> localizationRecords)
+        public LocalizationPack(IList<LocalizationRecord> localizationRecords, string languageName)
         {
             LocalizationRecords = localizationRecords;
+            LanguageName = languageName;
         }
 
         public IList<LocalizationRecord> LocalizationRecords { get; }
+        public string LanguageName { get; }
+
         public int RecordCount => LocalizationRecords.Count;
 
         public string GetString(int index, object[] arguments)

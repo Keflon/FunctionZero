@@ -1,14 +1,29 @@
-﻿namespace LocalizationZero.Factory
+﻿using FunctionZero.ObjectGraphZero;
+
+namespace LocalizationZero.Factory
 {
-    internal class LocalizationPackProxy
+    internal class LocalizationPackProxy : IObjectConsumer
     {
-        public LocalizationPackProxy(string language, string friendlyName)
+        public LocalizationPackProxy(string language, string localizedName)
         {
             Language = language;
-            FriendlyName = friendlyName;
+            LocalizedName = localizedName;
         }
 
         public string Language { get; }
-        public string FriendlyName { get; }
+        public string LocalizedName { get; }
+
+        public bool ConsumeObject(object o)
+        {
+            //if (o is LocalizationItem item)
+            //{
+            //    Items.Add(item);
+            //    return true;
+            //}
+            //else
+            //    throw new InvalidDataException($"LocalizationRecord cannot consume a {o.ToString()}");
+
+            return true;
+        }
     }
 }
