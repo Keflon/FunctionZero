@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<LocalizationPack Language="en-gb" LocalizedName="Portugese">
+
+	<Record Id="_E_CountryCode">
+		<Item Condition="true" Text="PT"/>
+	</Record>
+
+	<Record Id="_E_FlagAssetName">
+		<Item Condition="true" Text="pt.png"/>
+	</Record>
+
+	<Record Id="E_Hello">
+		<Item Condition="True" Text="[PT] Hello"/>
+	</Record>
+
+	<Record Id="E_NumberOfCats">
+		<Item Condition="True" Text="[PT] Number of cats:"/>
+	</Record>
+
+	<Record Id="E_NumberOfDogs">
+		<Item Condition="True" Text="[PT] Number of dogs:"/>
+	</Record>
+
+	<Record Id="E_Cats" Parameters="NumCats">
+		<Item Condition="NumCats == 0" Text="[PT] There are no cats"/>
+		<Item Condition="NumCats == 1" Text="[PT] You have a cat"/>
+		<Item Condition="NumCats == 5" Text="[PT] There are FIVE cats"/>
+		<Item Condition="true" Text="[PT] There are {NumCats} cats"/>
+	</Record>
+
+	<Record Id="E_Dogs" Parameters="NumDogs">
+		<Item Condition="NumDogs == 0" Text="[PT] There are no dogs"/>
+		<Item Condition="NumDogs == 1" Text="[PT] You have a dog"/>
+		<Item Condition="NumDogs == 5" Text="[PT] There are FIVE dogs"/>
+		<Item Condition="true" Text="[PT] There are {NumDogs} dogs"/>
+	</Record>
+
+	<Record Id="E_CatsAndDogs" Parameters="NumCats, NumDogs">
+		<Item Condition="NumCats == 0 AND NumDogs==0" Text="[PT] There are no cats or dogs"/>
+		<Item Condition="NumCats == 0 AND NumDogs==1" Text="[PT] You have a lonely dog"/>
+		<Item Condition="NumCats == 1 AND NumDogs==0" Text="[PT] You have a lonely cat"/>
+
+		<Item Condition="NumCats == 1 AND NumDogs==1" Text="[PT] You have one dog and one cat"/>
+		
+		<Item Condition="NumDogs==1 AND NumCats==2" Text="[PT] You have one dog and twice as many cats"/>
+		<Item Condition="NumCats==1 AND NumDogs==2" Text="[PT] You have one cat and twice as many dogs"/>
+
+		<Item Condition="NumCats == NumDogs" Text="[PT] You have {NumCats} cats and dogs"/>
+
+		<Item Condition="NumCats == NumDogs-1" Text="[PT] You have {NumCats} cats and one fewer dogs"/>
+		<Item Condition="NumCats GT NumDogs" Text="[PT] You have {NumCats} cats and {NumCats-NumDogs} fewer dogs"/>
+
+		<Item Condition="NumDogs == NumCats-1" Text="[PT] You have {NumDogs} dogs and one fewer cats"/>
+		<Item Condition="NumDogs GT NumCats" Text="[PT] You have {NumDogs} cats and {NumDogs-NumCats} fewer dogs"/>
+
+		<Item Condition="true" Text="[PT] Fallback text"/>
+	</Record>
+
+</LocalizationPack>
