@@ -27,6 +27,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestClassLibrary", "TestCla
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandZero", "CommandZero\CommandZero.csproj", "{0EF7BB1C-8E50-6B3B-B350-8D844ECC1459}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectionsZero", "CollectionsZero\CollectionsZero.csproj", "{2975B7C0-ACD9-4D3B-9661-3FCBADCBBEF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "TestProject\TestProject.csproj", "{4766A957-A9EE-4B02-B545-BAA1517C7477}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +87,14 @@ Global
 		{0EF7BB1C-8E50-6B3B-B350-8D844ECC1459}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EF7BB1C-8E50-6B3B-B350-8D844ECC1459}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EF7BB1C-8E50-6B3B-B350-8D844ECC1459}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2975B7C0-ACD9-4D3B-9661-3FCBADCBBEF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2975B7C0-ACD9-4D3B-9661-3FCBADCBBEF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2975B7C0-ACD9-4D3B-9661-3FCBADCBBEF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2975B7C0-ACD9-4D3B-9661-3FCBADCBBEF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4766A957-A9EE-4B02-B545-BAA1517C7477}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4766A957-A9EE-4B02-B545-BAA1517C7477}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4766A957-A9EE-4B02-B545-BAA1517C7477}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4766A957-A9EE-4B02-B545-BAA1517C7477}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
