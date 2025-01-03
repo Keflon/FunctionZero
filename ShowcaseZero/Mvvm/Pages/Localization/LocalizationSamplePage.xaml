@@ -8,12 +8,12 @@
              x:Name="Self">
     <VerticalStackLayout>
         <FlexLayout BackgroundColor="White" Margin="50,0,10,50" VerticalOptions="Start" HorizontalOptions="Center"
-                        Direction="Row" 
-                        Wrap="Wrap" 
-                        AlignItems="Center" 
-                        AlignContent="Start" 
-                        BindableLayout.ItemsSource="{Binding LocalizationItems}"
-                    >
+            Direction="Row" 
+            Wrap="Wrap" 
+            AlignItems="Center" 
+            AlignContent="Start" 
+            BindableLayout.ItemsSource="{Binding LocalizationItems}"
+        >
             <BindableLayout.ItemTemplate>
                 <DataTemplate>
                     <Grid ColumnDefinitions="Auto,Auto" BackgroundColor="AliceBlue" Margin="2">
@@ -28,14 +28,28 @@
 
         </FlexLayout>
 
-        <Label Text="{tz:Lang TextId=E_NumberOfCats, Arguments={z:MultiBind 'NumCats'}}"/>
-        <Slider Minimum="0" Maximum="5" Value="{Binding NumCats}"/>
-        <Label Text="{tz:Lang TextId=E_NumberOfDogs, Arguments={z:MultiBind 'NumDogs'}}"/>
-        <Slider Minimum="0" Maximum="5" Value="{Binding NumDogs}"/>
         <Label 
             Text="{tz:Lang TextId=E_Hello}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+        <Border Stroke="Yellow"
+                Margin="50,10,50,10"
+                HorizontalOptions="Fill"
+            StrokeThickness="4"
+            Background="Pink"
+            Padding="16,8"
+        >
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="40,0,0,40" />
+            </Border.StrokeShape>
+            <VerticalStackLayout>
+                <Label Text="{tz:Lang TextId=E_NumberOfCats, Arguments={z:MultiBind 'NumCats'}}"/>
+                <Slider  Minimum="0" Maximum="5" Value="{Binding NumCats}"/>
+                <Label Text="{tz:Lang TextId=E_NumberOfDogs, Arguments={z:MultiBind 'NumDogs'}}"/>
+                <Slider Minimum="0" Maximum="5" Value="{Binding NumDogs}"/>
+            </VerticalStackLayout>
+        </Border>
+
         <!--<Label 
             Text="{tz:Lang TextId=E_Cats, Arguments={z:MultiBind 'NumCats'}}"
             VerticalOptions="Center" 
@@ -44,6 +58,7 @@
             Text="{tz:Lang TextId=E_Dogs, Arguments={z:MultiBind 'NumDogs'}}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />-->
+        
         <Label 
             Text="{tz:Lang TextId=E_CatsAndDogs, Arguments={z:MultiBind 'NumCats, NumDogs'}}"
             VerticalOptions="Center" 
