@@ -4,12 +4,46 @@
              xmlns:z="clr-namespace:FunctionZero.Maui.zBind.z;assembly=FunctionZero.Maui.BindZero" 
              xmlns:tz="clr-namespace:ShowcaseZero.Localization"
              x:Class="ShowcaseZero.Mvvm.Pages.Localization.LocalizationSamplePage"
-             Title="LocalizationSamplePage">
+             Title="LocalizationSamplePage"
+             x:Name="Self">
     <VerticalStackLayout>
+        <FlexLayout BackgroundColor="White" Margin="50,0,10,50" VerticalOptions="Start" HorizontalOptions="Center"
+                        Direction="Row" 
+                        Wrap="Wrap" 
+                        AlignItems="Center" 
+                        AlignContent="Start" 
+                        BindableLayout.ItemsSource="{Binding LocalizationItems}"
+                    >
+            <BindableLayout.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="Auto,Auto" BackgroundColor="AliceBlue" Margin="2">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding BindingContext.SetLanguageCommand, Source={x:Reference Self}}" CommandParameter="{Binding LanguageName}"/>
+                        </Grid.GestureRecognizers>
+                        <Image Margin="10,13,10,13" Grid.Column="0" Source="{Binding ImageName}" WidthRequest="20" />
+                        <Label Margin="0,13,10,13" Grid.Column="1" Text="{Binding Text}" VerticalOptions="Center" WidthRequest="90"/>
+                    </Grid>
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+
+        </FlexLayout>
+
+        <Label Text="{tz:Lang TextId=E_NumberOfCats, Arguments={z:MultiBind 'NumCats'}}"/>
+        <Slider Minimum="0" Maximum="5" Value="{Binding NumCats}"/>
+        <Label Text="{tz:Lang TextId=E_NumberOfDogs, Arguments={z:MultiBind 'NumDogs'}}"/>
+        <Slider Minimum="0" Maximum="5" Value="{Binding NumDogs}"/>
         <Label 
             Text="{tz:Lang TextId=E_Hello}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+        <!--<Label 
+            Text="{tz:Lang TextId=E_Cats, Arguments={z:MultiBind 'NumCats'}}"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+        <Label 
+            Text="{tz:Lang TextId=E_Dogs, Arguments={z:MultiBind 'NumDogs'}}"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />-->
         <Label 
             Text="{tz:Lang TextId=E_CatsAndDogs, Arguments={z:MultiBind 'NumCats, NumDogs'}}"
             VerticalOptions="Center" 

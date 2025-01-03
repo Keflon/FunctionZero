@@ -6,7 +6,13 @@
     /// </summary>
     public enum LocalizationStrings
     {
-        E_Hello = 0,
+        _E_CountryCode = 0,
+        _E_FlagAssetName,
+        E_Hello,
+        E_NumberOfCats,
+        E_NumberOfDogs,
+        E_Cats,
+        E_Dogs,
         E_CatsAndDogs
     }
 }

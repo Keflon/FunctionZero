@@ -91,7 +91,7 @@ namespace ShowcaseZero
             var localisationService = new LocalizationService();
 
             localisationService.RegisterLanguage("english", new LocalizationProvider(()=>FileSystem.OpenAppPackageFileAsync("Localization/en-GB.xml"),"English"));
-            localisationService.RegisterLanguage("german", new LocalizationProvider(()=>FileSystem.OpenAppPackageFileAsync("Localization/de-DE.xml"),"English"));
+            localisationService.RegisterLanguage("german", new LocalizationProvider(()=>FileSystem.OpenAppPackageFileAsync("Localization/de-DE.xml"), "Deutsch"));
 
 
 
