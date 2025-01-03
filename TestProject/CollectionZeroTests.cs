@@ -25,6 +25,16 @@ namespace TestProject
             collection.Clear();
 
         }
+
+
+        [TestMethod]
+        public void TestPrePopulate()
+        {
+            List<int> values = new List<int> { 1, 2, 3, 4, 5 };
+            var collection = new ObsCollZero<int>(AttachItem, DetachItem, values);
+            collection.Clear();
+        }
+
         private void AttachItem(int obj)
         {
             Debug.WriteLine($"Attached to {obj}");

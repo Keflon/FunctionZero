@@ -17,15 +17,21 @@ namespace CollectionsZero
             _attachAction = attachAction ?? ((T t) => { });
             _detachAction = detachAction ?? ((T t) => { });
         }
-        public ObsCollZero(Action<T> attachAction, Action<T> detachAction, IEnumerable<T> values) : base(values)
+        public ObsCollZero(Action<T> attachAction, Action<T> detachAction, IEnumerable<T> values)
         {
             _attachAction = attachAction ?? ((T t) => { });
             _detachAction = detachAction ?? ((T t) => { });
+
+            foreach (var item in values)
+                Add(item);
         }
-        public ObsCollZero(Action<T> attachAction, Action<T> detachAction, List<T> values) : base(values)
+        public ObsCollZero(Action<T> attachAction, Action<T> detachAction, List<T> values)
         {
             _attachAction = attachAction ?? ((T t) => { });
             _detachAction = detachAction ?? ((T t) => { });
+
+            foreach (var item in values)
+                Add(item);
         }
 
 
