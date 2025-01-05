@@ -50,14 +50,14 @@
             </VerticalStackLayout>
         </Border>
 
-        <!--<Label 
+        <Label 
             Text="{tz:Lang TextId=E_Cats, Arguments={z:MultiBind 'NumCats'}}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
         <Label 
             Text="{tz:Lang TextId=E_Dogs, Arguments={z:MultiBind 'NumDogs'}}"
             VerticalOptions="Center" 
-            HorizontalOptions="Center" />-->
+            HorizontalOptions="Center" />
         
         <Label 
             Text="{tz:Lang TextId=E_CatsAndDogs, Arguments={z:MultiBind 'NumCats, NumDogs'}}"

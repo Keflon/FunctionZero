@@ -41,7 +41,7 @@
 	<PropertyGroup Condition="'$(TargetFramework)'=='net9.0-ios'">
 	  <ProvisioningType>automatic</ProvisioningType>
 	  <CodesignProvision>VS: WildCard Development</CodesignProvision>
-	  <CodesignKey>Apple Development: Created via API (DTXY4DL62C)</CodesignKey>
+	  <CodesignKey>Apple Development: Created via API (VL6MQFW74S)</CodesignKey>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -93,6 +93,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Mvvm\Pages\Localization\LocalizationSamplePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Mvvm\Pages\MaskView\MaskViewPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Mvvm\Pages\TreeGrid\TreeGridExperimentalPage.xaml">

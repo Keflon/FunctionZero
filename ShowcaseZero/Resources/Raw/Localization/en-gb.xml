@@ -51,7 +51,7 @@
 		<Item Condition="NumCats GT NumDogs" Text="You have {NumCats} cats and {NumCats-NumDogs} fewer dogs"/>
 
 		<Item Condition="NumDogs == NumCats-1" Text="You have {NumDogs} dogs and one fewer cats"/>
-		<Item Condition="NumDogs GT NumCats" Text="You have {NumDogs} cats and {NumDogs-NumCats} fewer dogs"/>
+		<Item Condition="NumDogs GT NumCats" Text="You have {NumDogs} dogs and {NumDogs-NumCats} fewer cats"/>
 
 		<Item Condition="true" Text="Fallback text"/>
 	</Record>

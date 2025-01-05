@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<LocalizationPack Language="en-gb" LocalizedName="Portugese">
+<LocalizationPack Language="pt-pt" LocalizedName="English">
 
 	<Record Id="_E_CountryCode">
 		<Item Condition="true" Text="PT"/>
@@ -10,50 +10,50 @@
 	</Record>
 
 	<Record Id="E_Hello">
-		<Item Condition="True" Text="[PT] Hello"/>
+		<Item Condition="True" Text="Olá"/>
 	</Record>
 
 	<Record Id="E_NumberOfCats">
-		<Item Condition="True" Text="[PT] Number of cats:"/>
+		<Item Condition="True" Text="Montante dos gatos:"/>
 	</Record>
 
 	<Record Id="E_NumberOfDogs">
-		<Item Condition="True" Text="[PT] Number of dogs:"/>
+		<Item Condition="True" Text="Montante dos cães:"/>
 	</Record>
 
 	<Record Id="E_Cats" Parameters="NumCats">
-		<Item Condition="NumCats == 0" Text="[PT] There are no cats"/>
-		<Item Condition="NumCats == 1" Text="[PT] You have a cat"/>
-		<Item Condition="NumCats == 5" Text="[PT] There are FIVE cats"/>
-		<Item Condition="true" Text="[PT] There are {NumCats} cats"/>
+		<Item Condition="NumCats == 0" Text="Não há gatos"/>
+		<Item Condition="NumCats == 1" Text="Tens um gato"/>
+		<Item Condition="NumCats == 5" Text="Tens CINCO gatos"/>
+		<Item Condition="true" Text="Há {NumCats} gatos"/>
 	</Record>
 
 	<Record Id="E_Dogs" Parameters="NumDogs">
-		<Item Condition="NumDogs == 0" Text="[PT] There are no dogs"/>
-		<Item Condition="NumDogs == 1" Text="[PT] You have a dog"/>
-		<Item Condition="NumDogs == 5" Text="[PT] There are FIVE dogs"/>
-		<Item Condition="true" Text="[PT] There are {NumDogs} dogs"/>
+		<Item Condition="NumDogs == 0" Text="Não há cães"/>
+		<Item Condition="NumDogs == 1" Text="Tens um cão"/>
+		<Item Condition="NumDogs == 5" Text="Tens CINCO cães"/>
+		<Item Condition="true" Text="Há {NumDogs} cães"/>
 	</Record>
 
 	<Record Id="E_CatsAndDogs" Parameters="NumCats, NumDogs">
-		<Item Condition="NumCats == 0 AND NumDogs==0" Text="[PT] There are no cats or dogs"/>
-		<Item Condition="NumCats == 0 AND NumDogs==1" Text="[PT] You have a lonely dog"/>
-		<Item Condition="NumCats == 1 AND NumDogs==0" Text="[PT] You have a lonely cat"/>
+		<Item Condition="NumCats == 0 AND NumDogs==0" Text="Não é nenhum gatos nem cães"/>
+		<Item Condition="NumCats == 0 AND NumDogs==1" Text="Tens um cão sozinho"/>
+		<Item Condition="NumCats == 1 AND NumDogs==0" Text="Tens um gato sozinho"/>
 
-		<Item Condition="NumCats == 1 AND NumDogs==1" Text="[PT] You have one dog and one cat"/>
-		
-		<Item Condition="NumDogs==1 AND NumCats==2" Text="[PT] You have one dog and twice as many cats"/>
-		<Item Condition="NumCats==1 AND NumDogs==2" Text="[PT] You have one cat and twice as many dogs"/>
+		<Item Condition="NumCats == 1 AND NumDogs==1" Text="Tens um gato e um cão"/>
 
-		<Item Condition="NumCats == NumDogs" Text="[PT] You have {NumCats} cats and dogs"/>
+		<Item Condition="NumDogs==1 AND NumCats==2" Text="Tens um cão e dobrar o montante dos gatos"/>
+		<Item Condition="NumCats==1 AND NumDogs==2" Text="Tens um gato e dobrar o montante dos cães"/>
 
-		<Item Condition="NumCats == NumDogs-1" Text="[PT] You have {NumCats} cats and one fewer dogs"/>
-		<Item Condition="NumCats GT NumDogs" Text="[PT] You have {NumCats} cats and {NumCats-NumDogs} fewer dogs"/>
+		<Item Condition="NumCats == NumDogs" Text="Tens {NumCats} gatos e cães"/>
 
-		<Item Condition="NumDogs == NumCats-1" Text="[PT] You have {NumDogs} dogs and one fewer cats"/>
-		<Item Condition="NumDogs GT NumCats" Text="[PT] You have {NumDogs} cats and {NumDogs-NumCats} fewer dogs"/>
+		<Item Condition="NumCats == NumDogs-1" Text="Tens {NumCats} gatos e menos um cão"/>
+		<Item Condition="NumCats GT NumDogs" Text="Tens {NumCats} gatos e {NumCats-NumDogs} menos cães"/>
 
-		<Item Condition="true" Text="[PT] Fallback text"/>
+		<Item Condition="NumDogs == NumCats-1" Text="Tens {NumDogs} cães e um menos cats"/>
+		<Item Condition="NumDogs GT NumCats" Text="Tens {NumDogs} gatos e {NumDogs-NumCats} menos cães"/>
+
+		<Item Condition="true" Text="Fallback text"/>
 	</Record>
 
 </LocalizationPack>

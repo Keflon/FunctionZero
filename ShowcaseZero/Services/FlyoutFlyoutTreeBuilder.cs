@@ -7,12 +7,10 @@ namespace FunctionZero.Maui.Showcase.Services
 {
     public class FlyoutFlyoutTreeBuilder
     {
-        private readonly IPageServiceZero _pageService;
         private readonly TreeFactory _factory;
 
-        public FlyoutFlyoutTreeBuilder(IPageServiceZero pageService, TreeFactory factory)
+        public FlyoutFlyoutTreeBuilder(TreeFactory factory)
         {
-            _pageService = pageService;
             _factory = factory;
         }
 
@@ -28,8 +26,6 @@ namespace FunctionZero.Maui.Showcase.Services
 
                     var result = ObjectGraphZero.XmlDeserializer.BuildObjectGraphFromXml(reader, _factory).Result;
 
-                    //reader.Close();
-                    //stream.Close();
                     return (ObservableCollection<FlyoutItemVm>)result;
                 }
             }

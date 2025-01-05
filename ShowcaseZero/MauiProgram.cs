@@ -8,12 +8,14 @@ using ShowcaseZero.Localization;
 using ShowcaseZero.Mvvm.Pages;
 using ShowcaseZero.Mvvm.Pages.ListView;
 using ShowcaseZero.Mvvm.Pages.Localization;
+using ShowcaseZero.Mvvm.Pages.MaskView;
 using ShowcaseZero.Mvvm.Pages.TreeGrid;
 using ShowcaseZero.Mvvm.Pages.TreeView;
 using ShowcaseZero.Mvvm.PageViewModels;
 using ShowcaseZero.Mvvm.PageViewModels.Flyout;
 using ShowcaseZero.Mvvm.PageViewModels.ListView;
 using ShowcaseZero.Mvvm.PageViewModels.Localization;
+using ShowcaseZero.Mvvm.PageViewModels.MaskView;
 using ShowcaseZero.Mvvm.PageViewModels.TreeGrid;
 using ShowcaseZero.Mvvm.PageViewModels.TreeView;
 
@@ -39,8 +41,10 @@ namespace ShowcaseZero
                     .MapVmToView<TreeViewBasicPageVm, TreeViewBasicPage>()
                     .MapVmToView<TreeGridExperimentalPageVm, TreeGridExperimentalPage>()
                     .MapVmToView<LocalizationSamplePageVm, LocalizationSamplePage>()
-                    
+                    .MapVmToView<MaskViewPageVm, MaskViewPage>()
 
+
+                    
                     ;
                 })
                 .ConfigureFonts(fonts =>
@@ -77,6 +81,8 @@ namespace ShowcaseZero
                 .AddSingleton<TreeGridExperimentalPage>()
                 .AddSingleton<LocalizationSamplePageVm>()
                 .AddSingleton<LocalizationSamplePage>()
+                .AddSingleton<MaskViewPage>()
+                .AddSingleton<MaskViewPageVm>()
 
                 .AddSingleton<FlyoutFlyoutTreeBuilder>()
                 .AddSingleton<TreeFactory>()

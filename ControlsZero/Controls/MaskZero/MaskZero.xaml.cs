@@ -579,7 +579,7 @@ public partial class MaskZero : ContentView
         var self = (MaskZero)bindable;
         self.AbortAnimation("MaskEdgeColorAnimation");
 
-        Color startValue = self.MaskColor;
+        Color startValue = self.MaskEdgeColor;
         Color endValue = newValue is Color ? (Color)newValue : Colors.Black;
         self.AnimateColor("MaskEdgeColorAnimation", startValue, endValue, (r, g, b) => { self.MaskEdgeColor = new Color(r, g, b); self.RequestUpdate(); });
 

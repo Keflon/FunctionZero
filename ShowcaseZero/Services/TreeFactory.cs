@@ -4,6 +4,7 @@ using SampleApp.Mvvm.ViewModels;
 using ShowcaseZero.Mvvm.PageViewModels;
 using ShowcaseZero.Mvvm.PageViewModels.ListView;
 using ShowcaseZero.Mvvm.PageViewModels.Localization;
+using ShowcaseZero.Mvvm.PageViewModels.MaskView;
 using ShowcaseZero.Mvvm.PageViewModels.TreeGrid;
 using ShowcaseZero.Mvvm.PageViewModels.TreeView;
 using System.Collections.ObjectModel;
@@ -26,7 +27,7 @@ namespace FunctionZero.Maui.Showcase.Services
                 {"LocalizationSamplePage",   (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<LocalizationSamplePageVm>(true, vm => { }) },
                 {"ListView",   (flyoutItemVm) => _pageService.FlyoutController.Detail = _pageService.GetMultiPage(vm=>true, typeof(ListViewAboutPageVm), typeof(ListViewBasicPageVm))},
                 {"TreeView",   (flyoutItemVm) => _pageService.FlyoutController.Detail = _pageService.GetMultiPage(vm=>true, typeof(TreeViewAboutPageVm), typeof(TreeViewBasicPageVm))},
-                {"MaskView",   (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<HomePageVm>(true, vm => { }) },
+                {"MaskView",   (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<MaskViewPageVm>(true, vm => { }) },
                 //{"MemoryTest", (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<MemoryTestPageVm>(true, vm => { }) },
                 {"TreeGridExperimentalPage",   (flyoutItemVm) => _pageService.FlyoutController.Detail = _pageService.GetMultiPage(vm=>true, typeof(TreeGridExperimentalPageVm))},
             };
