@@ -66,7 +66,7 @@
 
 
             <cz:GridViewZero.ColumnsSource>
-                <cz:GridColumnZero BackgroundColor="Green" 
+                <cz:GridColumnZero
                     ItemTemplate="{Binding TreeItemTemplate, Source={x:Reference Self}}"
                     ItemContainerStyle="{Binding ItemContainerStyle, Source={x:Reference Self}}"
                 />

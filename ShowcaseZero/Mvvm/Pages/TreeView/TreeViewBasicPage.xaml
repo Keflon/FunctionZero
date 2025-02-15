@@ -2,11 +2,39 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShowcaseZero.Mvvm.Pages.TreeView.TreeViewBasicPage"
+    xmlns:cz="clr-namespace:FunctionZero.Maui.Controls;assembly=FunctionZero.Maui.ControlsZero"
              Title="TreeViewBasicPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to TreeViewBasicPage!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,*">
+        <Slider Grid.Row="0" Minimum="0" Maximum="4" Value="{Binding RootNode.Level0ChildCount}"/>
+        <Slider Grid.Row="1" Minimum="0" Maximum="4" Value="{Binding RootNode.Level1ChildCount}"/>
+        <Slider Grid.Row="2" Minimum="0" Maximum="4" Value="{Binding RootNode.Level2ChildCount}"/>
+        <Slider Grid.Row="3" Minimum="0" Maximum="4" Value="{Binding RootNode.Level3ChildCount}"/>
+
+        <cz:TreeGridViewZero  Grid.Row="4"
+            ItemsSource="{Binding RootNode}"
+            ItemHeight="20"
+            HorizontalOptions="Fill"
+            >
+            <cz:TreeGridViewZero.TreeItemTemplate>
+                <cz:TreeItemDataTemplate 
+                    ChildrenPropertyName="Children"
+                    IsExpandedPropertyName="IsExpanded"
+                    >
+                    <DataTemplate>
+                        <Label Text="{Binding Name}"/>
+                    </DataTemplate>
+                </cz:TreeItemDataTemplate>
+            </cz:TreeGridViewZero.TreeItemTemplate>
+
+            <!--<cz:TreeGridViewZero.ColumnsSource>
+                <cz:GridColumnZero >
+                    <cz:GridColumnZero.ItemTemplate>
+                        <DataTemplate>
+                            <Label Text="{Binding Name}" />
+                        </DataTemplate>
+                    </cz:GridColumnZero.ItemTemplate>
+                </cz:GridColumnZero>
+            </cz:TreeGridViewZero.ColumnsSource>-->
+        </cz:TreeGridViewZero>
+    </Grid>
 </ContentPage>

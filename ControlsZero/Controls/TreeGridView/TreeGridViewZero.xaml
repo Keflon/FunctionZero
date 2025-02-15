@@ -80,7 +80,7 @@
 
 
             <cz:GridViewZero.ColumnsSource>
-                <cz:GridColumnZero BackgroundColor="Green" IsPartOfTree_controlTemplateBugWorkaround="True"
+                <cz:GridColumnZero IsPartOfTree_controlTemplateBugWorkaround="True"
                     ItemTemplate="{Binding TreeItemTemplate, Source={x:Reference Self}}"
                     ItemContainerStyle="{Binding ItemContainerStyle, Source={x:Reference Self}}"
                 />

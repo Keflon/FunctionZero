@@ -18,7 +18,7 @@
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 		<Title>FunctionZero Controls library including virtualizing TreeView and ListView</Title>
-		<VersionPrefix>9.0.0</VersionPrefix>
+		<VersionPrefix>9.0.1</VersionPrefix>
 
 		<Authors>Keith Pickford</Authors>
 		<Company>FunctionZero Ltd</Company>
