@@ -147,7 +147,7 @@ namespace FunctionZero.TreeListItemsSourceZero
             {
                 case NodeAction.Added:
                     if (node.IsExpanded != false)
-                        throw new InvalidOperationException("Attempt to add aTreeGridNode where IsExpanded == true. If that's deliberate, ask, and the developer will supoport it.");
+                        throw new InvalidOperationException("Attempt to add a TreeGridNode where IsExpanded == true. If that's deliberate, ask, and the developer will support it.");
 
                     node.UpdateIsVisible();
 

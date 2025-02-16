@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -101,13 +100,19 @@ namespace FunctionZero.TreeListItemsSourceZero
         // TODO: Refactor Children, dataChildren
         private void _dataChildren_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            Debug.WriteLine("BAM!");
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
                     if (_hasMadeChildren)
                     {
-                        if (_observableDataChildren.Count == 1)
+                        //if (_observableDataChildren.Count == 1)
+                        //    ShowChevron = true;
+                        foreach(var item in _dataChildren)
+                        {
                             ShowChevron = true;
+                            break;
+                        }
 
                         if (e.NewItems.Count != 1)
                             throw new InvalidOperationException("Attempt to add more than one item to the TreeGridNode data collection at a time.");
@@ -119,11 +124,21 @@ namespace FunctionZero.TreeListItemsSourceZero
                 case NotifyCollectionChangedAction.Remove:
                     if (_hasMadeChildren)
                     {
-                        if (_observableDataChildren.Count == 0)
-                            ShowChevron = false;
-                        // TODO: Match node to container and remove the container.
-                        // TODO: Use a map.
-                        if (e.OldItems.Count != 1)
+                        //if (_observableDataChildren.Count == 0)
+                        //    ShowChevron = false;
+
+                        bool newShowChevron = false;
+                        foreach (var item in _dataChildren)
+                        {
+                            newShowChevron = true;
+                            break;
+                        }
+
+                        ShowChevron = newShowChevron;
+
+                            // TODO: Match node to container and remove the container.
+                            // TODO: Use a map.
+                            if (e.OldItems.Count != 1)
                             throw new InvalidOperationException("Attempt to remove more than one item from the TreeGridNode data collection at a time.");
                         var oldNode = e.OldItems[0];
                         Children.Remove(ContainerForItem((T)oldNode));
@@ -196,7 +211,7 @@ namespace FunctionZero.TreeListItemsSourceZero
             }
         }
 
-        private ObservableCollection<T> _observableDataChildren;
+        private INotifyCollectionChanged _observableDataChildren;
         internal bool _isInTree;
 
         protected override async void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -228,10 +243,18 @@ namespace FunctionZero.TreeListItemsSourceZero
             {
                 _dataChildren = Manager.GetChildren(Data);
 
-                if (_dataChildren is ObservableCollection<T> observableDataChildren)
+                Debug.WriteLine(typeof(T));
+
+                if (_dataChildren is INotifyCollectionChanged observableDataChildren)
                 {
                     _observableDataChildren = observableDataChildren;
                     observableDataChildren.CollectionChanged += _dataChildren_CollectionChanged;
+
+                    // SMELL: Where do we unsubscribe?
+                    //Delegate[] invocationList = observableDataChildren.CollectionChanged.GetInvocationList();
+                    //return invocationList.Length;
+
+
                 }
             }
         }

@@ -1,6 +1,7 @@
 ﻿using ShowcaseZero.Services.BasicTreeNode;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -17,18 +18,16 @@ namespace ShowcaseZero.Mvvm.PageViewModels.TreeView
 
             RootNode.Children.CollectionChanged += Children_CollectionChanged;
 
-            RootNode.Level0ChildCount = 3;
-            RootNode.Level1ChildCount = 3;
-            RootNode.Level2ChildCount = 3;
-            RootNode.Level3ChildCount = 3;
-
-            RootNode.Level0ChildCount = 4;
-            RootNode.Level3ChildCount = 4;
+            //RootNode.Level0ChildCount = 3;
+            //RootNode.Level1ChildCount = 3;
+            //RootNode.Level2ChildCount = 3;
+            //RootNode.Level3ChildCount = 3;
         }
 
-        private void Children_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void Children_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             Debug.WriteLine(RootNode.Children.Count);
+            RootNode.IsExpanded = true;
         }
     }
 }

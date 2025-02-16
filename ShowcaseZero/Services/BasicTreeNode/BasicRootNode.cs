@@ -86,8 +86,11 @@ namespace ShowcaseZero.Services.BasicTreeNode
             int numChildren = GetNumChildren(child.NestLevel-1);
 
             while (child.Children.Count < numChildren)
-                child.Children.Add(new BasicTreeNode($"{child.NestLevel}-{child.Children.Count}"));
-
+            {
+                var newChild = new BasicTreeNode($"{child.NestLevel}-{child.Children.Count}");
+                child.Children.Add(newChild);
+                newChild.IsExpanded = true;
+            }
             while (child.Children.Count > numChildren)
                 child.Children.RemoveAt(0);
         }
