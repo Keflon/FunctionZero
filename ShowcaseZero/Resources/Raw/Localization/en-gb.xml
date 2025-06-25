@@ -47,7 +47,7 @@
 
 		<Item Condition="NumCats == NumDogs" Text="You have {NumCats} cats and dogs"/>
 
-		<Item Condition="NumCats == NumDogs-1" Text="You have {NumCats} cats and one fewer dogs"/>
+		<Item Condition="NumCats == NumDogs-1" Text="You have {NumCats} cats and one more dog"/>
 		<Item Condition="NumCats GT NumDogs" Text="You have {NumCats} cats and {NumCats-NumDogs} fewer dogs"/>
 
 		<Item Condition="NumDogs == NumCats-1" Text="You have {NumDogs} dogs and one fewer cats"/>

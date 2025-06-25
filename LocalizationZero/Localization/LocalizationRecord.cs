@@ -32,9 +32,12 @@ namespace LocalizationZero.Localization
             foreach (var item in Items)
             {
                 // TODO: Inject an EP configured with methods such as 'GetLength(length)' tailored to the current units.
-                var expression = ExpressionParserFactory.GetExpressionParser().Parse(item.ConditionExpression);
+                //var expression = ExpressionParserFactory.GetExpressionParser().Parse(item.ConditionExpression);
 
-                var result = expression.Evaluate(this);
+                //var result = expression.Evaluate(this);
+
+                var result = item.CompiledExpression.Evaluate(this);
+
 
                 if (result.Count != 1)
                     throw new InvalidOperationException($"Wrong number of results in expression {item.ConditionExpression}, expected 1, got {result.Count}");

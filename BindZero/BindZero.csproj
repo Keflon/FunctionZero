@@ -20,7 +20,7 @@
 		<AssemblyName>FunctionZero.Maui.$(MSBuildProjectName)</AssemblyName>
 		<RootNamespace>FunctionZero.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
 		<Title>FunctionZero.$(AssemblyName)</Title>
-		<VersionPrefix>9.0.0</VersionPrefix>
+		<VersionPrefix>9.1.0</VersionPrefix>
 
 		<Authors>Keith Pickford</Authors>
 		<Company>FunctionZero Ltd</Company>
@@ -29,7 +29,7 @@
 		<PackageIcon>F0 gravatar.png</PackageIcon>
 		<PackageReadmeFile>readme_nuget.md</PackageReadmeFile>
 		<PackageTags>zBind z:Bind Bind Binding Databind xaml MAUI ios android WinUI maccatalyst expression parser evaluator short circuit POCO </PackageTags>
-		<PackageReleaseNotes>Built using lates MAUI libraries.</PackageReleaseNotes>
+		<PackageReleaseNotes>Built using latest MAUI and FunctionZero libraries.</PackageReleaseNotes>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>

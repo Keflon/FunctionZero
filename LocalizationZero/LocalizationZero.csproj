@@ -19,7 +19,7 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 
 
-		<VersionPrefix>9.0.0</VersionPrefix>
+		<VersionPrefix>9.1.0</VersionPrefix>
 
 		<Authors>Keith Pickford</Authors>
 		<Company>FunctionZero Ltd</Company>
@@ -32,6 +32,7 @@
 		<Title>FunctionZero.LocalizationZero</Title>
 		<PackageReadmeFile>readme.nuget.md</PackageReadmeFile>
 		<PackageLicenseFile>license.txt</PackageLicenseFile>
+		<PackageReleaseNotes>Built using latest MAUI and FunctionZero libraries.</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
