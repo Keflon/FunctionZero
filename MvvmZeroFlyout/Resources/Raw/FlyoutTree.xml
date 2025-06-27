@@ -4,19 +4,11 @@
 		<Node Title="Home Page" ActionKey="HomePage" Argument=""/>
 	</Node>
 
-	<Node Title="Localization">
-		<Node Title="Localization Sample" ActionKey="LocalizationSamplePage" Argument=""/>
+	<Node Title="Detail">
+		<Node Title="Detail One" ActionKey="DetailOnePage" Argument=""/>
+		<Node Title="More Detail">
+			<Node Title="Detail Two" ActionKey="DetailTwoPage" Argument=""/>
+			<Node Title="Detail Three" ActionKey="DetailThreePage" Argument=""/>
+		</Node>
 	</Node>
-
-	<Node Title="Controls">
-		<Node Title="ListView" ActionKey="ListView" Argument=""/>
-		<Node Title="TreeView" ActionKey="TreeView" Argument=""/>
-		<Node Title="MaskView" ActionKey="MaskView" Argument=""/>
-	</Node>
-
-	<Node Title="Experimental" >
-		<Node Title="TreeGrid" ActionKey="TreeGridExperimentalPage" Argument=""/>
-	</Node>
-
-
 </Root>

@@ -42,8 +42,6 @@ namespace ShowcaseZero
                     .MapVmToView<TreeGridExperimentalPageVm, TreeGridExperimentalPage>()
                     .MapVmToView<LocalizationSamplePageVm, LocalizationSamplePage>()
                     .MapVmToView<MaskViewPageVm, MaskViewPage>()
-
-
                     
                     ;
                 })
@@ -96,8 +94,8 @@ namespace ShowcaseZero
         {
             var localisationService = new LocalizationService();
 
-            localisationService.RegisterLanguage("english", new LocalizationProvider(()=>FileSystem.OpenAppPackageFileAsync("Localization/en-GB.xml"),"English"));
-            localisationService.RegisterLanguage("german", new LocalizationProvider(()=>FileSystem.OpenAppPackageFileAsync("Localization/de-DE.xml"), "Deutsch"));
+            localisationService.RegisterLanguage("english", new LocalizationProvider(()=>FileSystem.OpenAppPackageFileAsync("Localization/en-gb.xml"),"English"));
+            localisationService.RegisterLanguage("german", new LocalizationProvider(()=>FileSystem.OpenAppPackageFileAsync("Localization/de-de.xml"), "Deutsch"));
             localisationService.RegisterLanguage("portugese", new LocalizationProvider(() => FileSystem.OpenAppPackageFileAsync("Localization/PT.xml"), "Portugese"));
 
 

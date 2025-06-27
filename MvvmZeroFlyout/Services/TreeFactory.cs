@@ -1,5 +1,6 @@
 ﻿using FunctionZero.Maui.MvvmZero;
 using FunctionZero.ObjectGraphZero.Factory;
+using MvvmZeroFlyout.Mvvm.PageViewModels;
 using MvvmZeroFlyout.Mvvm.ViewModels;
 using System.Collections.ObjectModel;
 
@@ -17,14 +18,29 @@ namespace MvvmZeroFlyout.Services
 
             _actionLookup = new Dictionary<string, Action<object>>
             {
-                {"HomePage",   (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<HomePageVm>(true, vm => { }) },
-                {"LocalizationSamplePage",   (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<LocalizationSamplePageVm>(true, vm => { }) },
-                {"ListView",   (flyoutItemVm) => _pageService.FlyoutController.Detail = _pageService.GetMultiPage(vm=>true, typeof(ListViewAboutPageVm), typeof(ListViewBasicPageVm))},
-                {"TreeView",   (flyoutItemVm) => _pageService.FlyoutController.Detail = _pageService.GetMultiPage(vm=>true, typeof(TreeViewAboutPageVm), typeof(TreeViewBasicPageVm))},
-                {"MaskView",   (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<MaskViewPageVm>(true, vm => { }) },
-                //{"MemoryTest", (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<MemoryTestPageVm>(true, vm => { }) },
-                {"TreeGridExperimentalPage",   (flyoutItemVm) => _pageService.FlyoutController.Detail = _pageService.GetMultiPage(vm=>true, typeof(TreeGridExperimentalPageVm))},
+                {"HomePage",   (flyoutItemVm) => _pageService.FlyoutController.Detail = _pageService.GetMultiPage(VmInitializer, typeof(ReadyPageVm), typeof(SteadyPageVm), typeof(GoPageVm))},
+                {"DetailOnePage",   (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<DetailOnePageVm>(true, vm => { }) },
+                {"DetailTwoPage",   (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<DetailTwoPageVm>(true, vm => { }) },
+                {"DetailThreePage", (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<DetailThreePageVm>(true, vm => { }) },
             };
+
+            // <summary>
+            // This is called for each vm the _pageService pulls from the container as it constructs the MultiPage.
+            // </summary>
+            // <param name="viewModel">The ViewModel instance being provided to the MultiPage.</param>
+            // <returns>True if the associated page is to be wrapped in a NavigationPage.</returns>
+            bool VmInitializer(object viewModel)
+            {
+                if (viewModel is ReadyPageVm readyPageVm)
+                    readyPageVm.Init("This is how to call init for the ReadyPageVm from a MultiPage VmInitializer. ");
+                else if (viewModel is SteadyPageVm steadyPageVm)
+                    steadyPageVm.Init("This is how to call init for the SteadyPageVm from a MultiPage VmInitializer. ");
+                else if (viewModel is GoPageVm goPageVm)
+                    goPageVm.Init("This is how to call init for the GoPageVm from a MultiPage VmInitializer. ");
+
+                // Return true so the root tab-item is wrapped in a NavigationPage.
+                return true;
+            }
         }
         public object Result { get; private set; }
 
@@ -41,13 +57,13 @@ namespace MvvmZeroFlyout.Services
                     {
                         string title;
                         if (factoryData.Attributes.TryGetValue("Title", out title) == false)
-                            title="[!TITLE]";
+                            title = "[!TITLE]";
 
                         Action<object> nodeAction = null;
                         if (factoryData.Attributes.TryGetValue("ActionKey", out var actionVmString))
                         {
                             if (_actionLookup.TryGetValue(actionVmString, out nodeAction) == false)
-                                title = "[!ACTION]"+title;
+                                title = "[!ACTION]" + title;
                         }
 
                         string argument = string.Empty;

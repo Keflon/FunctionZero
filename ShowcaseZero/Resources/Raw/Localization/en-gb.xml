@@ -10,7 +10,7 @@
 	</Record>
 
 	<Record Id="E_Hello">
-		<Item Condition="True" Text="Hello"/>
+		<Item Condition="True" Text="Hello"/> 
 	</Record>
 
 	<Record Id="E_NumberOfCats">

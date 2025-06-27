@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:z="clr-namespace:FunctionZero.Maui.zBind.z;assembly=FunctionZero.Maui.BindZero"
+             xmlns:cz="clr-namespace:FunctionZero.Maui.Controls;assembly=FunctionZero.Maui.ControlsZero"
+             x:Class="MvvmZeroFlyout.Mvvm.Pages.Flyout.FlyoutFlyoutPage"
+             Title="FlyoutFlyoutPage"
+             BackgroundColor="LightGoldenrodYellow"
+             >
+    <ContentPage.Resources>
+        <DataTemplate x:Key="NodeTemplate">
+            <cz:ExpanderZero Margin="5"
+                    EaseIn="{x:Static Easing.CubicInOut}"
+                    EaseOut="{x:Static Easing.CubicInOut}"
+                    DurationMilliseconds="400"
+                    
+                    IsExpanded="{Binding IsExpanded, Mode=TwoWay}"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Fill"
+                >
+                <cz:ExpanderZero.Header>
+                    <Label Text="{TemplateBinding BindingContext.Title}"   Margin="5" Padding="15"                
+                               HorizontalOptions="Fill"
+                               VerticalOptions="Fill">
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Setter Property="Background" Value="AliceBlue" />
+                                <Style.Triggers>
+                                    <DataTrigger TargetType="Label" Binding="{TemplateBinding BindingContext.Children.Count}" Value="0">
+                                        <Setter Property="Background" Value="Cyan" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Style>
+                        <!--Note we are overriding the default tap-behaviour that toggles IsExpanded, so the vm must do that for us.-->
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{TemplateBinding BindingContext.TappedCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </cz:ExpanderZero.Header>
+                <HorizontalStackLayout>
+                    <BoxView WidthRequest="20" BackgroundColor="Transparent"/>
+                    <VerticalStackLayout
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Fill"
+                        BindableLayout.ItemsSource="{Binding Children}"
+                        BindableLayout.ItemTemplate="{StaticResource NodeTemplate}"/>
+                </HorizontalStackLayout>
+            </cz:ExpanderZero>
+        </DataTemplate>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <!--Display a tree-like view representing our side-bar items-->
+        <VerticalStackLayout BindableLayout.ItemsSource="{Binding Children}" BindableLayout.ItemTemplate="{StaticResource NodeTemplate}" />
+    </ScrollView>
+
+</ContentPage>

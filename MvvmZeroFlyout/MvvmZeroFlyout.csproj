@@ -60,18 +60,30 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FunctionZero.Maui.BindZero" Version="9.1.0" />
-		<PackageReference Include="FunctionZero.Maui.MvvmZero" Version="9.1.0" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.60" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.4" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.80" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.6" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\BindZero\BindZero.csproj" />
+	  <ProjectReference Include="..\MvvmZero\MvvmZero.csproj" />
 	  <ProjectReference Include="..\ObjectGraphZero\ObjectGraphZero.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Mvvm\Pages\DetailOnePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Mvvm\Pages\DetailPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Mvvm\Pages\DetailThreePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Mvvm\Pages\DetailTwoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Mvvm\Pages\Flyout\FlyoutFlyoutPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Mvvm\Pages\GoPage.xaml">

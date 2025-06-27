@@ -17,6 +17,7 @@ namespace MvvmZeroFlyout.Mvvm.PageViewModels
             InitMessage = "Uninitialised";
 
             PushDetailPageCommand = new CommandBuilder()
+                .AddGuard(this)
                 .SetName("PushDetailPageCommand")
                 .SetCanExecute(PushDetailPageCommandCanExecute)
                 .SetExecuteAsync(PushDetailPageCommandExecuteAsync)
