@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Root>
+	<Node Title="Home" >
+		<Node Title="Home Page" ActionKey="HomePage" Argument=""/>
+	</Node>
+
+	<Node Title="Localization">
+		<Node Title="Localization Sample" ActionKey="LocalizationSamplePage" Argument=""/>
+	</Node>
+
+	<Node Title="Controls">
+		<Node Title="ListView" ActionKey="ListView" Argument=""/>
+		<Node Title="TreeView" ActionKey="TreeView" Argument=""/>
+		<Node Title="MaskView" ActionKey="MaskView" Argument=""/>
+	</Node>
+
+	<Node Title="Experimental" >
+		<Node Title="TreeGrid" ActionKey="TreeGridExperimentalPage" Argument=""/>
+	</Node>
+
+
+</Root>
