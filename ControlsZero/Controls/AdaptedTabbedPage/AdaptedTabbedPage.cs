@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace FunctionZero.Maui.Controls
@@ -13,6 +14,13 @@ namespace FunctionZero.Maui.Controls
         public AdaptedTabbedPage()
         {
             this.PropertyChanged += AdaptedTabbedPage_PropertyChanged;
+
+            ((INotifyCollectionChanged)this.Children).CollectionChanged += AdaptedTabbedPage_CollectionChanged;
+        }
+
+        private void AdaptedTabbedPage_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            Debug.WriteLine($"Action: {e.Action}");
         }
 
         private async void AdaptedTabbedPage_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -42,12 +50,12 @@ namespace FunctionZero.Maui.Controls
             base.OnPropertyChanged(propertyName);
 
             // If the template changes, use it to rebuild the pages.
-            if (propertyName == nameof(ItemTemplate))
-                RebuildPages();
+            //if (propertyName == nameof(ItemTemplate))
+            //    RebuildPages();
         }
         private void RebuildPages()
         {
-            Children.Clear();
+            //Children.Clear();
 
             if (ItemsSource != null)
                 foreach (var item in ItemsSource)
@@ -104,7 +112,7 @@ namespace FunctionZero.Maui.Controls
         {
             var self = (AdaptedTabbedPage)bindable;
 
-            self.Children.Clear();
+            //self.Children.Clear();
 
             if (oldvalue is INotifyCollectionChanged oldCollection)
                 oldCollection.CollectionChanged -= self.ItemsSourceCollectionChanged;

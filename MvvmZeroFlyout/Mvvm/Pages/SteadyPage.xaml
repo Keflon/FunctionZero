@@ -9,6 +9,8 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
 
+        <Label Text="{Binding .}"/>
+
         <Button Text="{Binding PushDetailPageCommand.Text}" Command="{Binding PushDetailPageCommand}" />
 
     </VerticalStackLayout>

@@ -5,7 +5,6 @@ using ShowcaseZero.Mvvm.PageViewModels;
 using ShowcaseZero.Mvvm.PageViewModels.ListView;
 using ShowcaseZero.Mvvm.PageViewModels.Localization;
 using ShowcaseZero.Mvvm.PageViewModels.MaskView;
-using ShowcaseZero.Mvvm.PageViewModels.TreeGrid;
 using ShowcaseZero.Mvvm.PageViewModels.TreeView;
 using System.Collections.ObjectModel;
 
@@ -19,17 +18,28 @@ namespace FunctionZero.Maui.Showcase.Services
 
         public TreeFactory(IPageServiceZero pageService)
         {
-            _pageService = pageService;
+            _pageService = pageService; _pageService.GetViewModel<HomePageVm>();
+
+            var listViewMultiPages = new ObservableCollection<object> { _pageService.GetViewModel<ListViewAboutPageVm>(), _pageService.GetViewModel<ListViewBasicPageVm>() };
+            var treeViewMultiPages = new  ObservableCollection<object> { _pageService.GetViewModel <TreeViewAboutPageVm>(), _pageService.GetViewModel < TreeViewBasicPageVm>() };
+            //var experimentalMultiPages = new  ObservableCollection<object> { treeGridExperimentalPageVm };
+            // Do not use the experimental TreeGridExperimentalPageVm here, because it has a dependency on TreeFactory, causing a cycle.
+            var experimentalMultiPages = new  ObservableCollection<object> { _pageService.GetViewModel<TreeViewBasicPageVm>() };
+
+            var listViewMultiPage = _pageService.GetMultiPage(vm => true, listViewMultiPages);
+            var treeViewMultiPage = _pageService.GetMultiPage(vm => true, treeViewMultiPages);
+            var experimentalMultiPage = _pageService.GetMultiPage(vm => true, experimentalMultiPages);
+
 
             _actionLookup = new Dictionary<string, Action<object>>
             {
                 {"HomePage",   (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<HomePageVm>(true, vm => { }) },
                 {"LocalizationSamplePage",   (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<LocalizationSamplePageVm>(true, vm => { }) },
-                {"ListView",   (flyoutItemVm) => _pageService.FlyoutController.Detail = _pageService.GetMultiPage(vm=>true, typeof(ListViewAboutPageVm), typeof(ListViewBasicPageVm))},
-                {"TreeView",   (flyoutItemVm) => _pageService.FlyoutController.Detail = _pageService.GetMultiPage(vm=>true, typeof(TreeViewAboutPageVm), typeof(TreeViewBasicPageVm))},
+                {"ListView",   (flyoutItemVm) => _pageService.FlyoutController.Detail = listViewMultiPage},
+                {"TreeView",   (flyoutItemVm) => _pageService.FlyoutController.Detail = treeViewMultiPage},
                 {"MaskView",   (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<MaskViewPageVm>(true, vm => { }) },
                 //{"MemoryTest", (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<MemoryTestPageVm>(true, vm => { }) },
-                {"TreeGridExperimentalPage",   (flyoutItemVm) => _pageService.FlyoutController.Detail = _pageService.GetMultiPage(vm=>true, typeof(TreeGridExperimentalPageVm))},
+                {"TreeGridExperimentalPage",   (flyoutItemVm) => _pageService.FlyoutController.Detail = experimentalMultiPage},
             };
         }
         public object Result { get; private set; }

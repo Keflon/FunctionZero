@@ -125,9 +125,6 @@ namespace FunctionZero.Maui.MvvmZero
                     _flyoutController.SetFlyoutPage(fp);
 
                 cp.Disappearing += PageDisappearing;
-                Debug.WriteLine($"XXXXXXXXXXXXXXXXXXXXX");
-                Debug.WriteLine($"Added :{cp}");
-                Debug.WriteLine($"XXXXXXXXXXXXXXXXXXXXX");
                 cp.Appearing += PageAppearing;
 
                 var hop = cp.BindingContext as IHasOwnerPage;
@@ -185,9 +182,6 @@ namespace FunctionZero.Maui.MvvmZero
                     throw new InvalidOperationException($"Removed Page {cp} is not 'counted' when is on navigation stack!");
 
                 hop?.OnOwnerPageRemovedFromVisualTree();
-                Debug.WriteLine($"XXXXXXXXXXXXXXXXXXXXX");
-                Debug.WriteLine($"Removed :{cp}");
-                Debug.WriteLine($"XXXXXXXXXXXXXXXXXXXXX");
                 cp.Appearing -= PageAppearing;
 
                 await Task.Yield();     // Reason: The disappearing event is (was?) raised after DescendantRemoved.
@@ -402,7 +396,7 @@ namespace FunctionZero.Maui.MvvmZero
 
         public MultiPage<Page> GetMultiPage(Func<object, bool> vmInitializer, IEnumerable vmCollection)
         {
-            return GetMultiPage(vmInitializer, vmCollection);
+            return GetMultiPage<MultiPage<Page>>(vmInitializer, vmCollection);
         }
 
         public MultiPage<Page> GetMultiPage(Func<object, bool> vmInitializer, params Type[] vmTypes)

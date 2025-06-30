@@ -46,7 +46,7 @@ namespace MvvmZeroFlyout
                 // Top level views ...
                 //.AddTransient<MultiPage<Page>, TabbedPage>()
                 .AddSingleton<FlyoutPage>()
-                .AddSingleton<MultiPage<Page>, AdaptedTabbedPage>()  // Use TabbedPage when  https://github.com/dotnet/maui/issues/14572 is fixed.
+                .AddTransient<MultiPage<Page>, AdaptedTabbedPage>()  // Use TabbedPage when  https://github.com/dotnet/maui/issues/14572 is fixed.
                 .AddSingleton<FlyoutFlyoutPageVm>()
                 .AddSingleton<FlyoutFlyoutPage>()
 

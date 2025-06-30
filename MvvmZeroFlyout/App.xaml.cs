@@ -21,7 +21,8 @@ namespace MvvmZeroFlyout
         protected override Window CreateWindow(IActivationState? activationState)
         {
             var rootPage = _pageService.GetFlyoutPage<FlyoutFlyoutPageVm>();
-
+            //rootPage.FlyoutLayoutBehavior = FlyoutLayoutBehavior.Split;
+            rootPage.IsPresented = true;
             Window w = new Window(rootPage);
 
 #if WINDOWS

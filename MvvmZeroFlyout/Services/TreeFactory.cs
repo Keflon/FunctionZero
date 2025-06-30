@@ -12,13 +12,16 @@ namespace MvvmZeroFlyout.Services
 
         private readonly Dictionary<string, Action<object>> _actionLookup;
 
-        public TreeFactory(IPageServiceZero pageService)
+        public TreeFactory(IPageServiceZero pageService, ReadyPageVm readyPageVm, SteadyPageVm steadyPageVm, GoPageVm goPageVm)
         {
             _pageService = pageService;
 
+            var multiPages = new ObservableCollection<object> { readyPageVm, steadyPageVm, goPageVm };
+            var multiPage = _pageService.GetMultiPage(VmInitializer, multiPages);
             _actionLookup = new Dictionary<string, Action<object>>
             {
-                {"HomePage",        (flyoutItemVm) => _pageService.FlyoutController.Detail = _pageService.GetMultiPage(VmInitializer, typeof(ReadyPageVm), typeof(SteadyPageVm), typeof(GoPageVm))},
+                {"HomePage",        (flyoutItemVm) =>
+                _pageService.FlyoutController.Detail = multiPage },
                 {"DetailOnePage",   (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<DetailOnePageVm>(true, vm => { }) },
                 {"DetailTwoPage",   (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<DetailTwoPageVm>(true, vm => { }) },
                 {"DetailThreePage", (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<DetailThreePageVm>(true, vm => { }) },
@@ -31,7 +34,7 @@ namespace MvvmZeroFlyout.Services
             // <returns>True if the associated page is to be wrapped in a NavigationPage.</returns>
             bool VmInitializer(object viewModel)
             {
-                return false;
+                //return false;
                 if (viewModel is ReadyPageVm readyPageVm)
                     readyPageVm.Init("This is how to call init for the ReadyPageVm from a MultiPage VmInitializer. ");
                 else if (viewModel is SteadyPageVm steadyPageVm)
