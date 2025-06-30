@@ -22,7 +22,14 @@ namespace MvvmZeroFlyout
         {
             var rootPage = _pageService.GetFlyoutPage<FlyoutFlyoutPageVm>();
 
-            return new Window(rootPage);
+            Window w = new Window(rootPage);
+
+#if WINDOWS
+            w.Width = 1000;
+            w.Height = 800;
+#endif
+
+            return w;
         }
     }
 }

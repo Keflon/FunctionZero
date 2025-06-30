@@ -1,7 +1,7 @@
 ﻿/*
 MIT License
 
-Copyright(c) 2016 - 2023 Function Zero Ltd
+Copyright(c) 2016 - 2025 Function Zero Ltd
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,9 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 using FunctionZero.Maui.Controls;
-using FunctionZero.Maui.MvvmZero;
 using FunctionZero.Maui.MvvmZero.PageControllers;
-using System;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -33,7 +31,7 @@ namespace FunctionZero.Maui.MvvmZero
 {
     public class PageServiceZero : IPageServiceZero
     {
-        private const bool _report = false;
+        private const bool _report = true;
         private readonly FlyoutController _flyoutController;
         private readonly MultiPageController _multiPageController;
         private readonly Func<Type, object, IView> _viewMapper;
@@ -127,11 +125,14 @@ namespace FunctionZero.Maui.MvvmZero
                     _flyoutController.SetFlyoutPage(fp);
 
                 cp.Disappearing += PageDisappearing;
+                Debug.WriteLine($"XXXXXXXXXXXXXXXXXXXXX");
+                Debug.WriteLine($"Added :{cp}");
+                Debug.WriteLine($"XXXXXXXXXXXXXXXXXXXXX");
                 cp.Appearing += PageAppearing;
 
                 var hop = cp.BindingContext as IHasOwnerPage;
                 hop?.OnOwnerPageAddedToVisualTree();
-
+                
                 if (cp.Navigation != null)
                 {
                     bool isOnNavigationStack = cp.Navigation.NavigationStack.Contains(cp);
@@ -144,6 +145,7 @@ namespace FunctionZero.Maui.MvvmZero
                         hop?.OnOwnerPagePushed(false);
                     }
                     // Otherwise if we're tracking the page when it is not on the navigation stack, something has gone wrong!
+                    // LOOK: What?
                     else if (!isOnNavigationStack && isOnAnyNavigationStack)
                         throw new InvalidOperationException($"Page {cp} is 'counted' when not on navigation stack!");
                 }
@@ -163,13 +165,18 @@ namespace FunctionZero.Maui.MvvmZero
                     _flyoutController.SetFlyoutPage(null);
 
                 var hop = cp.BindingContext as IHasOwnerPage;
-
+                
                 bool isOnNavigationStack = cp.Navigation.NavigationStack.Contains(cp);
                 bool isOnAnyNavigationStack = _pagesOnAnyNavigationStack.Contains(cp);
 
                 // If the page is not on the navigation stack and we are tracking it, it has been popped.
-                if ((!isOnNavigationStack) && isOnAnyNavigationStack)
+                //if ((!isOnNavigationStack) && isOnAnyNavigationStack)
+                // LOOK:
+                if (isOnNavigationStack)
                 {
+                    if (!isOnAnyNavigationStack)
+                        throw new InvalidOperationException();
+
                     _pagesOnAnyNavigationStack.Remove(cp);
                     hop?.OnOwnerPagePopped(false);
                 }
@@ -178,7 +185,9 @@ namespace FunctionZero.Maui.MvvmZero
                     throw new InvalidOperationException($"Removed Page {cp} is not 'counted' when is on navigation stack!");
 
                 hop?.OnOwnerPageRemovedFromVisualTree();
-
+                Debug.WriteLine($"XXXXXXXXXXXXXXXXXXXXX");
+                Debug.WriteLine($"Removed :{cp}");
+                Debug.WriteLine($"XXXXXXXXXXXXXXXXXXXXX");
                 cp.Appearing -= PageAppearing;
 
                 await Task.Yield();     // Reason: The disappearing event is (was?) raised after DescendantRemoved.
@@ -365,6 +374,7 @@ namespace FunctionZero.Maui.MvvmZero
                 await CurrentNavigationPage.PopToRootAsync(animated);
             else
                 while (CurrentNavigationPage.ModalStack.Count > 1)
+                    // LOOK: Ought to be PopModalAsync?
                     await CurrentNavigationPage.PopToRootAsync(animated);
         }
 
@@ -498,6 +508,5 @@ namespace FunctionZero.Maui.MvvmZero
         {
             return GetIdiomPage(typeof(TViewModel), lookup);
         }
-
     }
 }

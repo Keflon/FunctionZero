@@ -60,6 +60,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<!--<PackageReference Include="FunctionZero.Maui.BindZero" Version="9.1.0" />
+		<PackageReference Include="FunctionZero.Maui.MvvmZero" Version="9.1.0" />
+		<PackageReference Include="FunctionZero.ObjectGraphZero" Version="3.0.0" />-->
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.80" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.6" />
 	</ItemGroup>
