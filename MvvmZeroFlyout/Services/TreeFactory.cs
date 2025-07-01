@@ -16,12 +16,16 @@ namespace MvvmZeroFlyout.Services
         {
             _pageService = pageService;
 
-            var multiPages = new ObservableCollection<object> { readyPageVm, steadyPageVm, goPageVm };
-            var multiPage = _pageService.GetMultiPage(VmInitializer, multiPages);
+            // Set up any MultiPage intstances that will be used by an action in the _actionLookup.
+            var multiPageViewModels = new ObservableCollection<object> { readyPageVm, steadyPageVm, goPageVm };
+            var multiPage = _pageService.GetMultiPage(VmInitializer, multiPageViewModels);
+
             _actionLookup = new Dictionary<string, Action<object>>
             {
-                {"HomePage",        (flyoutItemVm) =>
-                _pageService.FlyoutController.Detail = multiPage },
+                // A bug in TabbedPage causes extra callbacks to App.Current.DescendantAdded if the ItemsSource is replaced,
+                // including if it contains th same data as the previous. Setting ~.Detail to the same MultiPage will not cause this bug
+                // when the HomePage is selected / reselected. It's also better for memory-churn and performance this way.
+                {"HomePage",        (flyoutItemVm) => _pageService.FlyoutController.Detail = multiPage },
                 {"DetailOnePage",   (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<DetailOnePageVm>(true, vm => { }) },
                 {"DetailTwoPage",   (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<DetailTwoPageVm>(true, vm => { }) },
                 {"DetailThreePage", (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<DetailThreePageVm>(true, vm => { }) },
