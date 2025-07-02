@@ -4,7 +4,7 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<AssemblyName>FunctionZero.$(MSBuildProjectName)</AssemblyName>
 		<!--<PackageId>FunctionZero.$(AssemblyName)</PackageId>-->
-		<VersionPrefix>6.0.1</VersionPrefix>
+		<VersionPrefix>6.0.2</VersionPrefix>
 		<PackageIcon>F0 gravatar.png</PackageIcon>
 
 		<Authors>Keith Pickford</Authors>
@@ -16,7 +16,7 @@
 		<RepositoryUrl>https://github.com/Keflon/FunctionZero.ExpressionParserZero</RepositoryUrl>
 		<PackageTags>RPN; postfix; expression parser; evaluator; infix; reverse polish; overload; typesafe; variable; variables; bind; binding; zbind; z:bind; cast; casting;</PackageTags>
 		<PackageIcon>F0 gravatar.png</PackageIcon>
-		<PackageReleaseNotes>Parsing numbers is now culture-invariant.</PackageReleaseNotes>
+		<PackageReleaseNotes>Supressed a benign exception caused by early-binding.</PackageReleaseNotes>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>

@@ -18,7 +18,7 @@ namespace FunctionZero.Maui.Showcase.Services
 
         public TreeFactory(IPageServiceZero pageService)
         {
-            _pageService = pageService; _pageService.GetViewModel<HomePageVm>();
+            _pageService = pageService;
 
             var listViewMultiPages = new ObservableCollection<object> { _pageService.GetViewModel<ListViewAboutPageVm>(), _pageService.GetViewModel<ListViewBasicPageVm>() };
             var treeViewMultiPages = new  ObservableCollection<object> { _pageService.GetViewModel <TreeViewAboutPageVm>(), _pageService.GetViewModel < TreeViewBasicPageVm>() };

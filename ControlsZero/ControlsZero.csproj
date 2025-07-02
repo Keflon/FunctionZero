@@ -18,7 +18,7 @@
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 		<Title>FunctionZero Controls library including virtualizing TreeView and ListView</Title>
-		<VersionPrefix>9.1.0</VersionPrefix>
+		<VersionPrefix>9.2.0</VersionPrefix>
 
 		<Authors>Keith Pickford</Authors>
 		<Company>FunctionZero Ltd</Company>
@@ -29,7 +29,7 @@
 
 		<RepositoryUrl>https://github.com/Keflon/FunctionZero</RepositoryUrl>
 		<PackageTags>MAUI; ListView; ListViewZero; TreeView; TreeViewZero; MaskView; iOS; WinUI; Windows; Android; Control </PackageTags>
-		<PackageReleaseNotes>MultiviewZero is stable and outrageously versatile. Localization has been moved to a new LocalisationZero library.</PackageReleaseNotes>
+		<PackageReleaseNotes>Updated to use newer libraries.</PackageReleaseNotes>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<PackageOutputPath>C:\Users\kpick\OneDrive - Function Zero Ltd\FunctionZeroBuildResources\NuGet</PackageOutputPath>

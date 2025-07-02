@@ -19,7 +19,7 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 
 
-		<VersionPrefix>9.1.0</VersionPrefix>
+		<VersionPrefix>9.2.0</VersionPrefix>
 
 		<Authors>Keith Pickford</Authors>
 		<Company>FunctionZero Ltd</Company>
