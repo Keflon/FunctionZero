@@ -25,11 +25,10 @@
 		<PackageTags>MAUI; Mvvm; Navigation; iOS; WinUI; Android; FunctionZero; zBind; Tizen</PackageTags>
 		<PackageReleaseNotes>
 			Built with the latest MAUI and FunctionZero libraries.
-			The experimental localization has been removed (more completely) from the Controls library in favour of a much simpler and more capable independent library that is currently in test.
 		</PackageReleaseNotes>
 		<PackageId>FunctionZero.Maui.MvvmZero</PackageId>
 		<RootNamespace>FunctionZero.Maui.MvvmZero</RootNamespace>
-		<Version>9.1.0</Version>
+		<Version>9.2.0</Version>
 		<Title>Maui.MvvmZero</Title>
 		<PackageIcon>F0 gravatar.png</PackageIcon>
 		<PackageOutputPath>C:\Users\kpick\OneDrive - Function Zero Ltd\FunctionZeroBuildResources\NuGet</PackageOutputPath>
@@ -40,7 +39,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.80" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.81" />
 	</ItemGroup>
 
 	<ItemGroup>

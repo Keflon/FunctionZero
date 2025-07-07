@@ -185,7 +185,7 @@ namespace FunctionZero.ExpressionParserZero.Operands
 
         public override string ToString()
         {
-            return OperandValue.ToString();
+            return OperandValue?.ToString();
         }
     }
 }
