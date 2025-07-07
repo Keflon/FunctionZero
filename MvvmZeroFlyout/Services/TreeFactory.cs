@@ -16,7 +16,7 @@ namespace MvvmZeroFlyout.Services
         {
             _pageService = pageService;
 
-            // Set up any MultiPage intstances that will be used by an action in the _actionLookup.
+            // Set up any MultiPage instances that will be used by an action in the _actionLookup.
             var multiPageViewModels = new ObservableCollection<object> { readyPageVm, steadyPageVm, goPageVm };
             var multiPage = _pageService.GetMultiPage(VmInitializer, multiPageViewModels);
 
