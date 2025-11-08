@@ -2,10 +2,11 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:cz="clr-namespace:FunctionZero.Maui.Controls;assembly=FunctionZero.Maui.ControlsZero"
+             xmlns:tg="clr-namespace:ShowcaseZero.Mvvm.Pages.TreeGrid"
              x:Class="ShowcaseZero.Mvvm.Pages.TreeGrid.TreeGridExperimentalPage"
              Title="Welcome to TreeGridExperimentalPage!">
 
-    <Grid ColumnDefinitions="11*,*,*">
+    <Grid ColumnDefinitions="2*,*,*">
         <cz:TreeGridViewZero 
             Grid.Column="0"
             SelectionMode="Single"
@@ -19,13 +20,24 @@
                     <Setter Property="ChevronImageSource" Value="fr.png"/>
                 </Style>
             </cz:TreeGridViewZero.Resources>
-            
-        <cz:TreeGridViewZero.TreeItemTemplate>
-                <cz:TreeItemDataTemplate ChildrenPropertyName="Children" IsExpandedPropertyName="IsExpanded" IsPrimarySelectionItemPropertyName="IsPrimarySelection">
+
+            <cz:TreeGridViewZero.TreeItemTemplate>
+                <!--<cz:TreeItemDataTemplate ChildrenPropertyName="Children" IsExpandedPropertyName="IsExpanded" IsPrimarySelectionItemPropertyName="IsPrimarySelection">-->
+                <cz:TreeItemDataTemplate ChildrenPropertyName="Children" IsExpandedPropertyName="IsExpanded" >
                     <cz:TreeItemDataTemplate.DataTemplateContent>
-                        <DataTemplate>
-                            <Label Text="{Binding Title}" BackgroundColor="LightBlue" />
-                        </DataTemplate>
+                        <tg:TestDataTemplateSelector >
+                            <tg:TestDataTemplateSelector.First>
+                                <DataTemplate>
+                                    <Label Text="{Binding Title}" BackgroundColor="LightBlue" />
+                                </DataTemplate>
+                            </tg:TestDataTemplateSelector.First>
+                            <tg:TestDataTemplateSelector.Second>
+                                <DataTemplate>
+                                    <Label Text="{Binding Title}" BackgroundColor="Yellow" />
+                                </DataTemplate>
+                            </tg:TestDataTemplateSelector.Second>
+                        </tg:TestDataTemplateSelector>
+
                     </cz:TreeItemDataTemplate.DataTemplateContent>
                 </cz:TreeItemDataTemplate>
             </cz:TreeGridViewZero.TreeItemTemplate>
@@ -60,7 +72,7 @@
 
         <cz:GridViewZero 
             Grid.Column="1"
-        SelectionMode="Multiple"
+        SelectionMode="Single"
         ItemsSource="{Binding ListChildren}"
          
         Margin="10">
@@ -69,9 +81,22 @@
                 </cz:GridColumnZero>
                 <cz:GridColumnZero BackgroundColor="Green" >
                     <cz:GridColumnZero.ItemTemplate>
-                        <DataTemplate>
+                        <tg:TestDataTemplateSelector >
+                            <tg:TestDataTemplateSelector.First>
+                                <DataTemplate>
+                                    <Label Text="{Binding }" Rotation="12" />
+                                </DataTemplate>
+                            </tg:TestDataTemplateSelector.First>
+                            <tg:TestDataTemplateSelector.Second>
+                                <DataTemplate>
+                                    <Label Text="{Binding }"  Rotation="-12" />
+                                </DataTemplate>
+                            </tg:TestDataTemplateSelector.Second>
+                        </tg:TestDataTemplateSelector>
+
+                        <!--<DataTemplate>
                             <Label Text="{Binding}" Scale="0.8"/>
-                        </DataTemplate>
+                        </DataTemplate>-->
                     </cz:GridColumnZero.ItemTemplate>
                 </cz:GridColumnZero>
                 <cz:GridColumnZero BackgroundColor="Blue" >

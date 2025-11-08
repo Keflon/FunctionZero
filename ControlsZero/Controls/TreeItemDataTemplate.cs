@@ -16,6 +16,8 @@
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
+            if (DataTemplateContent is DataTemplateSelector dts)
+                return dts.SelectTemplate(item, container);
             return DataTemplateContent;
         }
     }

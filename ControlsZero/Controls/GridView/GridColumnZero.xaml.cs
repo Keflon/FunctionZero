@@ -19,13 +19,19 @@ public partial class GridColumnZero : ContentView
 
     #region ItemTemplateProperty
 
-    public static readonly BindableProperty ItemTemplateProperty = BindableProperty.Create(nameof(ItemTemplate), typeof(DataTemplate), typeof(GridColumnZero), GetDefaultTemplate(), BindingMode.OneWay);
+    public static readonly BindableProperty ItemTemplateProperty = BindableProperty.Create(nameof(ItemTemplate), typeof(DataTemplate), typeof(GridColumnZero), GetDefaultTemplate(), BindingMode.OneWay, null, ItemTemplatePropertyChanged);
 
     public DataTemplate ItemTemplate
     {
         get { return (DataTemplate)GetValue(ItemTemplateProperty); }
         set { SetValue(ItemTemplateProperty, value); }
     }
+
+    private static void ItemTemplatePropertyChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+
+    }
+
     private static DataTemplate GetDefaultTemplate()
     {
         var template = new DataTemplate(() =>
