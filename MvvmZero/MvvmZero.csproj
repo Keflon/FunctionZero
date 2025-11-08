@@ -19,7 +19,7 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 
 		<Description>An easy to use library for building cross-platform MAUI applications very quickly. Includes FunctionZero.zBind, allowing fully featured databinding to expressions.</Description>
-		<Copyright>FunctionZero Ltd. 2023 - 2024</Copyright>
+		<Copyright>FunctionZero Ltd. 2023 - 2025</Copyright>
 		<PackageProjectUrl>https://github.com/Keflon/Maui.MvvmZero</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/Keflon/Maui.MvvmZero</RepositoryUrl>
 		<PackageTags>MAUI; Mvvm; Navigation; iOS; WinUI; Android; FunctionZero; zBind; Tizen</PackageTags>
@@ -28,7 +28,7 @@
 		</PackageReleaseNotes>
 		<PackageId>FunctionZero.Maui.MvvmZero</PackageId>
 		<RootNamespace>FunctionZero.Maui.MvvmZero</RootNamespace>
-		<Version>9.2.0</Version>
+		<Version>9.2.1-pre3</Version>
 		<Title>Maui.MvvmZero</Title>
 		<PackageIcon>F0 gravatar.png</PackageIcon>
 		<PackageOutputPath>C:\Users\kpick\OneDrive - Function Zero Ltd\FunctionZeroBuildResources\NuGet</PackageOutputPath>

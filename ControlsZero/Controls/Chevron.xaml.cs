@@ -5,8 +5,37 @@ public partial class Chevron : ContentView
     public Chevron()
     {
         InitializeComponent();
-            TheImage.Source = new FontImageSource() { Glyph = ">", Color = Colors.Gray, Size = 40 };
+        //TheImage.Source = new FontImageSource() { Glyph = ">", Color = Colors.Gray, Size = 40 };
+        TheImage.IsVisible = false;
     }
+
+
+    public static readonly BindableProperty ChevronImageSourceProperty = BindableProperty.Create(nameof(ChevronImageSource), typeof(ImageSource), typeof(Chevron), null, BindingMode.OneWay, null, ChevronImageSourcePropertyChanged);
+
+    public ImageSource ChevronImageSource
+    {
+        get { return (ImageSource)GetValue(ChevronImageSourceProperty); }
+        set { SetValue(ChevronImageSourceProperty, value); }
+    }
+
+    private static void ChevronImageSourcePropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
+    {
+        var self = (Chevron)bindable;
+
+        self.TheImage.IsVisible = newvalue != null;
+        self.TheLabel.IsVisible = !self.TheImage.IsVisible;
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     public static readonly BindableProperty IsExpandedProperty = BindableProperty.Create(nameof(IsExpanded), typeof(bool), typeof(Chevron), false, BindingMode.TwoWay, null, IsExpandedChanged);
 

@@ -14,19 +14,27 @@
             ItemHeight="30"
             IndentMultiplier="20" 
             >
-            <cz:TreeGridViewZero.TreeItemTemplate>
-                <cz:TreeItemDataTemplate ChildrenPropertyName="Children" IsExpandedPropertyName="IsExpanded">
-                    <DataTemplate>
-                        <Label Text="{Binding Title}" BackgroundColor="LightBlue" />
-                    </DataTemplate>
+            <cz:TreeGridViewZero.Resources>
+                <Style TargetType="cz:Chevron">
+                    <Setter Property="ChevronImageSource" Value="fr.png"/>
+                </Style>
+            </cz:TreeGridViewZero.Resources>
+            
+        <cz:TreeGridViewZero.TreeItemTemplate>
+                <cz:TreeItemDataTemplate ChildrenPropertyName="Children" IsExpandedPropertyName="IsExpanded" IsPrimarySelectionItemPropertyName="IsPrimarySelection">
+                    <cz:TreeItemDataTemplate.DataTemplateContent>
+                        <DataTemplate>
+                            <Label Text="{Binding Title}" BackgroundColor="LightBlue" />
+                        </DataTemplate>
+                    </cz:TreeItemDataTemplate.DataTemplateContent>
                 </cz:TreeItemDataTemplate>
             </cz:TreeGridViewZero.TreeItemTemplate>
-            
+
             <cz:TreeGridViewZero.ColumnsSource>
                 <cz:GridColumnZero BackgroundColor="Red" >
                     <cz:GridColumnZero.ItemTemplate>
                         <DataTemplate>
-                            <Label Text="{Binding Title}" />
+                            <Editor Text="{Binding Title}" />
                         </DataTemplate>
                     </cz:GridColumnZero.ItemTemplate>
                 </cz:GridColumnZero>
@@ -71,7 +79,7 @@
             </cz:GridViewZero.ColumnsSource>
         </cz:GridViewZero>
 
-        <cz:ListViewZero 
+        <cz:ListViewZero
             Grid.Column="2"
             BackgroundColor="Azure"
             ItemsSource="{Binding ListChildren}"

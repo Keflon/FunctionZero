@@ -25,8 +25,8 @@ namespace ShowcaseZero.Mvvm.PageViewModels.Flyout
         public override void OnOwnerPageAppearing()
         {
             base.OnOwnerPageAppearing();
-            //_pageService.FlyoutController.SetDetailVm<TreeGridExperimentalPageVm>(true, vm => { });
-            _pageService.FlyoutController.SetDetailVm<LocalizationSamplePageVm>(true, vm => { });
+            _pageService.FlyoutController.SetDetailVm<TreeGridExperimentalPageVm>(true, vm => { });
+            //_pageService.FlyoutController.SetDetailVm<LocalizationSamplePageVm>(true, vm => { });
         }
     }
 }

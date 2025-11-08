@@ -3,16 +3,29 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FunctionZero.Maui.Controls.Chevron" Padding="3"
              WidthRequest="{Binding Height, Mode=OneWay, Source={x:RelativeSource Self}}"                                  
-             
+             x:Name="Self"
             >
+
+    <!-- Do not confuse x:Name=Self and RelativeSource Self -->
+
     <ContentView.GestureRecognizers>
         <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
     </ContentView.GestureRecognizers>
-    <Image x:Name="TheImage">
-        <!--
-        Set the Source in code, after we have the size we want to draw it. 
+    <!-- OLD BUT MAY BE RELEVANT: Set the Source in code, after we have the size we want to draw it. 
         Fixes an initial layout problem on iOS where a high initial value for Size 
-        puts big gaps between CollectionView items
-        -->
-    </Image>
+        puts big gaps between CollectionView items-->
+
+    <Grid>
+        <Image 
+            x:Name="TheImage" IsVisible="False"
+            Source="{Binding ChevronImageSource, Source={x:Reference Self}}"/>
+
+        <Label 
+            x:Name="TheLabel"
+            Text=">" 
+
+            HorizontalTextAlignment="Center" 
+            VerticalTextAlignment="Center"/>
+
+    </Grid>
 </ContentView>
