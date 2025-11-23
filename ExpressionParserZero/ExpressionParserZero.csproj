@@ -4,25 +4,30 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<AssemblyName>FunctionZero.$(MSBuildProjectName)</AssemblyName>
 		<!--<PackageId>FunctionZero.$(AssemblyName)</PackageId>-->
-		<VersionPrefix>6.0.2</VersionPrefix>
+		<VersionPrefix>6.0.4-pre5</VersionPrefix>
 		<PackageIcon>F0 gravatar.png</PackageIcon>
 
 		<Authors>Keith Pickford</Authors>
 		<Company>FunctionZero Ltd</Company>
 		<Description>RPN Expression Parser and Evaluator with databinding to POCO and INPC instances.</Description>
-		<Copyright>Copyright 2017-2024 (c) Function Zero Ltd.</Copyright>
+		<Copyright>Copyright 2017-2025 (c) Function Zero Ltd.</Copyright>
 		<PackageProjectUrl>https://github.com/Keflon/FunctionZero</PackageProjectUrl>
 		<PackageReadmeFile>readme_nuget.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/Keflon/FunctionZero.ExpressionParserZero</RepositoryUrl>
 		<PackageTags>RPN; postfix; expression parser; evaluator; infix; reverse polish; overload; typesafe; variable; variables; bind; binding; zbind; z:bind; cast; casting;</PackageTags>
 		<PackageIcon>F0 gravatar.png</PackageIcon>
-		<PackageReleaseNotes>Supressed a benign exception caused by early-binding.</PackageReleaseNotes>
+		<PackageReleaseNotes>Added sourcelink.</PackageReleaseNotes>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<PackageOutputPath>C:\Users\kpick\OneDrive - Function Zero Ltd\FunctionZeroBuildResources\NuGet</PackageOutputPath>
+		<PackageOutputPath>C:\Users\KeithPickford\source\nuget</PackageOutputPath>
 		<Title>ExpressionParserZero</Title>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="..\F0 gravatar.png">
