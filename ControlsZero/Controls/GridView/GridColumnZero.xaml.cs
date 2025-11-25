@@ -170,7 +170,7 @@ public partial class GridColumnZero : ContentView
 
     private ListItemZero GetViewForBindingContextFromCanvas(object bindingContext)
     {
-        // TODO: Will a Map be quicker? Probably not.
+        // Will a Map be quicker? Probably not.
         foreach (View item in this.TheGridColumnCanvas)
             if (item.BindingContext == bindingContext)
                 return (ListItemZero)item;
