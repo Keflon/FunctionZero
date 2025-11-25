@@ -771,11 +771,11 @@ namespace FunctionZero.ExpressionParserZero.Parser
         {
             if (Operators.TryGetValue(operatorName, out IOperator op))
             {
-                if (op.Type == OperatorType.Operator)
+                if ((op.Type == OperatorType.Operator) || (op.Type == OperatorType.UnaryCastOperator))
                     OperatorMatrices[op].RegisterDelegate(left, right, func);
                 else
                     throw new ExpressionParserException(-1, ExpressionParserException.ExceptionCause.DoubleOperandOperatorNotFound,
-                        "'" + operatorName + "' is a unary operator");
+                        "'" + operatorName + "' is an operator or a unary-cast operator");
             }
             else
                 throw new ExpressionParserException(-1, ExpressionParserException.ExceptionCause.DoubleOperandOperatorNotFound,

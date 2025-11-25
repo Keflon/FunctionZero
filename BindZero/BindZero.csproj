@@ -20,7 +20,7 @@
 		<AssemblyName>FunctionZero.Maui.$(MSBuildProjectName)</AssemblyName>
 		<RootNamespace>FunctionZero.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
 		<Title>FunctionZero.$(AssemblyName)</Title>
-		<VersionPrefix>9.2.0</VersionPrefix>
+		<VersionPrefix>9.2.1-pre5</VersionPrefix>
 
 		<Authors>Keith Pickford</Authors>
 		<Company>FunctionZero Ltd</Company>
@@ -33,7 +33,7 @@
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<PackageOutputPath>C:\Users\kpick\OneDrive - Function Zero Ltd\FunctionZeroBuildResources\NuGet</PackageOutputPath>
+		<PackageOutputPath>C:\Users\KeithPickford\source\nuget</PackageOutputPath>
 		<PackageProjectUrl>https://github.com/Keflon/FunctionZero</PackageProjectUrl>
 	</PropertyGroup>
 

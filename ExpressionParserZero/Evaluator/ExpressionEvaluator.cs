@@ -97,7 +97,10 @@ namespace FunctionZero.ExpressionParserZero
 
                     var thing = OperatorActions.PeekAndResolve(operandStack, backingStore);
 
-                    if ((bool)thing.GetValue() == false)
+                    var val = thing.GetValue();
+                    var boolVal = val is bool b ? b : false;
+
+                    if (boolVal == false)
                     {
                         // The operator has done its work, discard it.
                         operandStack.Pop();
