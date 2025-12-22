@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:cz="clr-namespace:FunctionZero.Maui.Controls;assembly=FunctionZero.Maui.ControlsZero"
              xmlns:tg="clr-namespace:ShowcaseZero.Mvvm.Pages.TreeGrid"
+             xmlns:aa="clr-namespace:SampleApp.Mvvm.ViewModels"
              x:Class="ShowcaseZero.Mvvm.Pages.TreeGrid.TreeGridExperimentalPage"
              Title="Welcome to TreeGridExperimentalPage!">
 
@@ -25,18 +26,18 @@
                 <!--<cz:TreeItemDataTemplate ChildrenPropertyName="Children" IsExpandedPropertyName="IsExpanded" IsPrimarySelectionItemPropertyName="IsPrimarySelection">-->
                 <cz:TreeItemDataTemplate ChildrenPropertyName="Children" IsExpandedPropertyName="IsExpanded" >
                     <cz:TreeItemDataTemplate.DataTemplateContent>
-                        <tg:TestDataTemplateSelector >
-                            <tg:TestDataTemplateSelector.First>
-                                <DataTemplate>
-                                    <Label Text="{Binding Title}" BackgroundColor="LightBlue" />
-                                </DataTemplate>
-                            </tg:TestDataTemplateSelector.First>
-                            <tg:TestDataTemplateSelector.Second>
-                                <DataTemplate>
-                                    <Label Text="{Binding Title}" BackgroundColor="Yellow" />
-                                </DataTemplate>
-                            </tg:TestDataTemplateSelector.Second>
-                        </tg:TestDataTemplateSelector>
+
+                        <cz:TreeItemDataTemplateSelector  >
+                            <cz:TreeItemDataTemplateSelector.DataTemplateContent>
+                                <cz:TreeItemDataTemplate ChildrenPropertyName="Children" IsExpandedPropertyName="IsExpanded" TargetType="{x:Type aa:FlyoutItemVm}" >
+                                    <cz:TreeItemDataTemplate.DataTemplateContent>
+                                        <DataTemplate>
+                                            <Label Text="{Binding Title}" BackgroundColor="Yellow" />
+                                        </DataTemplate>
+                                    </cz:TreeItemDataTemplate.DataTemplateContent>
+                                </cz:TreeItemDataTemplate>
+                            </cz:TreeItemDataTemplateSelector.DataTemplateContent>
+                        </cz:TreeItemDataTemplateSelector>
 
                     </cz:TreeItemDataTemplate.DataTemplateContent>
                 </cz:TreeItemDataTemplate>

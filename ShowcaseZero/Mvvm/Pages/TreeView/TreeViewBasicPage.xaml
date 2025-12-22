@@ -20,9 +20,11 @@
                     ChildrenPropertyName="Children"
                     IsExpandedPropertyName="IsExpanded"
                     >
-                    <DataTemplate>
-                        <Label Text="{Binding Name}"/>
-                    </DataTemplate>
+                    <cz:TreeItemDataTemplate.DataTemplateContent>
+                        <DataTemplate>
+                            <Label Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </cz:TreeItemDataTemplate.DataTemplateContent>
                 </cz:TreeItemDataTemplate>
             </cz:TreeGridViewZero.TreeItemTemplate>
 
