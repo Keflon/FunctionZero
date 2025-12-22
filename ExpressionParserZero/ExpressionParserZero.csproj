@@ -4,7 +4,7 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<AssemblyName>FunctionZero.$(MSBuildProjectName)</AssemblyName>
 		<!--<PackageId>FunctionZero.$(AssemblyName)</PackageId>-->
-		<VersionPrefix>6.0.4-pre5</VersionPrefix>
+		<VersionPrefix>6.0.4</VersionPrefix>
 		<PackageIcon>F0 gravatar.png</PackageIcon>
 
 		<Authors>Keith Pickford</Authors>
@@ -16,12 +16,14 @@
 		<RepositoryUrl>https://github.com/Keflon/FunctionZero.ExpressionParserZero</RepositoryUrl>
 		<PackageTags>RPN; postfix; expression parser; evaluator; infix; reverse polish; overload; typesafe; variable; variables; bind; binding; zbind; z:bind; cast; casting;</PackageTags>
 		<PackageIcon>F0 gravatar.png</PackageIcon>
-		<PackageReleaseNotes>Added sourcelink.</PackageReleaseNotes>
+		<PackageReleaseNotes>Supressed exception if short-circuiting an AND and the left value isn't a bool.
+Allowed RegisterOverload to overload a unary cast.
+Added souercelink.</PackageReleaseNotes>
 		<PackageLicenseFile>License.txt</PackageLicenseFile>
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<IncludeSymbols>True</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<PackageOutputPath>C:\Users\KeithPickford\source\nuget</PackageOutputPath>
+		<PackageOutputPath>C:\Users\kpick\OneDrive - Function Zero Ltd\FunctionZeroBuildResources\NuGet</PackageOutputPath>
 		<Title>ExpressionParserZero</Title>
 	</PropertyGroup>
 
