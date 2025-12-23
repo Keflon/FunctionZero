@@ -2,10 +2,12 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:cz="clr-namespace:FunctionZero.Maui.Controls;assembly=FunctionZero.Maui.ControlsZero"
+             xmlns:tg="clr-namespace:ShowcaseZero.Mvvm.Pages.TreeGrid"
+             xmlns:aa="clr-namespace:SampleApp.Mvvm.ViewModels"
              x:Class="ShowcaseZero.Mvvm.Pages.TreeGrid.TreeGridExperimentalPage"
              Title="Welcome to TreeGridExperimentalPage!">
 
-    <Grid ColumnDefinitions="11*,*,*">
+    <Grid ColumnDefinitions="2*,*,*">
         <cz:TreeGridViewZero 
             Grid.Column="0"
             SelectionMode="Single"
@@ -14,19 +16,38 @@
             ItemHeight="30"
             IndentMultiplier="20" 
             >
+            <cz:TreeGridViewZero.Resources>
+                <Style TargetType="cz:Chevron">
+                    <Setter Property="ChevronImageSource" Value="fr.png"/>
+                </Style>
+            </cz:TreeGridViewZero.Resources>
+
             <cz:TreeGridViewZero.TreeItemTemplate>
-                <cz:TreeItemDataTemplate ChildrenPropertyName="Children" IsExpandedPropertyName="IsExpanded">
-                    <DataTemplate>
-                        <Label Text="{Binding Title}" BackgroundColor="LightBlue" />
-                    </DataTemplate>
+                <!--<cz:TreeItemDataTemplate ChildrenPropertyName="Children" IsExpandedPropertyName="IsExpanded" IsPrimarySelectionItemPropertyName="IsPrimarySelection">-->
+                <cz:TreeItemDataTemplate ChildrenPropertyName="Children" IsExpandedPropertyName="IsExpanded" >
+                    <cz:TreeItemDataTemplate.DataTemplateContent>
+
+                        <cz:TreeItemDataTemplateSelector  >
+                            <cz:TreeItemDataTemplateSelector.DataTemplateContent>
+                                <cz:TreeItemDataTemplate ChildrenPropertyName="Children" IsExpandedPropertyName="IsExpanded" TargetType="{x:Type aa:FlyoutItemVm}" >
+                                    <cz:TreeItemDataTemplate.DataTemplateContent>
+                                        <DataTemplate>
+                                            <Label Text="{Binding Title}" BackgroundColor="Yellow" />
+                                        </DataTemplate>
+                                    </cz:TreeItemDataTemplate.DataTemplateContent>
+                                </cz:TreeItemDataTemplate>
+                            </cz:TreeItemDataTemplateSelector.DataTemplateContent>
+                        </cz:TreeItemDataTemplateSelector>
+
+                    </cz:TreeItemDataTemplate.DataTemplateContent>
                 </cz:TreeItemDataTemplate>
             </cz:TreeGridViewZero.TreeItemTemplate>
-            
+
             <cz:TreeGridViewZero.ColumnsSource>
                 <cz:GridColumnZero BackgroundColor="Red" >
                     <cz:GridColumnZero.ItemTemplate>
                         <DataTemplate>
-                            <Label Text="{Binding Title}" />
+                            <Editor Text="{Binding Title}" />
                         </DataTemplate>
                     </cz:GridColumnZero.ItemTemplate>
                 </cz:GridColumnZero>
@@ -52,7 +73,7 @@
 
         <cz:GridViewZero 
             Grid.Column="1"
-        SelectionMode="Multiple"
+        SelectionMode="Single"
         ItemsSource="{Binding ListChildren}"
          
         Margin="10">
@@ -61,9 +82,22 @@
                 </cz:GridColumnZero>
                 <cz:GridColumnZero BackgroundColor="Green" >
                     <cz:GridColumnZero.ItemTemplate>
-                        <DataTemplate>
+                        <tg:TestDataTemplateSelector >
+                            <tg:TestDataTemplateSelector.First>
+                                <DataTemplate>
+                                    <Label Text="{Binding }" Rotation="12" />
+                                </DataTemplate>
+                            </tg:TestDataTemplateSelector.First>
+                            <tg:TestDataTemplateSelector.Second>
+                                <DataTemplate>
+                                    <Label Text="{Binding }"  Rotation="-12" />
+                                </DataTemplate>
+                            </tg:TestDataTemplateSelector.Second>
+                        </tg:TestDataTemplateSelector>
+
+                        <!--<DataTemplate>
                             <Label Text="{Binding}" Scale="0.8"/>
-                        </DataTemplate>
+                        </DataTemplate>-->
                     </cz:GridColumnZero.ItemTemplate>
                 </cz:GridColumnZero>
                 <cz:GridColumnZero BackgroundColor="Blue" >
@@ -71,7 +105,7 @@
             </cz:GridViewZero.ColumnsSource>
         </cz:GridViewZero>
 
-        <cz:ListViewZero 
+        <cz:ListViewZero
             Grid.Column="2"
             BackgroundColor="Azure"
             ItemsSource="{Binding ListChildren}"

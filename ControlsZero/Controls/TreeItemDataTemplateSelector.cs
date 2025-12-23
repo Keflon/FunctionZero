@@ -20,8 +20,16 @@ namespace FunctionZero.Maui.Controls
                 if (template.TargetType.IsAssignableFrom(item.GetType()))
                     return template.OnSelectTemplateProvider(item);
 
-            return null;
+            var retval = new TreeItemDataTemplate();
+            retval.DataTemplateContent = new DataTemplate(()=>GetDefaultDataTemplate(item));
+            return retval;
         }
 
+        private object GetDefaultDataTemplate(object item)
+        {
+            var retval = new Label();
+            retval.SetBinding(Label.TextProperty, new Binding(".", BindingMode.OneTime, null, null, null, item));
+            return retval;
+        }
     }
 }
