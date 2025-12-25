@@ -4,18 +4,12 @@
              xmlns:cz="clr-namespace:FunctionZero.Maui.Controls;assembly=FunctionZero.Maui.ControlsZero"
              x:Class="FunctionZero.Maui.Controls.MaskZero"
              x:Name="Self"
-             
-             
              >
     <ContentView.ControlTemplate>
         <ControlTemplate>
             <Grid>
                 <ContentPresenter />
-                <GraphicsView ParentChanged="GraphicsView_ParentChanged" InputTransparent="True" >
-                    <GraphicsView.Drawable>
-                        <cz:MaskViewZero />
-                    </GraphicsView.Drawable>
-                </GraphicsView>
+                <GraphicsView ParentChanged="GraphicsView_ParentChanged" InputTransparent="True" />
             </Grid>
 
         </ControlTemplate>
