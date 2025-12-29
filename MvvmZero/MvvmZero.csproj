@@ -28,7 +28,7 @@
 		</PackageReleaseNotes>
 		<PackageId>FunctionZero.Maui.MvvmZero</PackageId>
 		<RootNamespace>FunctionZero.Maui.MvvmZero</RootNamespace>
-		<Version>9.2.1-pre4</Version>
+		<Version>10.0.0-pre1</Version>
 		<Title>Maui.MvvmZero</Title>
 		<PackageIcon>F0 gravatar.png</PackageIcon>
 		<PackageOutputPath>C:\Users\kpick\OneDrive - Function Zero Ltd\FunctionZeroBuildResources\NuGet</PackageOutputPath>
