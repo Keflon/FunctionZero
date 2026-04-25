@@ -10,13 +10,14 @@ using ShowcaseZero.Mvvm.Pages.ListView;
 using ShowcaseZero.Mvvm.Pages.Localization;
 using ShowcaseZero.Mvvm.Pages.MaskView;
 using ShowcaseZero.Mvvm.Pages.TreeGrid;
+using ShowcaseZero.Mvvm.Pages.TreeGridView;
 using ShowcaseZero.Mvvm.Pages.TreeView;
 using ShowcaseZero.Mvvm.PageViewModels;
 using ShowcaseZero.Mvvm.PageViewModels.Flyout;
 using ShowcaseZero.Mvvm.PageViewModels.ListView;
 using ShowcaseZero.Mvvm.PageViewModels.Localization;
 using ShowcaseZero.Mvvm.PageViewModels.MaskView;
-using ShowcaseZero.Mvvm.PageViewModels.TreeGrid;
+using ShowcaseZero.Mvvm.PageViewModels.TreeGridView;
 using ShowcaseZero.Mvvm.PageViewModels.TreeView;
 
 namespace ShowcaseZero
@@ -38,6 +39,8 @@ namespace ShowcaseZero
                     .MapVmToView<ListViewAboutPageVm, ListViewAboutPage>()
                     .MapVmToView<ListViewBasicPageVm, ListViewBasicPage>()
                     .MapVmToView<TreeViewAboutPageVm, TreeViewAboutPage>()
+                    .MapVmToView<TreeGridViewAboutPageVm, TreeGridViewAboutPage>()
+                    .MapVmToView<TreeGridViewSamplePageVm, TreeGridViewSamplePage>()
                     .MapVmToView<TreeViewBasicPageVm, TreeViewBasicPage>()
                     .MapVmToView<TreeGridExperimentalPageVm, TreeGridExperimentalPage>()
                     .MapVmToView<LocalizationSamplePageVm, LocalizationSamplePage>()
@@ -75,6 +78,10 @@ namespace ShowcaseZero
                 .AddSingleton<TreeViewBasicPage>()
                 .AddSingleton<FlyoutFlyoutPageVm>()
                 .AddSingleton<FlyoutFlyoutPage>()
+                .AddSingleton<TreeGridViewAboutPageVm>()
+                .AddSingleton<TreeGridViewAboutPage>()
+                .AddSingleton<TreeGridViewSamplePageVm>()
+                .AddSingleton<TreeGridViewSamplePage>()
                 .AddSingleton<TreeGridExperimentalPageVm>()
                 .AddSingleton<TreeGridExperimentalPage>()
                 .AddSingleton<LocalizationSamplePageVm>()

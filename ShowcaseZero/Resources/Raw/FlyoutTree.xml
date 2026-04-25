@@ -11,6 +11,7 @@
 	<Node Title="Controls">
 		<Node Title="ListView" ActionKey="ListView" Argument=""/>
 		<Node Title="TreeView" ActionKey="TreeView" Argument=""/>
+		<Node Title="TreeGridView" ActionKey="TreeGridView" Argument=""/>
 		<Node Title="MaskView" ActionKey="MaskView" Argument=""/>
 	</Node>
 

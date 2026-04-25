@@ -98,7 +98,13 @@
 	  <MauiXaml Update="Mvvm\Pages\MaskView\MaskViewPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Mvvm\Pages\TreeGrid\TreeGridExperimentalPage.xaml">
+	  <MauiXaml Update="Mvvm\Pages\TreeGridView\TreeGridExperimentalPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Mvvm\Pages\TreeGridView\TreeGridViewAboutPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Mvvm\Pages\TreeGridView\TreeGridViewSamplePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Mvvm\Pages\TreeView\TreeViewAboutPage.xaml">

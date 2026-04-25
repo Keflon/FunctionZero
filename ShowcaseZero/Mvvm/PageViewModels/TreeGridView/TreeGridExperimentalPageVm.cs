@@ -3,11 +3,9 @@ using FunctionZero.Maui.Showcase.Services;
 using SampleApp.Mvvm.ViewModels;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
-using System.Xml;
 
-namespace ShowcaseZero.Mvvm.PageViewModels.TreeGrid
+namespace ShowcaseZero.Mvvm.PageViewModels.TreeGridView
 {
     public class TreeGridExperimentalPageVm : BasePageVm
     {
