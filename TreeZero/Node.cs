@@ -61,10 +61,17 @@ namespace FunctionZero.TreeZero
                         throw new TreeZeroException(this, ExceptionReason.ParentToSelf);
                     if (value != null && value.IsChildOf(this))
                         throw new TreeZeroException(this, ExceptionReason.ParentToDescendant);
+                    var oldParent = _parent;
                     _parent = value;
                     OnPropertyChanged();
+                    OnParentChanged(oldParent);
                 }
             }
+        }
+
+        public virtual void OnParentChanged(T oldParent)
+        {
+            ParentChanged?.Invoke(this, new ParentChangedEventArgs<T>(oldParent, Parent));
         }
 
 
@@ -93,6 +100,7 @@ namespace FunctionZero.TreeZero
         private T _oldParent;
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler<ParentChangedEventArgs<T>> ParentChanged;
 
         protected virtual async void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
