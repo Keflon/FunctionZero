@@ -1,8 +1,6 @@
 ﻿using FunctionZero.ExpressionParserZero.BackingStore;
 using System.Xml;
 
-[assembly: Microsoft.Maui.Controls.XmlnsPrefix("FunctionZero.Maui.zBind.z", "zero")]
-
 namespace FunctionZero.Maui.zBind.z
 {
     [ContentProperty("Expression")]

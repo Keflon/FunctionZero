@@ -14,7 +14,7 @@ namespace FunctionZero.ExpressionParserZero.Binding
     */
     public class PathBind
     {
-        private static char[] _dot = new[] { '.' };
+        private static readonly char[] _dot = new[] { '.' };
 
         private readonly PropertyInfo _propertyInfo;
         private PropertyInfo _hostPropertyInfo;
