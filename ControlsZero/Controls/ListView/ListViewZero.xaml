@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FunctionZero.Maui.Controls.ListViewZero" 
              xmlns:cz="clr-namespace:FunctionZero.Maui.Controls;assembly=FunctionZero.Maui.ControlsZero"
-             HorizontalOptions="FillAndExpand" 
-             VerticalOptions="FillAndExpand" 
+             HorizontalOptions="Fill" 
+             VerticalOptions="Fill" 
              x:Name="Self"        
         Margin="30"
              >
@@ -24,7 +24,7 @@
         <!--ItemTemplate="{Binding ItemTemplate, Source={x:Reference Self}}"-->
 
         <cz:GridViewZero.ColumnsSource>
-            <cz:GridColumnZero BackgroundColor="Green" 
+            <cz:GridColumnZero  
                 ItemTemplate="{Binding ItemTemplate, Source={x:Reference Self}}"
                 ItemContainerStyle="{Binding ItemContainerStyle, Source={x:Reference Self}}"
             >

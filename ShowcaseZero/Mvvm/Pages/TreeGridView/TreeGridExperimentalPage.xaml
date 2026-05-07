@@ -113,7 +113,7 @@
 >
             <cz:ListViewZero.ItemTemplate>
                 <DataTemplate>
-                    <Label Text="{Binding}"/>
+                    <Label Text="{Binding}" TextColor="Black"/>
                 </DataTemplate>
             </cz:ListViewZero.ItemTemplate>
         </cz:ListViewZero>
