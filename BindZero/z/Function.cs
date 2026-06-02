@@ -6,13 +6,7 @@ namespace FunctionZero.Maui.zBind.z
     [ContentProperty("Expression")]
     public class Function : IMarkupExtension<TreeAndSource>
     {
-        private string _expression;
-
-        public string Expression 
-        { 
-            get => _expression;
-            set => _expression = value; 
-        }
+        public string Expression { get; set; }
 
         public object Source { get; set; }
 

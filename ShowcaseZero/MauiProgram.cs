@@ -31,23 +31,23 @@ namespace ShowcaseZero
                 .UseMauiApp<App>()
                 .UseMvvmZero(
                 serviceBuilder =>
-                {
-                    serviceBuilder
-                    .MapVmToView<FlyoutFlyoutPageVm, FlyoutFlyoutPage>()
+                    {
+                        serviceBuilder
+                        .MapVmToView<FlyoutFlyoutPageVm, FlyoutFlyoutPage>()
 
-                    .MapVmToView<HomePageVm, HomePage>()
-                    .MapVmToView<ListViewAboutPageVm, ListViewAboutPage>()
-                    .MapVmToView<ListViewBasicPageVm, ListViewBasicPage>()
-                    .MapVmToView<TreeViewAboutPageVm, TreeViewAboutPage>()
-                    .MapVmToView<TreeGridViewAboutPageVm, TreeGridViewAboutPage>()
-                    .MapVmToView<TreeGridViewSamplePageVm, TreeGridViewSamplePage>()
-                    .MapVmToView<TreeViewBasicPageVm, TreeViewBasicPage>()
-                    .MapVmToView<TreeGridExperimentalPageVm, TreeGridExperimentalPage>()
-                    .MapVmToView<LocalizationSamplePageVm, LocalizationSamplePage>()
-                    .MapVmToView<MaskViewPageVm, MaskViewPage>()
+                        .MapVmToView<HomePageVm, HomePage>()
+                        .MapVmToView<ListViewAboutPageVm, ListViewAboutPage>()
+                        .MapVmToView<ListViewBasicPageVm, ListViewBasicPage>()
+                        .MapVmToView<TreeViewAboutPageVm, TreeViewAboutPage>()
+                        .MapVmToView<TreeGridViewAboutPageVm, TreeGridViewAboutPage>()
+                        .MapVmToView<TreeGridViewSamplePageVm, TreeGridViewSamplePage>()
+                        .MapVmToView<TreeViewBasicPageVm, TreeViewBasicPage>()
+                        .MapVmToView<TreeGridExperimentalPageVm, TreeGridExperimentalPage>()
+                        .MapVmToView<LocalizationSamplePageVm, LocalizationSamplePage>()
+                        .MapVmToView<MaskViewPageVm, MaskViewPage>()
                     
-                    ;
-                })
+                        ;
+                    })
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

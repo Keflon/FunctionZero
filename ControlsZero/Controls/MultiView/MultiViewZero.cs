@@ -268,6 +268,7 @@ namespace FunctionZero.Maui.Controls
             }
         }
 
+
         private OperandStack TryEvaluate(ExpressionTree compiledExpression, PocoBackingStore backingStore, IView view)
         {
             //View = isInAnimation ? _currentView : _previousView;
