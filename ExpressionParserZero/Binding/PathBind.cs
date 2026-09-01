@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Reflection;
-using System.Xml.Linq;
 
 namespace FunctionZero.ExpressionParserZero.Binding
 {
@@ -12,7 +11,7 @@ namespace FunctionZero.ExpressionParserZero.Binding
     Wrap inside an IBackingStore and feed it to an ExpressionParser
     Create an update strategy for the EP ... Immediate, deferred or manual.
     */
-    public class PathBind
+    public class PathBind : IDisposable
     {
         private static readonly char[] _dot = new[] { '.' };
 
@@ -33,6 +32,8 @@ namespace FunctionZero.ExpressionParserZero.Binding
         private readonly Action<object> _valueChanged;
         private string _hostPropertyName;
         private PathBindMode _mode;
+        private bool _isDisposed;
+        private bool _isUpdating;
 
         public object Value
         {
@@ -52,17 +53,35 @@ namespace FunctionZero.ExpressionParserZero.Binding
             if (this != _bindingRoot)
                 throw new InvalidOperationException("Something has gone very wrong!");
 
-            if (_hostPropertyInfo != null)
-                if (_mode > PathBindMode.OneWay)    // Not OneShot, not OneWay.
+            if (_hostPropertyInfo != null && !_isUpdating)
+                if (_mode == PathBindMode.OneWayToSource || _mode == PathBindMode.TwoWay)
                     if (_hostPropertyInfo.CanWrite)
-                        _hostPropertyInfo.SetValue(_host, value);
+                    {
+                        _isUpdating = true;
+                        try
+                        {
+                            _hostPropertyInfo.SetValue(_host, value);
+                        }
+                        finally
+                        {
+                            _isUpdating = false;
+                        }
+                    }
 
             _valueChanged(value);
         }
 
         public PathBind(object host, string qualifiedName, Action<object> valueChanged = null)
-            : this(null, valueChanged ?? ((o) => { }), host, qualifiedName.Split(_dot), 0)
+            : this(null, valueChanged ?? ((o) => { }), host ?? throw new ArgumentNullException(nameof(host)), SplitQualifiedName(qualifiedName), 0)
         {
+        }
+
+        private static string[] SplitQualifiedName(string qualifiedName)
+        {
+            if (string.IsNullOrWhiteSpace(qualifiedName))
+                throw new ArgumentException("A property path is required.", nameof(qualifiedName));
+
+            return qualifiedName.Split(_dot);
         }
 
         protected PathBind(PathBind bindingRoot, Action<object> valueChanged, object host, string[] bits, int currentIndex)
@@ -105,8 +124,21 @@ namespace FunctionZero.ExpressionParserZero.Binding
         /// </summary>
         public void DetachFromProperty()
         {
+            Dispose();
+        }
+
+        public void Dispose()
+        {
+            if (_isDisposed)
+                return;
+
+            _isDisposed = true;
+
             if (_child != null)
-                _child.DetachFromProperty();
+            {
+                _child.Dispose();
+                _child = null;
+            }
 
             if (_host is INotifyPropertyChanged inpc)
                 inpc.PropertyChanged -= HostPropertyChanged;
@@ -114,11 +146,17 @@ namespace FunctionZero.ExpressionParserZero.Binding
 
         private void HostPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (_isDisposed)
+                return;
+
             if (e.PropertyName == _propertyName)
             {
                 // Our property has changed
                 if (_child != null)
-                    _child.DetachFromProperty();
+                {
+                    _child.Dispose();
+                    _child = null;
+                }
 
                 // Refresh the value of the property
                 _partValue = _propertyInfo.GetValue(_host);
@@ -129,14 +167,22 @@ namespace FunctionZero.ExpressionParserZero.Binding
                     _child = new PathBind(_bindingRoot, null, _partValue, _bits, _currentIndex + 1);
             }
             // If 'this' is the root PathBind, and the property we are interested in has changed ...
-            else if ((this == _bindingRoot) && (e.PropertyName == _hostPropertyName))
+            else if ((this == _bindingRoot) && (e.PropertyName == _hostPropertyName) && !_isUpdating)
             {
                 switch (_mode)
                 {
                     case PathBindMode.OneWay:
                     case PathBindMode.TwoWay:
                         var newval = _hostPropertyInfo.GetValue(_host);
-                        SetValue(newval);
+                        _isUpdating = true;
+                        try
+                        {
+                            SetValue(newval);
+                        }
+                        finally
+                        {
+                            _isUpdating = false;
+                        }
                         break;
                     case PathBindMode.OneShot:
                     case PathBindMode.OneWayToSource:
@@ -148,8 +194,8 @@ namespace FunctionZero.ExpressionParserZero.Binding
         // TODO: PERFORMANCE: Track the leaf node so we can hit it directly.
         protected void SetValue(object newValue)
         {
-            if (_isLeaf)
-                this._propertyInfo.SetValue(_host, newValue);
+            if (_isLeaf && _propertyInfo != null && _propertyInfo.CanWrite)
+                _propertyInfo.SetValue(_host, newValue);
             else if (_child != null)
                 _child.SetValue(newValue);
         }
@@ -173,10 +219,29 @@ namespace FunctionZero.ExpressionParserZero.Binding
                         case PathBindMode.OneWay:
                         case PathBindMode.TwoWay:
                             var newval = _hostPropertyInfo.GetValue(_host);
-                            SetValue(newval);
+                            _isUpdating = true;
+                            try
+                            {
+                                SetValue(newval);
+                            }
+                            finally
+                            {
+                                _isUpdating = false;
+                            }
                             break;
                         case PathBindMode.OneWayToSource:
-                            _hostPropertyInfo.SetValue(_host, Value);
+                            if (_hostPropertyInfo.CanWrite)
+                            {
+                                _isUpdating = true;
+                                try
+                                {
+                                    _hostPropertyInfo.SetValue(_host, Value);
+                                }
+                                finally
+                                {
+                                    _isUpdating = false;
+                                }
+                            }
                             break;
                     }
                 }

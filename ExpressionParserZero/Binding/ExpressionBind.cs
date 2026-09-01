@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace FunctionZero.ExpressionParserZero.Binding
 {
-    public class ExpressionBind
+    public class ExpressionBind : IDisposable
     {
         private readonly IList<string> _bindingLookup;
         private readonly IList<PathBind> _bindingCollection;
@@ -15,6 +15,7 @@ namespace FunctionZero.ExpressionParserZero.Binding
         private readonly ExpressionTree _compiledExpression;
         private object _result;
         private bool _isStale;
+        private bool _isDisposed;
 
         public bool IsStale
         {
@@ -113,5 +114,16 @@ namespace FunctionZero.ExpressionParserZero.Binding
         private void SomethingChanged(object newValue) => Invalidate();
 
         public void Invalidate() => IsStale = true;
+
+        public void Dispose()
+        {
+            if (_isDisposed)
+                return;
+
+            _isDisposed = true;
+
+            foreach (var binding in _bindingCollection)
+                binding.Dispose();
+        }
     }
 }
