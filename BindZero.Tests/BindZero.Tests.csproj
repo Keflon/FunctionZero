@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+	<UseMaui>true</UseMaui>
+	<LangVersion>latest</LangVersion>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.9.0" />
+	<PackageReference Include="MSTest" Version="4.3.3" />
+	  <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.100" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<ProjectReference Include="..\BindZero\BindZero.csproj" />
+  </ItemGroup>
+
+</Project>

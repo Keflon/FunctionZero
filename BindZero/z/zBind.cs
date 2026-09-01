@@ -1,6 +1,7 @@
 ﻿using FunctionZero.ExpressionParserZero.Exceptions;
 using FunctionZero.ExpressionParserZero.Operands;
 using FunctionZero.ExpressionParserZero.Tokens;
+using Microsoft.Maui.Controls;
 using System.Diagnostics;
 using System.Xml;
 
@@ -14,7 +15,7 @@ namespace FunctionZero.Maui.zBind.z
         public string Expression { set; get; }
         public BindingMode Mode { get; set; }
 
-        private IList<string> _bindingLookup;
+        //private IList<string> _bindingLookup;
 
         public object Source { get; set; }
 
@@ -33,9 +34,9 @@ namespace FunctionZero.Maui.zBind.z
 
         public BindingBase ProvideValue(IServiceProvider serviceProvider)
         {
-            _bindingLookup = new List<string>();
+            var bindingLookup = new List<string>();
 
-            if (string.IsNullOrEmpty(Expression))
+            if (string.IsNullOrWhiteSpace(Expression))
             {
                 IXmlLineInfo lineInfo = serviceProvider.GetService(typeof(IXmlLineInfoProvider)) is IXmlLineInfoProvider lineInfoProvider ? lineInfoProvider.XmlLineInfo : new XmlLineInfo();
                 throw new XamlParseException("ZeroBind requires 'Expression' property to be set", lineInfo);
@@ -47,8 +48,18 @@ namespace FunctionZero.Maui.zBind.z
 
             try
             {
-                _multiBind = new MultiBinding();
-                
+                // Capture the XAML target object when available so VariableEvaluator can use the target's BindingContext for writes.
+                if (serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget provideValueTarget)
+                {
+                    if (provideValueTarget.TargetObject is BindableObject bo)
+                        this.BindableTarget = bo;
+                }
+
+                _multiBind = new MultiBinding()
+                {
+                    Mode = Mode
+                };
+
                 var compiledExpression = ep.Parse(Expression);
 
                 foreach (IToken item in compiledExpression.RpnTokens)
@@ -57,18 +68,19 @@ namespace FunctionZero.Maui.zBind.z
                     {
                         if (op.Type == OperandType.Variable)
                         {
-                            if (_bindingLookup.Contains(op.ToString()) == false)
+                            string variableName = op.ToString();
+                            if (bindingLookup.Contains(variableName) == false)
                             {
-                                var binding = new Binding(op.ToString(), BindingMode.OneWay, null, null, null, bindingSourceObject);
-                                _bindingLookup.Add(op.ToString());
+                                var binding = new Binding(variableName, BindingMode.OneWay, null, null, null, bindingSourceObject);
+                                bindingLookup.Add(variableName);
                                 _multiBind.Bindings.Add(binding);
                             }
                         }
                     }
                 }
-                _multiBind.Converter = new EvaluatorMultiConverter(_bindingLookup, compiledExpression, this);
+                _multiBind.Converter = new EvaluatorMultiConverter(bindingLookup, compiledExpression, this);
 
-                if (_bindingLookup.Count == 0)
+                if (bindingLookup.Count == 0)
                 {
                     // The expression is a constant, so there is nothing to bind to. Evaluate it and return a suitable dummy Binding.
                     var stack = compiledExpression.Evaluate(null);

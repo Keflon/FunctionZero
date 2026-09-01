@@ -3,7 +3,7 @@ using System;
 
 namespace FunctionZero.ExpressionParserZero.Operands
 {
-    internal sealed class IndexedReferenceOperand : IOperand
+    internal sealed class IndexedReferenceOperand : IOperand, IWritableOperand
     {
         private readonly Func<object> _getValue;
         private readonly Action<object> _setValue;

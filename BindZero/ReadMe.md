@@ -67,6 +67,8 @@ If this *data-source* supports `INotifyPropertyChanged`, changes will be tracked
 |`{z:Bind (Count * 2) LT 10}`|BindingContext| True if (Count * 2) < 10|
 |`{z:Bind Sin(Count / 25.0)}`|BindingContext| Calls a _function_ (see below)|
 |`{z:Bind 'Value LT 0.2', Source={x:Reference MySlider}}`|An *Element* called MySlider|True if `MySlider.Value` < 0.2|
+|`{z:Bind Items[SelectedIndex]}`|BindingContext|Bind to an indexed list or array value|
+|`{z:Bind 'Lookup[SelectedKey]'}`|BindingContext|Bind to an indexed dictionary value|
 
 ### z:Bind Examples
 #### Hide a `StackLayout` if `Things.Count != 0` ...
@@ -82,6 +84,19 @@ If this *data-source* supports `INotifyPropertyChanged`, changes will be tracked
 ```xaml
 <Label Scale="{z:Bind Value * 3 + 0.1, Source={x:Reference TheSlider}}" > ...
 ```
+
+### Indexed bindings
+Arrays, multidimensional arrays, lists and dictionaries can be indexed in an expression. The index or key may be a constant or another bound property.
+
+```xaml
+<Entry Text="{z:Bind Items[SelectedIndex], Mode=TwoWay}" />
+<Label Text="{z:Bind 'Matrix[Row, Column]'}" />
+<Entry Text="{z:Bind Lookup[SelectedKey], Mode=TwoWay}" />
+```
+
+Two-way binding can write through a direct indexed expression when the array, list or dictionary is writable. Assignment performs the same compatible value conversion as ExpressionParserZero. Read-only collections and invalid indices, keys or values are not modified.
+
+Changes to an index or key property reevaluate the expression when that property raises `INotifyPropertyChanged`. Replacing the collection property likewise reevaluates when the owning object raises `INotifyPropertyChanged`. An in-place collection mutation is read on the next evaluation, but is not guaranteed by zBind itself to trigger that evaluation; notify the owning collection property when a refresh is required.
 
 
 

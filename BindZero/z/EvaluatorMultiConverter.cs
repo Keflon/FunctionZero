@@ -123,7 +123,34 @@ namespace FunctionZero.Maui.zBind.z
             }
             else
             {
-                Debug.WriteLine("z:Bind attempt to write a value back to source. This is only possible if the expression contains one and only one token and the token is a variable.");
+                // Attempt to evaluate the expression to a writable reference (for indexed expressions)
+                try
+                {
+                    var resultStack = _compiledExpressionTree.Evaluate(_evaluator);
+                    if (resultStack.Count > 0)
+                    {
+                        var top = resultStack.Pop();
+                        if (top is IWritableOperand writable)
+                        {
+                            // Let the indexed operand handle conversion and assignment
+                            writable.SetValue(value);
+                        }
+                        else if (top is Operand op && op.Type == OperandType.Variable)
+                        {
+                            // Fallback: single variable assignment
+                            var name = (string)op.GetValue();
+                            var propInfo = _evaluator.GetPropertyInfo(name);
+                            if (propInfo != null && propInfo.CanWrite)
+                            {
+                                _evaluator.SetValue(propInfo, value);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"z:Bind ConvertBack failed: {ex.Message}");
+                }
             }
             return null;
         }
