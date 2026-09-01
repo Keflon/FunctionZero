@@ -41,11 +41,6 @@ namespace FunctionZero.ExpressionParserZero.Operators
 
 		public int MaxParameterCount { get; }
 		public int MinParameterCount { get; }
-		public int ActualParameterCount { get; set; }
-
-		internal bool CheckParameterCount()
-		{
-			return (ActualParameterCount >= MinParameterCount) && (ActualParameterCount <= MaxParameterCount);
-		}
+		public int ActualParameterCount => 0;
 	}
 }
