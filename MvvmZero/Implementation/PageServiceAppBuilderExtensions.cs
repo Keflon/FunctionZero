@@ -10,8 +10,9 @@ namespace FunctionZero.Maui.MvvmZero
 {
     public static class PageServiceAppBuilderExtensions
     {
-        public static MauiAppBuilder UseMvvmZero(this MauiAppBuilder appBuilder, Action<PageServiceBuilder> configureDelegate = null)
+        public static MauiAppBuilder UseMvvmZero(this MauiAppBuilder appBuilder, Action<PageServiceBuilder>? configureDelegate = null)
         {
+            ArgumentNullException.ThrowIfNull(appBuilder);
             // Add an initialisation service for MAUI to call. Haven't found a use for it yet ...
             appBuilder.Services.AddSingleton<IMauiInitializeService, PageServiceInitializationService>();
 
@@ -24,8 +25,10 @@ namespace FunctionZero.Maui.MvvmZero
             // Add IPageServiceZero to the Container as a Singleton.
             appBuilder.Services.AddSingleton<IPageServiceZero>((serviceProvider)=>BuildPageService(serviceProvider, pageServiceBuilder));
 
-            // Add a FlyoutController to the Container.
-            appBuilder.Services.AddSingleton<IFlyoutController, FlyoutController>();
+            // Register IFlyoutController to resolve to the controller owned by the singleton IPageServiceZero.
+            // This ensures consumers get the same controller instance that the page service maintains.
+            appBuilder.Services.AddSingleton<IFlyoutController>(serviceProvider =>
+                serviceProvider.GetRequiredService<IPageServiceZero>().FlyoutController);
 
             // NavigationPage is required to wrap NavigationPage and MultiPage items.
             // It must be transient because there may be multiple navigation stacks,
@@ -60,12 +63,12 @@ namespace FunctionZero.Maui.MvvmZero
         /// Method: If it is on a nav stack of a NavigationPage, return the INavigation.
         /// Method: 
         /// </summary>
-        private static INavigation DefaultNavigationFinder()
+        private static INavigation? DefaultNavigationFinder()
         {
-            return DefaultNavigationFinder(Application.Current.MainPage, null);
+            return DefaultNavigationFinder(Application.Current?.MainPage, null);
         }
 
-        private static INavigation DefaultNavigationFinder(Page current, INavigation lastNavigation)
+        private static INavigation? DefaultNavigationFinder(Page? current, INavigation? lastNavigation)
         {
             if (current is FlyoutPage flyoutPage)
                 // Reset lastNavigation and recurse.
@@ -97,13 +100,13 @@ namespace FunctionZero.Maui.MvvmZero
 
         #region MultiPageFinder
 
-        private static MultiPage<Page> DefaultMultiPageFinder()
+        private static MultiPage<Page>? DefaultMultiPageFinder()
         {
-            return DefaultMultiPageFinder(Application.Current.MainPage, null);
+            return DefaultMultiPageFinder(Application.Current?.MainPage, null);
 
         }
 
-        private static MultiPage<Page> DefaultMultiPageFinder(Page current, MultiPage<Page> lastMultiPage)
+        private static MultiPage<Page>? DefaultMultiPageFinder(Page? current, MultiPage<Page>? lastMultiPage)
         {
             if (current is FlyoutPage flyoutPage)
                 // Reset lastMultiPage and recurse.

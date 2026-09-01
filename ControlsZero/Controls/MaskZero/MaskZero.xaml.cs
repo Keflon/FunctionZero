@@ -1,7 +1,9 @@
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Controls.Shapes;
 using System;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Diagnostics;
 
 namespace FunctionZero.Maui.Controls;
@@ -15,10 +17,14 @@ public partial class MaskZero : ContentView
     private View _actualTarget;
     private double _alphaMultiplier;
     private bool _loaded;
+    private readonly HashSet<MaskShape> _trackedShapes = new();
+    private string _resolvedShapePathData;
 
     public MaskZero()
     {
         _mv = new MaskViewZero();
+        Shapes = new ObservableCollection<MaskShape>();
+        Shapes.CollectionChanged += Shapes_CollectionChanged;
 
         InitializeComponent();
 
@@ -30,6 +36,84 @@ public partial class MaskZero : ContentView
 
         DescendantAdded += MaskZero_DescendantAdded;
         DescendantRemoved += MaskZero_DescendantRemoved;
+    }
+
+    public ObservableCollection<MaskShape> Shapes { get; }
+
+    private void Shapes_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+        foreach (var shape in _trackedShapes)
+            shape.PropertyChanged -= Shape_PropertyChanged;
+
+        _trackedShapes.Clear();
+
+        foreach (var shape in Shapes)
+        {
+            if (_trackedShapes.Add(shape))
+                shape.PropertyChanged += Shape_PropertyChanged;
+        }
+
+        OnShapeDefinitionsChanged();
+    }
+
+    private void Shape_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName is nameof(MaskShape.Name) or nameof(MaskShape.PathData))
+            OnShapeDefinitionsChanged();
+    }
+
+    private void OnShapeDefinitionsChanged()
+    {
+        OnShapeSelectionChanged();
+    }
+
+    private void OnShapeSelectionChanged()
+    {
+        _resolvedShapePathData = null;
+
+        if (!string.IsNullOrWhiteSpace(ShapeName))
+        {
+            var selectedShape = Shapes.FirstOrDefault(shape => string.Equals(shape.Name, ShapeName, StringComparison.Ordinal));
+            if (!string.IsNullOrWhiteSpace(selectedShape?.PathData))
+                _resolvedShapePathData = selectedShape.PathData;
+        }
+
+        StartShapeTransition();
+        RequestUpdate();
+    }
+
+    private void StartShapeTransition()
+    {
+        AnimationExtensions.AbortAnimation(this, "ShapeChangeAnimation");
+
+        if (!_mv.BeginShapeTransition(_resolvedShapePathData, MaskRoundness))
+            return;
+
+        if (ShapeChangeDuration == 0)
+        {
+            _mv.SetShapeProgress(1);
+            return;
+        }
+
+        var animation = new Animation(value =>
+        {
+            _mv.SetShapeProgress((float)value);
+            RequestUpdate();
+        });
+
+        animation.Commit(
+            this,
+            "ShapeChangeAnimation",
+            16,
+            ShapeChangeDuration,
+            ShapeChangeEasing,
+            (value, canceled) =>
+            {
+                if (!canceled)
+                    _mv.SetShapeProgress(1);
+                RequestUpdate();
+            },
+            () => false);
     }
 
 
@@ -609,6 +693,61 @@ public partial class MaskZero : ContentView
 
         var animation = new Animation(v => self.MaskEdgeThickness = v, startValue, endValue);
         animation.Commit(self, "EdgeThicknessAnimation", 16, self.Duration, self.MaskRoundnessEasing, (v, c) => self.MaskEdgeThickness = endValue, () => false);
+    }
+
+    #endregion
+
+    #region ShapeNameProperty
+
+    public static readonly BindableProperty ShapeNameProperty = BindableProperty.Create(
+        nameof(ShapeName),
+        typeof(string),
+        typeof(MaskZero),
+        string.Empty,
+        BindingMode.OneWay,
+        propertyChanged: ShapeNameChanged);
+
+    public string ShapeName
+    {
+        get => (string)GetValue(ShapeNameProperty);
+        set => SetValue(ShapeNameProperty, value);
+    }
+
+    private static void ShapeNameChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        ((MaskZero)bindable).OnShapeSelectionChanged();
+    }
+
+    #endregion
+
+    #region ShapeChangeDurationProperty
+
+    public static readonly BindableProperty ShapeChangeDurationProperty = BindableProperty.Create(
+        nameof(ShapeChangeDuration),
+        typeof(uint),
+        typeof(MaskZero),
+        (uint)250);
+
+    public uint ShapeChangeDuration
+    {
+        get => (uint)GetValue(ShapeChangeDurationProperty);
+        set => SetValue(ShapeChangeDurationProperty, value);
+    }
+
+    #endregion
+
+    #region ShapeChangeEasingProperty
+
+    public static readonly BindableProperty ShapeChangeEasingProperty = BindableProperty.Create(
+        nameof(ShapeChangeEasing),
+        typeof(Easing),
+        typeof(MaskZero),
+        Easing.CubicInOut);
+
+    public Easing ShapeChangeEasing
+    {
+        get => (Easing)GetValue(ShapeChangeEasingProperty);
+        set => SetValue(ShapeChangeEasingProperty, value);
     }
 
     #endregion

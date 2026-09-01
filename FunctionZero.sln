@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpressionParserZero.Tests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BindZero.Tests", "BindZero.Tests\BindZero.Tests.csproj", "{130BE20B-7B08-4171-9CA2-BB2A0E667B9E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvvmZero.Tests", "MvvmZero.Tests\MvvmZero.Tests.csproj", "{48B6BC8F-E567-4C7C-A702-7691CED5D560}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -285,6 +287,18 @@ Global
 		{130BE20B-7B08-4171-9CA2-BB2A0E667B9E}.Release|x64.Build.0 = Release|Any CPU
 		{130BE20B-7B08-4171-9CA2-BB2A0E667B9E}.Release|x86.ActiveCfg = Release|Any CPU
 		{130BE20B-7B08-4171-9CA2-BB2A0E667B9E}.Release|x86.Build.0 = Release|Any CPU
+		{48B6BC8F-E567-4C7C-A702-7691CED5D560}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48B6BC8F-E567-4C7C-A702-7691CED5D560}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48B6BC8F-E567-4C7C-A702-7691CED5D560}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{48B6BC8F-E567-4C7C-A702-7691CED5D560}.Debug|x64.Build.0 = Debug|Any CPU
+		{48B6BC8F-E567-4C7C-A702-7691CED5D560}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{48B6BC8F-E567-4C7C-A702-7691CED5D560}.Debug|x86.Build.0 = Debug|Any CPU
+		{48B6BC8F-E567-4C7C-A702-7691CED5D560}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48B6BC8F-E567-4C7C-A702-7691CED5D560}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48B6BC8F-E567-4C7C-A702-7691CED5D560}.Release|x64.ActiveCfg = Release|Any CPU
+		{48B6BC8F-E567-4C7C-A702-7691CED5D560}.Release|x64.Build.0 = Release|Any CPU
+		{48B6BC8F-E567-4C7C-A702-7691CED5D560}.Release|x86.ActiveCfg = Release|Any CPU
+		{48B6BC8F-E567-4C7C-A702-7691CED5D560}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

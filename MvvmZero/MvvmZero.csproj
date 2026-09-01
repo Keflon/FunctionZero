@@ -47,6 +47,9 @@
 		<ProjectReference Include="..\ControlsZero\ControlsZero.csproj" />
 	</ItemGroup>
 	<ItemGroup>
+		<InternalsVisibleTo Include="MvvmZero.Tests" />
+	</ItemGroup>
+	<ItemGroup>
 		<None Include="..\F0 gravatar.png">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>

@@ -20,12 +20,14 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
 
         //public ObservableCollection<object> ItemsSource => _pageService.MultiPageFinder()?.ItemsSource as ObservableCollection<object>;
 
-        public ObservableCollection<object> ItemsSource
+        public ObservableCollection<object>? ItemsSource
         {
             get
             {
-                // TODO: _multiPageFinder may return null.
                 var multiPage = _multiPageFinder();
+                if (multiPage == null)
+                    return null;
+
                 if (multiPage is AdaptedTabbedPage adaptedMultiPage)
                     return adaptedMultiPage.ItemsSource as ObservableCollection<object>;
                 else
@@ -33,6 +35,17 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
             }
         }
 
-        public object SelectedItem { get => _multiPageFinder()?.SelectedItem; set {  _multiPageFinder().SelectedItem = value; } }
+        public object? SelectedItem
+        {
+            get => _multiPageFinder()?.SelectedItem;
+            set
+            {
+                var multi = _multiPageFinder();
+                if (multi == null)
+                    throw new InvalidOperationException("No active MultiPage is present to set SelectedItem.");
+
+                multi.SelectedItem = value;
+            }
+        }
     }
 }

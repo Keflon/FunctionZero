@@ -72,7 +72,7 @@ namespace FunctionZero.Maui.MvvmZero
         /// </summary>
         /// <typeparam name="TViewModel">The type of ViewModel whose Page we're looking for.</typeparam>
         /// <returns>The ViewModel, or null if no match is found.</returns>
-        TViewModel FindAncestorPageVm<TViewModel>() where TViewModel : class;
+        TViewModel? FindAncestorPageVm<TViewModel>() where TViewModel : class;
 
         /// <summary>
         /// Retrieves the number of Pages known about that have the specified ViewModel instance as their BindingContext.
@@ -83,11 +83,11 @@ namespace FunctionZero.Maui.MvvmZero
         /// <param name="vm">The ViewModel instance to match.</param>
         /// <returns>A count of all matches.</returns>
         int GetVisiblePageCountForVm(object vm);
-        Task<TViewModel> PushVmAsync<TViewModel>(Action<TViewModel> initViewModelAction, object hint = null, bool isModal = false, bool isAnimated = true) where TViewModel : class;
+        Task<TViewModel?> PushVmAsync<TViewModel>(Action<TViewModel>? initViewModelAction, object? hint = null, bool isModal = false, bool isAnimated = true) where TViewModel : class;
 
-        IView GetViewForVm(Type viewModel, object hint);
+        IView GetViewForVm(Type viewModel, object? hint);
 
-        Func<Type, object> TypeFactory { get; }
+        Func<Type, object?> TypeFactory { get; }
 
         /// <summary>
         /// Makes a TPage with a BindingContext set to a TViewModel
@@ -111,7 +111,7 @@ namespace FunctionZero.Maui.MvvmZero
         /// <param name="isModal">Whether to push to the Modal stack</param>
         /// <param name="animated">Whether to animate the push</param>
         /// <returns>The ViewModel associated with the Page instance</returns>
-        Task<TViewModel> PushPageAsync<TPage, TViewModel>(Func<TViewModel, Task> initViewModelActionAsync, bool isModal = false, bool animated = true)
+        Task<TViewModel?> PushPageAsync<TPage, TViewModel>(Func<TViewModel, Task>? initViewModelActionAsync, bool isModal = false, bool animated = true)
             where TPage : Page
             where TViewModel : class;
 
@@ -127,7 +127,7 @@ namespace FunctionZero.Maui.MvvmZero
         /// <param name="isModal">Whether to push to the Modal stack.</param>
         /// <param name="animated">Whether to animate the push.</param>
         /// <returns>The ViewModel associated with the Page instance</returns>
-        Task<TViewModel> PushPageAsync<TPage, TViewModel>(Action<TViewModel> initViewModelAction, bool isModal = false, bool animated = true)
+        Task<TViewModel?> PushPageAsync<TPage, TViewModel>(Action<TViewModel>? initViewModelAction, bool isModal = false, bool animated = true)
             where TPage : Page
             where TViewModel : class;
 
@@ -141,7 +141,7 @@ namespace FunctionZero.Maui.MvvmZero
         /// <param name="isModal">Whether to push to the Modal stack.</param>
         /// <param name="isAnimated">Whether to animate the push.</param>
         /// <returns>The Page that was pushed.</returns>
-        Task<Page> PushPageAsync<TPage>(Func<TPage, Task> setStateAction, bool isModal = false, bool isAnimated = true) where TPage : Page;
+        Task<Page?> PushPageAsync<TPage>(Func<TPage, Task>? setStateAction, bool isModal = false, bool isAnimated = true) where TPage : Page;
 
         Task<bool> PushPageAsync(Page page, bool isModal, bool animated = true);
 

@@ -34,16 +34,17 @@ namespace FunctionZero.Maui.MvvmZero
         private const bool _report = true;
         private readonly FlyoutController _flyoutController;
         private readonly MultiPageController _multiPageController;
-        private readonly Func<Type, object, IView> _viewMapper;
-        private readonly Func<INavigation> _navigationFinder;
-        private readonly Func<MultiPage<Page>> _multiPageFinder;
+        private readonly Func<Type, object?, IView> _viewMapper;
+        private readonly Func<INavigation?> _navigationFinder;
+        private readonly Func<MultiPage<Page>?> _multiPageFinder;
         private readonly Func<FlyoutPage> _flyoutFactory;
         private readonly List<Page> _pagesOnAnyNavigationStack;
         private readonly List<Page> _currentVisiblePageList;
-        private INavigation CurrentNavigationPage => _navigationFinder();
+        private bool _isInitialized;
+        private INavigation? CurrentNavigationPage => _navigationFinder();
         public IFlyoutController FlyoutController => _flyoutController;
         public IMultiPageController MultiPageController => _multiPageController;
-        public Func<Type, object> TypeFactory { get; }
+        public Func<Type, object?> TypeFactory { get; }
 
         /// <summary>
         /// Creates a PageServiceZero associated with the provided NavigationPage.
@@ -52,7 +53,7 @@ namespace FunctionZero.Maui.MvvmZero
         /// </summary>
         /// <param name="navigationFinder">A Func that returns the navigationPage to push to and pop from.</param>
         /// <param name="typeFactory">A Func that returns a requested type. Wire it directly to your IoC container if you have one.</param>
-        internal PageServiceZero(Func<Type, object> typeFactory, Func<FlyoutPage> flyoutFactory, Func<INavigation> navigationFinder, Func<MultiPage<Page>> multiPageFinder, Func<Type, object, IView> viewMapper)
+        internal PageServiceZero(Func<Type, object?> typeFactory, Func<FlyoutPage> flyoutFactory, Func<INavigation?> navigationFinder, Func<MultiPage<Page>?> multiPageFinder, Func<Type, object?, IView> viewMapper)
         {
             TypeFactory = typeFactory;
             _flyoutFactory = flyoutFactory;
@@ -66,11 +67,11 @@ namespace FunctionZero.Maui.MvvmZero
             _flyoutController = new FlyoutController(this);
             _multiPageController = new MultiPageController(_multiPageFinder);
         }
-        private IView GetViewForViewModel<TViewModel>(object hint) where TViewModel : class
+        private IView GetViewForViewModel<TViewModel>(object? hint) where TViewModel : class
         {
             return _viewMapper(typeof(TViewModel), hint);
         }
-        public IView GetViewForVm(Type viewModel, object hint)
+        public IView GetViewForVm(Type viewModel, object? hint)
         {
             return _viewMapper(viewModel, hint);
         }
@@ -89,8 +90,12 @@ namespace FunctionZero.Maui.MvvmZero
         }
         public void Init(Application currentApplication)
         {
-            if (currentApplication == null)
-                throw new ArgumentNullException(nameof(currentApplication));
+            ArgumentNullException.ThrowIfNull(currentApplication);
+
+            if (_isInitialized)
+                return; // Idempotent init: do nothing if already initialized.
+
+            _isInitialized = true;
 
             currentApplication.DescendantAdded += CurrentApplication_DescendantAdded;
             currentApplication.DescendantRemoved += CurrentApplication_DescendantRemoved;
@@ -163,17 +168,12 @@ namespace FunctionZero.Maui.MvvmZero
 
                 var hop = cp.BindingContext as IHasOwnerPage;
                 
-                bool isOnNavigationStack = cp.Navigation.NavigationStack.Contains(cp);
+                bool isOnNavigationStack = cp.Navigation != null && cp.Navigation.NavigationStack.Contains(cp);
                 bool isOnAnyNavigationStack = _pagesOnAnyNavigationStack.Contains(cp);
 
                 // If the page is not on the navigation stack and we are tracking it, it has been popped.
-                //if ((!isOnNavigationStack) && isOnAnyNavigationStack)
-                // LOOK:
-                if (isOnNavigationStack)
+                if ((!isOnNavigationStack) && isOnAnyNavigationStack)
                 {
-                    if (!isOnAnyNavigationStack)
-                        throw new InvalidOperationException();
-
                     _pagesOnAnyNavigationStack.Remove(cp);
                     hop?.OnOwnerPagePopped(false);
                 }
@@ -199,7 +199,7 @@ namespace FunctionZero.Maui.MvvmZero
 
             if (_report) Debug.WriteLine($"Page Appearing: {sender}");
             if (_currentVisiblePageList.Contains(page))
-                throw new InvalidOperationException("Page already in _currentVisiblePageList");
+                return; // Guard: appearing may be raised multiple times, ignore duplicates.
 
             _currentVisiblePageList.Add(page);
             if (page.BindingContext is IHasOwnerPage hop)
@@ -214,7 +214,7 @@ namespace FunctionZero.Maui.MvvmZero
 
             var page = (Page)sender;
             if (!_currentVisiblePageList.Contains(page))
-                throw new InvalidOperationException("Page not in _currentVisiblePageList");
+                return; // Guard: disappearing may be raised without a prior appearing notification.
 
             _currentVisiblePageList.Remove(page);
             if (_report) Debug.WriteLine($"Page Disappearing: {sender}");
@@ -274,11 +274,12 @@ namespace FunctionZero.Maui.MvvmZero
             return GetInstance<TViewModel>();
         }
 
-        public async Task<TViewModel> PushPageAsync<TPage, TViewModel>(Func<TViewModel, Task> initViewModelActionAsync, bool isModal, bool animated)
+        public async Task<TViewModel?> PushPageAsync<TPage, TViewModel>(Func<TViewModel, Task>? initViewModelActionAsync, bool isModal, bool animated)
             where TPage : Page
             where TViewModel : class
         {
-            if (CurrentNavigationPage == null)
+            var navigation = CurrentNavigationPage;
+            if (navigation == null)
                 return null;
 
             var mvvmPage = GetMvvmPage<TPage, TViewModel>();
@@ -286,51 +287,59 @@ namespace FunctionZero.Maui.MvvmZero
             if (initViewModelActionAsync != null)
                 await initViewModelActionAsync(mvvmPage.viewModel);
 
-            await PushPageAsync(mvvmPage.page, isModal, animated);
+            await PushPageAsync(navigation, mvvmPage.page, isModal, animated);
 
             return mvvmPage.viewModel;
         }
 
-        public async Task<TViewModel> PushPageAsync<TPage, TViewModel>(Action<TViewModel> initViewModelAction, bool isModal, bool animated)
+        public Task<TViewModel?> PushPageAsync<TPage, TViewModel>(Action<TViewModel>? initViewModelAction, bool isModal, bool animated)
             where TPage : Page
             where TViewModel : class
         {
-            if (CurrentNavigationPage == null)
-                return null;
-
-            // Call the async overload with a synchronous action.
-            return await PushPageAsync<TPage, TViewModel>(async (vm) => initViewModelAction(vm), isModal, animated);
+            return PushPageAsync<TPage, TViewModel>(vm =>
+            {
+                initViewModelAction?.Invoke(vm);
+                return Task.CompletedTask;
+            }, isModal, animated);
         }
 
         public async Task<bool> PushPageAsync(Page page, bool isModal, bool animated)
         {
-            var navigation = CurrentNavigationPage;
-            if (navigation == null)
+            ArgumentNullException.ThrowIfNull(page);
+            var nav = CurrentNavigationPage;
+            if (nav == null)
                 return false;
 
-            if (isModal == false)
-                await CurrentNavigationPage.PushAsync(page, animated);
-            else
-                await CurrentNavigationPage.PushModalAsync(page, animated);
-
+            await PushPageAsync(nav, page, isModal, animated);
             return true;
         }
 
-        public async Task<Page> PushPageAsync<TPage>(Func<TPage, Task> setStateAction, bool isModal = false, bool isAnimated = true) where TPage : Page
+        private static async Task PushPageAsync(INavigation nav, Page page, bool isModal, bool animated)
         {
-            if (CurrentNavigationPage == null)
+            if (isModal == false)
+                await nav.PushAsync(page, animated);
+            else
+                await nav.PushModalAsync(page, animated);
+        }
+
+        public async Task<Page?> PushPageAsync<TPage>(Func<TPage, Task>? setStateAction, bool isModal = false, bool isAnimated = true) where TPage : Page
+        {
+            var navigation = CurrentNavigationPage;
+            if (navigation == null)
                 return null;
 
             TPage page = GetView<TPage>();
 
-            await setStateAction(page);
-            await PushPageAsync(page, isModal, isAnimated);
+            if (setStateAction != null)
+                await setStateAction(page);
+            await PushPageAsync(navigation, page, isModal, isAnimated);
             return page;
         }
 
-        public async Task<TViewModel> PushVmAsync<TViewModel>(Action<TViewModel> initViewModelAction, object hint = null, bool isModal = false, bool isAnimated = true) where TViewModel : class
+        public async Task<TViewModel?> PushVmAsync<TViewModel>(Action<TViewModel>? initViewModelAction, object? hint = null, bool isModal = false, bool isAnimated = true) where TViewModel : class
         {
-            if (CurrentNavigationPage == null)
+            var navigation = CurrentNavigationPage;
+            if (navigation == null)
                 return null;
 
             var page = (Page)GetViewForViewModel<TViewModel>(hint);
@@ -348,7 +357,7 @@ namespace FunctionZero.Maui.MvvmZero
                 if (_report) Debug.WriteLine(ex.Message);
                 throw;
             }
-            await PushPageAsync(page, isModal, isAnimated);
+            await PushPageAsync(navigation, page, isModal, isAnimated);
 
             return vm;
         }
@@ -356,39 +365,54 @@ namespace FunctionZero.Maui.MvvmZero
         // Don't do anything fancy in PopAsync because the system can bypass this method and pop stuff directly.
         public async Task PopAsync(bool isModal, bool animated = true)
         {
+            var nav = CurrentNavigationPage;
+            if (nav == null)
+                return;
+
             if (!isModal)
-                await CurrentNavigationPage.PopAsync(animated);
+                await nav.PopAsync(animated);
             else
-                await CurrentNavigationPage.PopModalAsync(animated);
+                await nav.PopModalAsync(animated);
         }
 
         public async Task PopToRootAsync(bool isModal = false, bool animated = true)
         {
+            var nav = CurrentNavigationPage;
+            if (nav == null)
+                return;
+
             if (!isModal)
-                await CurrentNavigationPage.PopToRootAsync(animated);
-            else
-                while (CurrentNavigationPage.ModalStack.Count > 1)
-                    // LOOK: Ought to be PopModalAsync?
-                    await CurrentNavigationPage.PopToRootAsync(animated);
+            {
+                await nav.PopToRootAsync(animated);
+                return;
+            }
+
+            while (nav.ModalStack.Count > 1)
+                await nav.PopModalAsync(animated);
         }
 
         public void RemovePageBelowTop()
         {
-            if (CurrentNavigationPage != null)
+            var nav = CurrentNavigationPage;
+            if (nav == null)
+                return;
+
+            int index = nav.NavigationStack.Count - 2;
+            if (index >= 0)
             {
-                int index = CurrentNavigationPage.NavigationStack.Count - 2;
-                if (index >= 0)
-                {
-                    var page = CurrentNavigationPage.NavigationStack[index];
-                    CurrentNavigationPage.RemovePage(page);
-                }
+                var page = nav.NavigationStack[index];
+                nav.RemovePage(page);
             }
         }
 
-        public TViewModel FindAncestorPageVm<TViewModel>() where TViewModel : class
+        public TViewModel? FindAncestorPageVm<TViewModel>() where TViewModel : class
         {
-            for (int c = CurrentNavigationPage.NavigationStack.Count - 1; c >= 0; c--)
-                if (CurrentNavigationPage.NavigationStack[c].BindingContext is TViewModel theVm)
+            var nav = CurrentNavigationPage;
+            if (nav == null)
+                return null;
+
+            for (int c = nav.NavigationStack.Count - 1; c >= 0; c--)
+                if (nav.NavigationStack[c].BindingContext is TViewModel theVm)
                     return theVm;
 
             return null;

@@ -8,16 +8,16 @@ namespace FunctionZero.Maui.MvvmZero
 {
     public class PageServiceBuilder
     {
-        private Func<INavigation> _navigationFinder;
-        private PageServiceZero _pageService;
-        private Func<Type, object> _typeFactory;
-        private Dictionary<Type, Func<ViewMapperParameters, IView>> _viewMap;
-        private readonly Func<INavigation> _defaultNavigationFinder;
-        private readonly Func<MultiPage<Page>> _defaultMultiPageFinder;
-        private Func<FlyoutPage> _flyoutFactory;
-        private Func<MultiPage<Page>> _multiPageFinder;
+        private Func<INavigation?>? _navigationFinder;
+        private PageServiceZero? _pageService;
+        private Func<Type, object?>? _typeFactory;
+        private readonly Dictionary<Type, Func<ViewMapperParameters, IView>> _viewMap;
+        private readonly Func<INavigation?>? _defaultNavigationFinder;
+        private readonly Func<MultiPage<Page>?>? _defaultMultiPageFinder;
+        private Func<FlyoutPage>? _flyoutFactory;
+        private Func<MultiPage<Page>?>? _multiPageFinder;
 
-        internal PageServiceBuilder(Func<INavigation> defaultNavigationFinder, Func<MultiPage<Page>> defaultMultiPageFinder/*, Func<Type, object> defaultTypeFactory*/) : this()
+        internal PageServiceBuilder(Func<INavigation?> defaultNavigationFinder, Func<MultiPage<Page>?> defaultMultiPageFinder) : this()
         {
             _defaultNavigationFinder = defaultNavigationFinder;
             _defaultMultiPageFinder = defaultMultiPageFinder;
@@ -28,8 +28,9 @@ namespace FunctionZero.Maui.MvvmZero
             _viewMap = new();
         }
 
-        public PageServiceBuilder SetNavigationFinder(Func<INavigation> navigationFinder)
+        public PageServiceBuilder SetNavigationFinder(Func<INavigation?> navigationFinder)
         {
+            ArgumentNullException.ThrowIfNull(navigationFinder);
             if (_navigationFinder != null)
                 throw new InvalidOperationException("SetNavigationFinder can be called once only!");
             _navigationFinder = navigationFinder;
@@ -37,8 +38,9 @@ namespace FunctionZero.Maui.MvvmZero
             return this;
         }
 
-        public PageServiceBuilder SetMultiPageFinder(Func<MultiPage<Page>> multiPageFinder)
+        public PageServiceBuilder SetMultiPageFinder(Func<MultiPage<Page>?> multiPageFinder)
         {
+            ArgumentNullException.ThrowIfNull(multiPageFinder);
             if (_multiPageFinder != null)
                 throw new InvalidOperationException("SetMultiPageFinder can be called once only!");
             _multiPageFinder = multiPageFinder;
@@ -47,8 +49,9 @@ namespace FunctionZero.Maui.MvvmZero
         }
 
         public bool HasTypeFactory => _typeFactory != null;
-        public PageServiceBuilder SetTypeFactory(Func<Type, object> typeFactory)
+        public PageServiceBuilder SetTypeFactory(Func<Type, object?> typeFactory)
         {
+            ArgumentNullException.ThrowIfNull(typeFactory);
             if (_typeFactory != null)
                 throw new InvalidOperationException("SetTypeFactory can be called once only!");
             _typeFactory = typeFactory;
@@ -57,6 +60,7 @@ namespace FunctionZero.Maui.MvvmZero
         }
         public PageServiceBuilder SetFlyoutFactory(Func<FlyoutPage> flyoutFactory)
         {
+            ArgumentNullException.ThrowIfNull(flyoutFactory);
             if (_flyoutFactory != null)
                 throw new InvalidOperationException("SetFlyoutFactory can be called once only!");
             _flyoutFactory = flyoutFactory;
@@ -81,7 +85,12 @@ namespace FunctionZero.Maui.MvvmZero
 
         public PageServiceBuilder MapVmToView<TViewModel>(Func<ViewMapperParameters, IView> viewFactory)
         {
-            _viewMap.Add(typeof(TViewModel), viewFactory);
+            ArgumentNullException.ThrowIfNull(viewFactory);
+            var key = typeof(TViewModel);
+            if (_viewMap.ContainsKey(key))
+                throw new InvalidOperationException($"A view mapping for type {key} has already been registered.");
+
+            _viewMap.Add(key, viewFactory);
             return this;
         }
 
@@ -91,17 +100,26 @@ namespace FunctionZero.Maui.MvvmZero
 
             getter = (ViewMapperParameters p) => p.PageService.GetView<TView>();
 
-            _viewMap.Add(typeof(TViewModel), getter);
+            var key = typeof(TViewModel);
+            if (_viewMap.ContainsKey(key))
+                throw new InvalidOperationException($"A view mapping for type {key} has already been registered.");
+
+            _viewMap.Add(key, getter);
 
             return this;
         }
 
         public IPageServiceZero Build()
         {
-            //_typeFactory = _typeFactory ?? _defaultTypeFactory;
+            if (_pageService != null)
+                throw new InvalidOperationException("Build can be called only once on a PageServiceBuilder instance.");
+
             _navigationFinder = _navigationFinder ?? _defaultNavigationFinder;
             _multiPageFinder = _multiPageFinder ?? _defaultMultiPageFinder;
             _flyoutFactory = _flyoutFactory ?? GetDefaultFlyout;
+            if (_typeFactory == null || _navigationFinder == null || _multiPageFinder == null)
+                throw new InvalidOperationException("The page service builder is missing required factories.");
+
             _pageService = new PageServiceZero(_typeFactory, _flyoutFactory, _navigationFinder, _multiPageFinder,  ViewMapper);
 
             return _pageService;
@@ -109,25 +127,26 @@ namespace FunctionZero.Maui.MvvmZero
 
         private FlyoutPage GetDefaultFlyout()
         {
-            return (FlyoutPage)_typeFactory(typeof(FlyoutPage));
+            return (FlyoutPage?)_typeFactory!(typeof(FlyoutPage))
+                ?? throw new TypeFactoryException($"ERROR: Cannot get an instance of {typeof(FlyoutPage)}. Make sure you have registered it in your Container!", typeof(FlyoutPage));
         }
 
-        private IView ViewMapper(Type vmType, object hint)
+        private IView ViewMapper(Type vmType, object? hint)
         {
             try
             {
-                var parameters = new ViewMapperParameters(vmType, this._pageService, hint);
+                var parameters = new ViewMapperParameters(vmType, _pageService!, hint);
                 return _viewMap[vmType](parameters);
             }
             catch (KeyNotFoundException kex)
             {
                 string shortType = Path.GetExtension(vmType.ToString()).Substring(1);
                 string message = $"ERROR: Cannot resolve the View for type {shortType}\r\n";
-                message += "You must register a View for a ViewModel in UsePageServiceZero in the CreateMauiApp method.\r\n";
+                message += "You must register a View for a ViewModel in UseMvvmZero in the CreateMauiApp method.\r\n";
                 message += "\r\n";
                 message += "Like this:\r\n";
                 message += "\r\n";
-                message += $".UsePageServiceZero(config =>\r\n{{\r\n    config.MapVmToPage<{shortType}, SomePage>();\r\n    ...\r\n}})";
+                message += $".UseMvvmZero(config =>\r\n{{\r\n    config.MapVmToView<{shortType}, SomeView>();\r\n    ...\r\n}})";
                 throw new ViewMapperException(message, vmType, kex);
             }
             catch (NullReferenceException nrex)
@@ -136,11 +155,7 @@ namespace FunctionZero.Maui.MvvmZero
             }
             catch (TypeFactoryException ex)
             {
-                throw new ViewMapperException($"ERROR: Cannot resolve the View for type {vmType}. The mapping has been registered in UsePageServiceZero but your container cannot provide a suitable view instance.", vmType, ex);
-            }
-            catch
-            {
-                throw;
+                throw new ViewMapperException($"ERROR: Cannot resolve the View for type {vmType}. The mapping has been registered in UseMvvmZero but your container cannot provide a suitable view instance.", vmType, ex);
             }
         }
     }

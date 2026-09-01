@@ -22,11 +22,18 @@
             MovementEasing="{x:Static Easing.CubicInOut}"
             MaskRoundnessEasing="{x:Static Easing.CubicInOut}"
             Duration="800"
+            ShapeName="{TemplateBinding BindingContext.ShapeName}"
+            ShapeChangeDuration="2600"
+            ShapeChangeEasing="{x:Static Easing.CubicInOut}"
             MaskColorRequest="{TemplateBinding BindingContext.MaskColor}"
             MaskEdgeColorRequest="{TemplateBinding BindingContext.MaskEdgeColor}"
             MaskRoundnessRequest="{TemplateBinding BindingContext.MaskRoundness}"
             MaskEdgeThicknessRequest="{TemplateBinding BindingContext.MaskEdgeThickness}"
             >
+                <cz:MaskZero.Shapes>
+                    <cz:MaskShape Name="Question" PathData="M 35 25 C 35 5 65 5 65 25 C 65 40 50 40 50 58 L 42 58 C 42 34 56 34 56 25 C 56 16 44 16 44 25 Z M 42 68 L 52 68 L 52 78 L 42 78 Z" />
+                    <cz:MaskShape Name="Star" PathData="M 50 5 L 61 36 L 95 36 L 68 56 L 78 90 L 50 70 L 22 90 L 32 56 L 5 36 L 39 36 Z" />
+                </cz:MaskZero.Shapes>
                 <cz:MaskZero.Content>
                     <ContentPresenter/>
                 </cz:MaskZero.Content>

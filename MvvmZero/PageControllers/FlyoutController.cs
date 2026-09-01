@@ -128,7 +128,9 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
                 else
                 {
                     var root = _pageService.GetView<NavigationPage>();
-                    root.PushAsync(page, false);
+                    var pushTask = root.PushAsync(page, false);
+                    // Observe any faults to avoid unobserved task exceptions.
+                    pushTask.ContinueWith(t => Debug.WriteLine(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
                     page = root;
                 }
             }
@@ -153,7 +155,8 @@ namespace FunctionZero.Maui.MvvmZero.PageControllers
                 else
                 {
                     var root = _pageService.GetView<NavigationPage>();
-                    root.PushAsync(page, false);
+                    var pushTask = root.PushAsync(page, false);
+                    pushTask.ContinueWith(t => Debug.WriteLine(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
                     page = root;
                 }
             }
