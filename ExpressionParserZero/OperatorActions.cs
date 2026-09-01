@@ -25,12 +25,10 @@
 #endregion
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using FunctionZero.ExpressionParserZero.BackingStore;
 using FunctionZero.ExpressionParserZero.Exceptions;
 using FunctionZero.ExpressionParserZero.FunctionMatrices;
 using FunctionZero.ExpressionParserZero.Operands;
-using FunctionZero.ExpressionParserZero.Tokens;
 
 namespace FunctionZero.ExpressionParserZero
 {
@@ -57,12 +55,23 @@ namespace FunctionZero.ExpressionParserZero
                     var valueAndType = backingStore.GetValue((string)operand.GetValue());
                     operand = new Operand(operand.ParserPosition, valueAndType.type, valueAndType.value);
                 }
+
                 catch// (KeyNotFoundException)
                 {
                     throw new ExpressionEvaluatorException(operand.ParserPosition, ExpressionEvaluatorException.ExceptionCause.UndefinedVariable, $"'{operand.GetValue().ToString()}'");
                 }
             }
             return operand;
+        }
+
+        internal static void DoIndex(Stack<IOperand> stack, IBackingStore backingStore, long parserPosition, int indexCount)
+        {
+            var indices = new object[indexCount];
+            for (var index = indexCount - 1; index >= 0; index--)
+                indices[index] = PopAndResolve(stack, backingStore).GetValue();
+
+            var target = PopAndResolve(stack, backingStore).GetValue();
+            stack.Push(IndexingHelpers.CreateReference(target, indices, parserPosition));
         }
 
         /// <summary>
@@ -168,9 +177,21 @@ namespace FunctionZero.ExpressionParserZero
             IOperand second = PopAndResolve(stack, backingStore);
             IOperand first = stack.Pop();       // Not PopAndResolve. LHS must be a variable.
 
-            if (first.Type != OperandType.Variable)
+            if (first is IndexedReferenceOperand indexedReference)
             {
-                throw new ExpressionEvaluatorException(parserPosition, ExpressionEvaluatorException.ExceptionCause.BadOperand, "LHS of '=' is a '" + first.Type + "' when it must be a variable");
+                IOperand result = matrix.PerformDelegate(indexedReference, second);
+                if (result != null)
+                {
+                    indexedReference.SetValue(result.GetValue());
+                    stack.Push(result);
+                    return null;
+                }
+
+                return new Tuple<OperandType, OperandType>(first.Type, second.Type);
+            }
+            else if (first.Type != OperandType.Variable)
+            {
+                throw new ExpressionEvaluatorException(parserPosition, ExpressionEvaluatorException.ExceptionCause.BadOperand, "LHS of '=' is a '" + first.Type + "' when it must be a variable or indexed value");
             }
             else
             {

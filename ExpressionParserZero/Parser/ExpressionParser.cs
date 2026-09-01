@@ -64,8 +64,8 @@ namespace FunctionZero.ExpressionParserZero.Parser
             FunctionOperator,
             OpenParenthesis,
             CloseParenthesis,
-
-
+            OpenBracket,
+            CloseBracket,
             UnaryCastOperator
         }
 
@@ -145,6 +145,8 @@ namespace FunctionZero.ExpressionParserZero.Parser
             CommaOperator = RegisterOperator(",", 1, null); // Do nothing. Correct???
             OpenParenthesisOperator = RegisterOperator("(", 0, null, ShortCircuitMode.None, OperatorType.OpenParenthesis);
             CloseParenthesisOperator = RegisterOperator(")", 13, null, ShortCircuitMode.None, OperatorType.CloseParenthesis);
+            OpenBracketOperator = RegisterDelimiter("[", 0, OperatorType.OpenBracket);
+            CloseBracketOperator = RegisterDelimiter("]", FunctionPrecedence, OperatorType.CloseBracket);
 
             // Register functions ...
             Functions = new Dictionary<string, IOperator>();
@@ -164,6 +166,15 @@ namespace FunctionZero.ExpressionParserZero.Parser
         private IOperator CommaOperator { get; }
         private IOperator OpenParenthesisOperator { get; }
         private IOperator CloseParenthesisOperator { get; }
+        private IOperator OpenBracketOperator { get; }
+        private IOperator CloseBracketOperator { get; }
+
+        private IOperator RegisterDelimiter(string text, int precedence, OperatorType operatorType)
+        {
+            var op = new Operator(operatorType, precedence, ShortCircuitMode.None, null, text);
+            Operators.Add(text, op);
+            return op;
+        }
 
 
         public IOperator RegisterOperator(
@@ -281,6 +292,7 @@ namespace FunctionZero.ExpressionParserZero.Parser
 
         private State _state;
         private int _parenthesisDepth;
+        private int _bracketDepth;
 
         //public IList<IToken> TestTokenValidator(string expression)
         //{
@@ -305,9 +317,11 @@ namespace FunctionZero.ExpressionParserZero.Parser
         public ExpressionTree Parse(Stream inputStream)
         {
             _parenthesisDepth = 0;
+            _bracketDepth = 0;
             var tokenizer = new Tokenizer(inputStream, Operators, Functions);
 
             var operatorStack = new Stack<OperatorWrapper>();
+            var bracketIndexCounts = new Stack<int>();
             var tokenList = new TokenList();
             _state = State.None;
 
@@ -317,6 +331,46 @@ namespace FunctionZero.ExpressionParserZero.Parser
             {
                 if (token is IOperator)
                     token = new OperatorWrapper(TranslateOperator((IOperator)token), tokenizer.Anchor);
+
+                var operatorWrapper = token as OperatorWrapper;
+
+                if (operatorWrapper?.WrappedOperator == OpenBracketOperator)
+                {
+                    if (_state != State.Operand && _state != State.CloseParenthesis && _state != State.CloseBracket)
+                        throw new ExpressionParserException(token.ParserPosition, ExpressionParserException.ExceptionCause.UnexpectedOpenBracket);
+
+                    _bracketDepth++;
+                    bracketIndexCounts.Push(1);
+                    operatorStack.Push(operatorWrapper);
+                    _state = State.OpenBracket;
+                    continue;
+                }
+
+                if (operatorWrapper?.WrappedOperator == CloseBracketOperator)
+                {
+                    if (_bracketDepth == 0)
+                        throw new ExpressionParserException(token.ParserPosition, ExpressionParserException.ExceptionCause.UnmatchedClosingBracket);
+                    if (_state != State.Operand && _state != State.CloseParenthesis && _state != State.CloseBracket)
+                        throw new ExpressionParserException(token.ParserPosition, ExpressionParserException.ExceptionCause.UnexpectedCloseBracket);
+
+                    PopUntilOpenBracket(operatorStack, tokenList, token.ParserPosition);
+                    _bracketDepth--;
+                    var indexCount = bracketIndexCounts.Pop();
+                    tokenList.Add(new OperatorWrapper(new IndexOperator(indexCount), token.ParserPosition));
+                    _state = State.CloseBracket;
+                    continue;
+                }
+
+                if (operatorWrapper?.WrappedOperator == CommaOperator && IsCurrentDelimiterBracket(operatorStack))
+                {
+                    if (_state != State.Operand && _state != State.CloseParenthesis && _state != State.CloseBracket)
+                        throw new ExpressionParserException(token.ParserPosition, ExpressionParserException.ExceptionCause.MisplacedComma);
+
+                    PopToOpenBracket(operatorStack, tokenList);
+                    bracketIndexCounts.Push(bracketIndexCounts.Pop() + 1);
+                    _state = State.Operator;
+                    continue;
+                }
 
                 ValidateNextToken(token);
 
@@ -332,8 +386,6 @@ namespace FunctionZero.ExpressionParserZero.Parser
 
                 // TokenWrapper is Operand or OperatorWrapper. Nothing else.
                 Debug.Assert((token is Operand) || (token is OperatorWrapper));
-
-                OperatorWrapper operatorWrapper = token as OperatorWrapper;
 
                 switch (token.TokenType)
                 {
@@ -415,6 +467,9 @@ namespace FunctionZero.ExpressionParserZero.Parser
             if (_parenthesisDepth != 0)
                 throw new ExpressionParserException(tokenizer.ParserPosition,
                     ExpressionParserException.ExceptionCause.ClosingBraceExpected);
+            if (_bracketDepth != 0)
+                throw new ExpressionParserException(tokenizer.ParserPosition,
+                    ExpressionParserException.ExceptionCause.ClosingBracketExpected);
 
             PopByPrecedence(operatorStack, tokenList, 0);
 
@@ -434,13 +489,13 @@ namespace FunctionZero.ExpressionParserZero.Parser
         {
             if ((op == MinusOperator) &&
                 ((_state == State.Operator) || (_state == State.UnaryOperator) || (_state == State.None) ||
-                 (_state == State.OpenParenthesis)))
+                  (_state == State.OpenParenthesis) || (_state == State.OpenBracket)))
             {
                 return UnaryMinus;
             }
             else if ((op == PlusOperator) &&
                      ((_state == State.Operator) || (_state == State.UnaryOperator) || (_state == State.None) ||
-                      (_state == State.OpenParenthesis)))
+                       (_state == State.OpenParenthesis) || (_state == State.OpenBracket)))
             {
                 return UnaryPlus;
             }
@@ -483,9 +538,11 @@ namespace FunctionZero.ExpressionParserZero.Parser
                                     throw new ExpressionParserException(token.ParserPosition,
                                         ExpressionParserException.ExceptionCause.OpenParenthesisExpected);
                                 case State.OpenParenthesis:
+                                case State.OpenBracket:
                                     throw new ExpressionParserException(token.ParserPosition,
                                         ExpressionParserException.ExceptionCause.UnexpectedOperator);
                                 case State.CloseParenthesis:
+                                case State.CloseBracket:
                                     break;
                                 case State.UnaryCastOperator:
                                     throw new ExpressionParserException(token.ParserPosition,
@@ -512,8 +569,12 @@ namespace FunctionZero.ExpressionParserZero.Parser
                                     throw new ExpressionParserException(token.ParserPosition,
                                         ExpressionParserException.ExceptionCause.UnexpectedUnaryOperator);
                                 case State.OpenParenthesis:
+                                case State.OpenBracket:
                                     break;
                                 case State.CloseParenthesis:
+                                    throw new ExpressionParserException(token.ParserPosition,
+                                        ExpressionParserException.ExceptionCause.UnexpectedUnaryOperator);
+                                case State.CloseBracket:
                                     throw new ExpressionParserException(token.ParserPosition,
                                         ExpressionParserException.ExceptionCause.UnexpectedUnaryOperator);
                                 case State.UnaryCastOperator:
@@ -541,8 +602,12 @@ namespace FunctionZero.ExpressionParserZero.Parser
                                     throw new ExpressionParserException(token.ParserPosition,
                                         ExpressionParserException.ExceptionCause.OpenParenthesisExpected);
                                 case State.OpenParenthesis:
+                                case State.OpenBracket:
                                     break;
                                 case State.CloseParenthesis:
+                                    throw new ExpressionParserException(token.ParserPosition,
+                                        ExpressionParserException.ExceptionCause.UnexpectedFunctionCall);
+                                case State.CloseBracket:
                                     throw new ExpressionParserException(token.ParserPosition,
                                         ExpressionParserException.ExceptionCause.UnexpectedFunctionCall);
                                 case State.UnaryCastOperator:
@@ -571,8 +636,12 @@ namespace FunctionZero.ExpressionParserZero.Parser
                                 case State.FunctionOperator:
                                     break;
                                 case State.OpenParenthesis:
+                                case State.OpenBracket:
                                     break;
                                 case State.CloseParenthesis:
+                                    throw new ExpressionParserException(token.ParserPosition,
+                                        ExpressionParserException.ExceptionCause.UnexpectedOpenParenthesis);
+                                case State.CloseBracket:
                                     throw new ExpressionParserException(token.ParserPosition,
                                         ExpressionParserException.ExceptionCause.UnexpectedOpenParenthesis);
                                 case State.UnaryCastOperator:
@@ -609,7 +678,12 @@ namespace FunctionZero.ExpressionParserZero.Parser
                                         ExpressionParserException.ExceptionCause.UnexpectedCloseParenthesis);
                                 case State.OpenParenthesis:
                                     break;
+                                case State.OpenBracket:
+                                    throw new ExpressionParserException(token.ParserPosition,
+                                        ExpressionParserException.ExceptionCause.UnexpectedCloseParenthesis);
                                 case State.CloseParenthesis:
+                                    break;
+                                case State.CloseBracket:
                                     break;
                                 case State.UnaryCastOperator:
                                     break;
@@ -623,6 +697,7 @@ namespace FunctionZero.ExpressionParserZero.Parser
                             switch (_state)
                             {
                                 case State.OpenParenthesis:
+                                    case State.OpenBracket:
                                     break;
                                 default:
                                     throw new ExpressionParserException(token.ParserPosition,
@@ -663,8 +738,12 @@ namespace FunctionZero.ExpressionParserZero.Parser
                                         throw new ExpressionParserException(token.ParserPosition,
                                             ExpressionParserException.ExceptionCause.OpenParenthesisExpected);
                                     case State.OpenParenthesis:
+                                    case State.OpenBracket:
                                         break;
                                     case State.CloseParenthesis:
+                                        throw new ExpressionParserException(token.ParserPosition,
+                                            ExpressionParserException.ExceptionCause.UnexpectedOperand);
+                                    case State.CloseBracket:
                                         throw new ExpressionParserException(token.ParserPosition,
                                             ExpressionParserException.ExceptionCause.UnexpectedOperand);
                                     case State.UnaryCastOperator:
@@ -707,6 +786,11 @@ namespace FunctionZero.ExpressionParserZero.Parser
                             //if (_state != State.Operand)
                             //    throw new InvalidOperationException();
                             return State.CloseParenthesis;
+                        case OperatorType.OpenBracket:
+                            return State.OpenBracket;
+                        case OperatorType.CloseBracket:
+                        case OperatorType.Index:
+                            return State.CloseBracket;
 
                         case OperatorType.UnaryCastOperator:
                             return State.UnaryCastOperator;
@@ -765,6 +849,41 @@ namespace FunctionZero.ExpressionParserZero.Parser
             {
                 tokenList.Add(operatorStack.Pop());
             }
+        }
+
+        private static bool IsCurrentDelimiterBracket(Stack<OperatorWrapper> operatorStack)
+        {
+            foreach (var item in operatorStack)
+            {
+                if (item.Type == OperatorType.OpenBracket)
+                    return true;
+                if (item.Type == OperatorType.OpenParenthesis)
+                    return false;
+            }
+
+            return false;
+        }
+
+        private static void PopToOpenBracket(Stack<OperatorWrapper> operatorStack, IList<IToken> tokenList)
+        {
+            while (operatorStack.Count > 0 && operatorStack.Peek().Type != OperatorType.OpenBracket)
+                tokenList.Add(operatorStack.Pop());
+        }
+
+        private static void PopUntilOpenBracket(Stack<OperatorWrapper> operatorStack, IList<IToken> tokenList, long parserPosition)
+        {
+            while (operatorStack.Count > 0 && operatorStack.Peek().Type != OperatorType.OpenBracket)
+            {
+                if (operatorStack.Peek().Type == OperatorType.OpenParenthesis)
+                    throw new ExpressionParserException(parserPosition, ExpressionParserException.ExceptionCause.UnexpectedCloseBracket);
+
+                tokenList.Add(operatorStack.Pop());
+            }
+
+            if (operatorStack.Count == 0)
+                throw new ExpressionParserException(parserPosition, ExpressionParserException.ExceptionCause.UnmatchedClosingBracket);
+
+            operatorStack.Pop();
         }
 
         public void RegisterOverload(string operatorName, OperandType left, OperandType right, DoubleOperandDelegate func)

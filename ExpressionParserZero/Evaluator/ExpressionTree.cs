@@ -119,10 +119,14 @@ namespace FunctionZero.ExpressionParserZero.Evaluator
                                 return 1;
                             case OperatorType.Function:
                                 return ((IFunctionOperator)((OperatorWrapper)op).WrappedOperator).ActualParameterCount;
+                            case OperatorType.Index:
+                                return ((IndexOperator)((OperatorWrapper)op).WrappedOperator).OperandCount;
                             case OperatorType.UnaryCastOperator:
                                 return 1;
                             case OperatorType.OpenParenthesis:
                             case OperatorType.CloseParenthesis:
+                            case OperatorType.OpenBracket:
+                            case OperatorType.CloseBracket:
                             default:
                                 throw new InvalidOperationException("For now");
                         }
