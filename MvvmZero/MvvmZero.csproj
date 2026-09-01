@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<AssemblyName>FunctionZero.Maui.$(MSBuildProjectName)</AssemblyName>
@@ -39,7 +39,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.70" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.100" />
 	</ItemGroup>
 
 	<ItemGroup>

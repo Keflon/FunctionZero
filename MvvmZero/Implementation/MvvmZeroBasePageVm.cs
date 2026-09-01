@@ -41,8 +41,8 @@ namespace FunctionZero.Maui.MvvmZero
         private bool _isownerPageVisible;
         private bool _isOnNavigationStack;
 
-        public event EventHandler OwnerPageAppearing;
-        public event EventHandler OwnerPageDisappearing;
+        public event EventHandler? OwnerPageAppearing;
+        public event EventHandler? OwnerPageDisappearing;
 
         private readonly List<AutoPageTimer> _pageTimers;
 
