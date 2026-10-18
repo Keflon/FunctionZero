@@ -74,7 +74,18 @@ namespace FunctionZero.Wpf.BindZero.Tests
 
             var result = converter.Convert([source.Value], typeof(long), null!, CultureInfo.InvariantCulture);
 
-            Assert.AreEqual(8, result);
+            Assert.AreEqual(8L, result);
+        }
+
+        [TestMethod]
+        public void Convert_ConvertsResultToTargetType()
+        {
+            var source = new TestViewModel();
+            var converter = CreateConverter("Enabled", source);
+
+            var result = converter.Convert([source.Enabled], typeof(string), null!, CultureInfo.InvariantCulture);
+
+            Assert.AreEqual("True", result);
         }
 
         [TestMethod]
@@ -200,6 +211,8 @@ namespace FunctionZero.Wpf.BindZero.Tests
         private sealed class TestViewModel
         {
             public int Value { get; set; } = 4;
+
+            public bool Enabled { get; set; } = true;
 
             public int[] Numbers { get; } = [1, 2, 3];
 

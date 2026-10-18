@@ -2,6 +2,7 @@ using FunctionZero.ExpressionParserZero.BackingStore;
 using FunctionZero.ExpressionParserZero.Evaluator;
 using FunctionZero.ExpressionParserZero.Operands;
 using FunctionZero.ExpressionParserZero.Tokens;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Windows;
@@ -70,13 +71,34 @@ namespace FunctionZero.Wpf.zBind.z
                     return results;
                 }
 
-                return ExpressionParserZero.OperatorActions.PopAndResolve(stack, _evaluator).GetValue();
+                var result = ExpressionParserZero.OperatorActions.PopAndResolve(stack, _evaluator).GetValue();
+                return ConvertResult(result, targetType, culture);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"z:Bind Convert failed: {ex.Message}");
                 return Binding.DoNothing;
             }
+        }
+
+        private static object? ConvertResult(object? value, Type targetType, CultureInfo culture)
+        {
+            if (value == null || targetType == typeof(object) || targetType.IsInstanceOfType(value))
+                return value;
+
+            var sourceType = value.GetType();
+            var targetConverter = TypeDescriptor.GetConverter(targetType);
+            if (targetConverter.CanConvertFrom(sourceType))
+                return targetConverter.ConvertFrom(null, culture, value);
+
+            var sourceConverter = TypeDescriptor.GetConverter(sourceType);
+            if (sourceConverter.CanConvertTo(targetType))
+                return sourceConverter.ConvertTo(null, culture, value, targetType);
+
+            if (value is IConvertible && typeof(IConvertible).IsAssignableFrom(targetType))
+                return System.Convert.ChangeType(value, targetType, culture);
+
+            return value;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
