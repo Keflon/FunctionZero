@@ -90,6 +90,7 @@ namespace ShowcaseZero.Mvvm.PageViewModels.MaskView
 
             while (true)
             {
+                ShapeName = "";
                 await Task.Delay(5000);
 
                 await WhoDoYouSponsorAsync(hb2y1, Colors.Black);
@@ -174,16 +175,15 @@ namespace ShowcaseZero.Mvvm.PageViewModels.MaskView
         private async Task WhoDoYouSponsorAsync(int hb2y, Color edgeColor)
         {
             TargetName = "who";
-            ShapeName = "Question";
+            ShapeName = "";
             BackgroundAlpha = 0.5F;
-            MaskRoundness = 1.0f;
+            MaskRoundness = 0.7f;
             MaskEdgeColor = edgeColor;
             MaskColor = Colors.Yellow;
             MaskEdgeThickness = 5f;
             await Task.Delay(hb2y);
 
             TargetName = "do";
-            ShapeName = "Star";
             BackgroundAlpha = 0.5F;
             MaskRoundness = 1.0f;
             MaskEdgeColor = edgeColor;
@@ -192,7 +192,7 @@ namespace ShowcaseZero.Mvvm.PageViewModels.MaskView
             await Task.Delay(hb2y);
 
             TargetName = "you";
-            ShapeName = "";
+            //ShapeName = "Star";
             BackgroundAlpha = 0.5F;
             MaskRoundness = 1.0f;
             //MaskEdgeColor = edgeColor;
@@ -227,7 +227,10 @@ namespace ShowcaseZero.Mvvm.PageViewModels.MaskView
             MaskColor = Colors.Yellow;
             MaskEdgeThickness = 5f;
             await Task.Delay(hb2y);
+            TargetName = "layout";
+            ShapeName = "Question";
             await Task.Delay(hb2y);
+            ShapeName = "Star";
         }
     }
 }

@@ -312,7 +312,7 @@
             var maxY = contours.Max(contour => contour.Max(point => point.Y));
             var width = maxX - minX;
             var height = maxY - minY;
-            var scale = Math.Max(width, height);
+            var scale = Math.Max(width, height)*3;
 
             if (scale <= 0 || !float.IsFinite(scale))
                 return null;

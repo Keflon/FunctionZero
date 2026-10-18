@@ -40,9 +40,10 @@
             </cz:MaskZero>
         </ControlTemplate>
     </ContentPage.ControlTemplate>
-    <VerticalStackLayout>
+    <VerticalStackLayout cz:MaskZero.MaskName="layout">
 
         <FlexLayout Wrap="Wrap"
+                   
             VerticalOptions="Fill" 
             HorizontalOptions="Fill" >
             <Label Text="{Binding NextText}"/>
