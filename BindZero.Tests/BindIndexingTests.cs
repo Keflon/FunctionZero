@@ -141,6 +141,29 @@ namespace FunctionZero.Maui.BindZero.Tests
             Assert.AreEqual("changed", converter.Convert([vm.Obs], typeof(object), null, CultureInfo.InvariantCulture));
         }
 
+        [TestMethod]
+        public void ProvideValue_CreatesBindingsForCollectionAndDynamicIndex()
+        {
+            var bind = new Bind { Expression = "NumbersArray[Index]" };
+
+            var binding = (MultiBinding)((IMarkupExtension<BindingBase>)bind).ProvideValue(new TestServiceProvider());
+
+            CollectionAssert.AreEqual(
+                new[] { "NumbersArray", "Index" },
+                binding.Bindings.Cast<Binding>().Select(child => child.Path).ToArray());
+        }
+
+        [TestMethod]
+        public void ProvideValue_PropagatesExplicitSourceToIndexedBindings()
+        {
+            var vm = new TestViewModel();
+            var bind = new Bind { Expression = "NumbersArray[Index]", Source = vm };
+
+            var binding = (MultiBinding)((IMarkupExtension<BindingBase>)bind).ProvideValue(new TestServiceProvider());
+
+            Assert.IsTrue(binding.Bindings.Cast<Binding>().All(child => ReferenceEquals(vm, child.Source)));
+        }
+
         private static IMultiValueConverter CreateConverter(string expression, TestViewModel source)
         {
             var bind = new Bind { Expression = expression, Source = source, Mode = BindingMode.TwoWay };

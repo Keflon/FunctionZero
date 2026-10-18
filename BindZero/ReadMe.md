@@ -1,9 +1,7 @@
-﻿# FunctionZero.Maui.zBind
-`FunctionZero.Maui.zBind` contains an alternative to `Microsoft.Maui.Controls.Binding` and allows DataBinding to an Expression  
+﻿# FunctionZero.Maui.BindZero
+`FunctionZero.Maui.BindZero` contains an alternative to `Microsoft.Maui.Controls.Binding` and allows data binding to an expression.  
 
-NuGet package [here](https://www.nuget.org/packages/FunctionZero.Maui.zBind)  
-Xamarin version [here](https://github.com/Keflon/FunctionZero.zBindTestApp)  
-Xamarin NuGet [here](https://www.nuget.org/packages/FunctionZero.zBind)  
+NuGet package [here](https://www.nuget.org/packages/FunctionZero.Maui.BindZero)  
 
 ## Contents
 1. [Quickstart](#Quickstart)
@@ -17,10 +15,10 @@ Xamarin NuGet [here](https://www.nuget.org/packages/FunctionZero.zBind)
 
 ## Quickstart
 ### Setup
-1. Use the package manager to add the NugetPackage `FunctionZero.Maui.zBind`
+1. Use the package manager to add the NuGet package `FunctionZero.Maui.BindZero`
 1. Add a namespace alias to your xaml, like this:
 ```xaml 
-    xmlns:z="clr-namespace:FunctionZero.Maui.zBind.z;assembly=FunctionZero.Maui.zBind"
+    xmlns:z="clr-namespace:FunctionZero.Maui.zBind.z;assembly=FunctionZero.Maui.BindZero"
 ```
 ### Getting Started ...
 #### z:Bind - animate an Image based on 'Count' in your ViewModel ...

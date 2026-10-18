@@ -47,6 +47,7 @@ namespace FunctionZero.Maui.BindZero.Tests
 
             // BindableTarget is internal; use reflection to verify it was captured
             var prop = typeof(Bind).GetProperty("BindableTarget", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public);
+            Assert.IsNotNull(prop);
             var target = prop.GetValue(bind) as BindableObject;
             Assert.IsNotNull(target);
         }

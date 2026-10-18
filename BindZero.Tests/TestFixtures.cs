@@ -23,7 +23,7 @@ namespace FunctionZero.Maui.BindZero.Tests
     // Simple view model with a range of backing stores
     public class TestViewModel
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         public int[] NumbersArray { get; set; }
 

@@ -3,12 +3,12 @@ using System.Xml;
 
 namespace FunctionZero.Maui.zBind.z
 {
-    [ContentProperty("Expression")]
+    [ContentProperty(nameof(Expression))]
     public class Function : IMarkupExtension<TreeAndSource>
     {
-        public string Expression { get; set; }
+        public string? Expression { get; set; }
 
-        public object Source { get; set; }
+        public object? Source { get; set; }
 
         public Function()
         {
@@ -24,16 +24,17 @@ namespace FunctionZero.Maui.zBind.z
 
             var ep = ExpressionParserZero.Binding.ExpressionParserFactory.GetExpressionParser();
             var compiledExpression = ep.Parse(Expression);
+            var source = Source;
 
-            if (Source == null)
+            if (source == null)
                 return new TreeAndSource(compiledExpression, (obj) => obj?.BindingContext == null ? null : new PocoBackingStore(obj.BindingContext));
             else
-                return new TreeAndSource(compiledExpression, (obj) => new PocoBackingStore(Source));
+                return new TreeAndSource(compiledExpression, (obj) => new PocoBackingStore(source));
         }
 
         object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider)
         {
-            return (this as IMarkupExtension<TreeAndSource>).ProvideValue(serviceProvider);
+            return ProvideValue(serviceProvider);
         }
     }
 }

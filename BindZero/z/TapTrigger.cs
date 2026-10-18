@@ -11,8 +11,9 @@ namespace FunctionZero.Maui.zBind.z
 {
     public class TapTrigger : Behavior<Element>
     {
-        BindableObject _host;
-        private IBackingStore _risingBackingStore;
+        private BindableObject? _host;
+        private IBackingStore? _risingBackingStore;
+        private TapGestureRecognizer? _tapGestureRecognizer;
         public TapTrigger()
         {
             // TODO: 
@@ -33,9 +34,9 @@ namespace FunctionZero.Maui.zBind.z
             else if (host is View v)
             {
                 host.BindingContextChanged += _host_BindingContextChanged;
-                var tgr = new TapGestureRecognizer();
-                tgr.Tapped += DoAction;
-                v.GestureRecognizers.Add(tgr);
+                _tapGestureRecognizer = new TapGestureRecognizer();
+                _tapGestureRecognizer.Tapped += DoAction;
+                v.GestureRecognizers.Add(_tapGestureRecognizer);
             }
             else
                 throw new NotImplementedException("TapTrigger - host is not a View");
@@ -49,24 +50,34 @@ namespace FunctionZero.Maui.zBind.z
             // TODO: Button -> Click event
             // TODO: TapGestureRecognizer -> Tapped event
 
-            _host = null;
+            host.BindingContextChanged -= _host_BindingContextChanged;
+
+            if (host is Button button)
+                button.Clicked -= DoAction;
+            else if (host is View view && _tapGestureRecognizer != null)
+            {
+                _tapGestureRecognizer.Tapped -= DoAction;
+                view.GestureRecognizers.Remove(_tapGestureRecognizer);
+            }
+
+            _tapGestureRecognizer = null;
             _risingBackingStore = null;
-            ((Button)host).BindingContextChanged -= _host_BindingContextChanged;
+            _host = null;
 
             base.OnDetachingFrom(host);
         }
 
-        private void _host_BindingContextChanged(object sender, EventArgs e)
+        private void _host_BindingContextChanged(object? sender, EventArgs e)
         {
             // this.BindingContext is needed for the BindingContext of the TapAction.
             // TODO: Use a binding object.
-            this.BindingContext = _host.BindingContext;
+            BindingContext = _host?.BindingContext;
 
             // Get the backing store from the Rising and Falling instances ...
-            _risingBackingStore = TapAction?.SourceGetter(_host);
+            _risingBackingStore = _host == null ? null : TapAction?.SourceGetter(_host);
         }
 
-        private void DoAction(object sender, EventArgs e)
+        private void DoAction(object? sender, EventArgs e)
         {
             try
             {
@@ -79,9 +90,9 @@ namespace FunctionZero.Maui.zBind.z
         }
         public static readonly BindableProperty TapActionProperty = BindableProperty.Create(nameof(TapAction), typeof(TreeAndSource), typeof(TapTrigger), null, BindingMode.OneWay, null, TapTriggerChanged);
 
-        public TreeAndSource TapAction
+        public TreeAndSource? TapAction
         {
-            get { return (TreeAndSource)GetValue(TapActionProperty); }
+            get { return (TreeAndSource?)GetValue(TapActionProperty); }
             set { SetValue(TapActionProperty, value); }
         }
 
@@ -91,10 +102,12 @@ namespace FunctionZero.Maui.zBind.z
             {
                 var self = (TapTrigger)bindable;
 
-                self._risingBackingStore = self.TapAction.SourceGetter(self._host);
+                self._risingBackingStore = self._host == null ? null : self.TapAction?.SourceGetter(self._host);
             }
             catch (Exception ex)
-            { }
+            {
+                Debug.WriteLine(ex);
+            }
         }
     }
 }

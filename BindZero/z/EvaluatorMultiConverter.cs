@@ -15,12 +15,10 @@ namespace FunctionZero.Maui.zBind.z
     {
         private readonly VariableEvaluator _evaluator;
         private readonly ExpressionTree _compiledExpressionTree;
-        private readonly List<ExpressionTreeNode> _unExpressionTreeParentList;
-        private readonly ExpressionTree _unExpressionTree;
-        private readonly string _variableName;
+        private readonly List<ExpressionTreeNode>? _unExpressionTreeParentList;
+        private readonly ExpressionTree? _unExpressionTree;
+        private readonly string? _variableName;
         private readonly bool _isMultiBind;
-
-        public event EventHandler Converted;
 
         public EvaluatorMultiConverter(ICollection<string> keys, ExpressionTree compiledExpression, Bind bindingExtension)
         {
@@ -67,6 +65,9 @@ namespace FunctionZero.Maui.zBind.z
 
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
+            if (Array.Exists(values, value => ReferenceEquals(value, BindableProperty.UnsetValue)))
+                return Binding.DoNothing;
+
             _evaluator.SetValues(values);
 
             try
@@ -87,45 +88,34 @@ namespace FunctionZero.Maui.zBind.z
             }
             catch (Exception ex)
             {
-                //if (targetType.IsValueType && Nullable.GetUnderlyingType(targetType) == null)
-                //    return Activator.CreateInstance(targetType);
-                //else
-                //    return null;
-
-                if (targetType.IsValueType)
-                    return Activator.CreateInstance(targetType);
-                else
-                    return null;
-            }
-            finally
-            {
-                Converted?.Invoke(this, EventArgs.Empty);
+                Debug.WriteLine($"z:Bind Convert failed: {ex.Message}");
+                return Binding.DoNothing;
             }
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
-            if (_unExpressionTree != null)
+            try
             {
-                var propInfo = _evaluator.GetPropertyInfo(_variableName);
-
-                if (propInfo != null && propInfo.CanWrite)
+                if (_unExpressionTree != null && _unExpressionTreeParentList != null && _variableName != null)
                 {
-                    if (BackingStoreHelpers.OperandTypeLookup.TryGetValue(propInfo.PropertyType, out var theOperandType))
-                    {
-                        var valueContainer = new Operand(theOperandType, value);
-                        _unExpressionTreeParentList[0] = new ExpressionTreeNode(valueContainer, 0);
-                        var result = _unExpressionTree.Evaluate(_evaluator);
+                    var propInfo = _evaluator.GetPropertyInfo(_variableName);
 
-                        _evaluator.SetValue(propInfo, result.Pop().GetValue());
+                    if (propInfo != null && propInfo.CanWrite)
+                    {
+                        if (BackingStoreHelpers.OperandTypeLookup.TryGetValue(propInfo.PropertyType, out var theOperandType))
+                        {
+                            var valueContainer = new Operand(theOperandType, value);
+                            _unExpressionTreeParentList[0] = new ExpressionTreeNode(valueContainer, 0);
+                            var result = _unExpressionTree.Evaluate(_evaluator);
+
+                            _evaluator.SetValue(_variableName, result.Pop().GetValue());
+                        }
                     }
                 }
-            }
-            else
-            {
-                // Attempt to evaluate the expression to a writable reference (for indexed expressions)
-                try
+                else
                 {
+                    // Attempt to evaluate the expression to a writable reference (for indexed expressions)
                     var resultStack = _compiledExpressionTree.Evaluate(_evaluator);
                     if (resultStack.Count > 0)
                     {
@@ -142,17 +132,20 @@ namespace FunctionZero.Maui.zBind.z
                             var propInfo = _evaluator.GetPropertyInfo(name);
                             if (propInfo != null && propInfo.CanWrite)
                             {
-                                _evaluator.SetValue(propInfo, value);
+                                _evaluator.SetValue(name, value);
                             }
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine($"z:Bind ConvertBack failed: {ex.Message}");
-                }
             }
-            return null;
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"z:Bind ConvertBack failed: {ex.Message}");
+            }
+
+            var sourceResults = new object[targetTypes.Length];
+            Array.Fill(sourceResults, Binding.DoNothing);
+            return sourceResults;
         }
     }
 }

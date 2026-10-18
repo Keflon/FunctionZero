@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<TargetFramework>net10.0-windows</TargetFramework>
+	<UseWPF>true</UseWPF>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
+	<AssemblyName>FunctionZero.Wpf.BindZero</AssemblyName>
+	<RootNamespace>FunctionZero.Wpf.BindZero</RootNamespace>
+	<PackageId>FunctionZero.Wpf.BindZero</PackageId>
+	<Title>$(AssemblyName)</Title>
+	<VersionPrefix>10.0.0-pre1</VersionPrefix>
+	<Authors>Keith Pickford</Authors>
+	<Company>FunctionZero Ltd</Company>
+	<Description>Bind WPF properties to expressions rather than only to properties.</Description>
+	<Copyright>(c) 2026 FunctionZero Ltd</Copyright>
+	<PackageIcon>F0 gravatar.png</PackageIcon>
+	<PackageReadmeFile>readme_nuget.md</PackageReadmeFile>
+	<PackageTags>zBind z:Bind Bind Binding Databind XAML WPF expression parser evaluator short circuit POCO</PackageTags>
+	<PackageReleaseNotes>Initial .NET 10 WPF release.</PackageReleaseNotes>
+	<PackageLicenseFile>License.txt</PackageLicenseFile>
+	<IncludeSymbols>true</IncludeSymbols>
+	<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	<PackageOutputPath Condition="'$(PackageOutputPath)' == ''">$(MSBuildProjectDirectory)\..\artifacts\packages</PackageOutputPath>
+	<PackageProjectUrl>https://github.com/Keflon/FunctionZero</PackageProjectUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<ProjectReference Include="..\ExpressionParserZero\ExpressionParserZero.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<None Include="..\F0 gravatar.png" Link="F0 gravatar.png" Pack="true" PackagePath="\" />
+	<None Include="..\BindZero\License.txt" Link="License.txt" Pack="true" PackagePath="\" />
+	<None Include="readme_nuget.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<InternalsVisibleTo Include="WpfBindZero.Tests" />
+  </ItemGroup>
+
+</Project>

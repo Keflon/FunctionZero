@@ -10,13 +10,13 @@ namespace FunctionZero.Maui.zBind.z
 {
     public class TreeAndSource
     {
-        public TreeAndSource(ExpressionTree tree, Func<BindableObject, IBackingStore> sourceGetter)
+        public TreeAndSource(ExpressionTree tree, Func<BindableObject, IBackingStore?> sourceGetter)
         {
             Tree = tree;
             SourceGetter = sourceGetter;
         }
 
         public ExpressionTree Tree { get; }
-        public Func<BindableObject, IBackingStore> SourceGetter { get; }
+        public Func<BindableObject, IBackingStore?> SourceGetter { get; }
     }
 }

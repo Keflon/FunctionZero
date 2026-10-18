@@ -7,13 +7,13 @@ namespace FunctionZero.Maui.zBind.z
 {
     internal class VariableEvaluator : IBackingStore
     {
-        private object[] _values;
+        private object[]? _values;
         private readonly IList<string> _keys;
         private readonly Bind _bindingExtension;
 
         // Cache for reflection results to improve performance
         // Key: (Type, PropertyName), Value: PropertyInfo
-        private readonly Dictionary<(Type, string), PropertyInfo> _propertyCache = new Dictionary<(Type, string), PropertyInfo>();
+        private readonly Dictionary<(Type, string), PropertyInfo?> _propertyCache = new();
 
         public VariableEvaluator(IList<string> keys, Bind bindingExtension)
         {
@@ -28,12 +28,16 @@ namespace FunctionZero.Maui.zBind.z
 
         public (OperandType type, object value) GetValue(string qualifiedName)
         {
-
             int index = _keys.IndexOf(qualifiedName);
+            if (index < 0)
+                throw new KeyNotFoundException($"The expression variable '{qualifiedName}' has no corresponding binding.");
+            if (_values == null)
+                throw new InvalidOperationException("Binding values have not been supplied to the expression evaluator.");
+
             object value = _values[index];
 
             if (value == null)
-                return (OperandType.Null, null);
+                return (OperandType.Null, null!);
 
             if (BackingStoreHelpers.OperandTypeLookup.TryGetValue(value.GetType(), out var theOperandType))
                 return (theOperandType, value);
@@ -41,12 +45,12 @@ namespace FunctionZero.Maui.zBind.z
             return (OperandType.Object, value);
         }
 
-        private static readonly char[] _dot = new[] { '.' };
+        private static readonly char[] _dot = ['.'];
 
         /// <summary>
         /// Gets a cached PropertyInfo for the specified type and property name.
         /// </summary>
-        private PropertyInfo GetCachedPropertyInfo(Type type, string propertyName)
+        private PropertyInfo? GetCachedPropertyInfo(Type type, string propertyName)
         {
             var key = (type, propertyName);
 
@@ -61,66 +65,50 @@ namespace FunctionZero.Maui.zBind.z
 
         public void SetValue(string qualifiedName, object value)
         {
-            var host = _bindingExtension.Source ?? _bindingExtension.BindableTarget?.BindingContext;
-            if (host != null)
+            if (TryGetPropertyTarget(qualifiedName, out var host, out var propertyInfo) && propertyInfo is { CanWrite: true })
+            {
+                propertyInfo.SetValue(host, value, null);
+            }
+        }
+
+        public PropertyInfo? GetPropertyInfo(string qualifiedName)
+        {
+            return TryGetPropertyTarget(qualifiedName, out _, out var propertyInfo) ? propertyInfo : null;
+        }
+
+        private bool TryGetPropertyTarget(string qualifiedName, out object? host, out PropertyInfo? propertyInfo)
+        {
+            var currentHost = _bindingExtension.Source ?? _bindingExtension.BindableTarget?.BindingContext;
+            host = null;
+            propertyInfo = null;
+
+            if (currentHost != null)
             {
                 var bits = qualifiedName.Split(_dot);
 
                 for (int c = 0; c < bits.Length - 1; c++)
                 {
-                    PropertyInfo prop = GetCachedPropertyInfo(host.GetType(), bits[c]);
+                    PropertyInfo? prop = GetCachedPropertyInfo(currentHost.GetType(), bits[c]);
                     if (null != prop && prop.CanRead)
                     {
-                        host = prop.GetValue(host);
-                        if (host == null)
-                            return;
+                        currentHost = prop.GetValue(currentHost);
+                        if (currentHost == null)
+                            return false;
                     }
                     else
-                        return;
+                        return false;
                 }
                 var variableName = bits[bits.Length - 1];
 
-                PropertyInfo prop2 = GetCachedPropertyInfo(host.GetType(), variableName);
-                if (null != prop2 && prop2.CanWrite)
+                propertyInfo = GetCachedPropertyInfo(currentHost.GetType(), variableName);
+                if (propertyInfo != null)
                 {
-                    prop2.SetValue(host, value, null);
+                    host = currentHost;
+                    return true;
                 }
             }
-        }
 
-        public void SetValue(PropertyInfo propInfo, object value)
-        {
-            var host = _bindingExtension.Source ?? _bindingExtension.BindableTarget?.BindingContext;
-            if (host != null)
-            {
-                propInfo.SetValue(host, value, null);
-            }
-        }
-
-        public PropertyInfo GetPropertyInfo(string qualifiedName)
-        {
-            var host = _bindingExtension.Source ?? _bindingExtension.BindableTarget?.BindingContext;
-            if (host != null)
-            {
-                var bits = qualifiedName.Split(_dot);
-
-                for (int c = 0; c < bits.Length - 1; c++)
-                {
-                    PropertyInfo prop = GetCachedPropertyInfo(host.GetType(), bits[c]);
-                    if (null != prop && prop.CanRead)
-                    {
-                        host = prop.GetValue(host);
-                        if (host == null)
-                            return null;
-                    }
-                    else
-                        return null;
-                }
-                var variableName = bits[bits.Length - 1];
-
-                return GetCachedPropertyInfo(host.GetType(), variableName);
-            }
-            return null;
+            return false;
         }
     }
 }

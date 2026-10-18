@@ -9,28 +9,26 @@ using System.Xml;
 
 namespace FunctionZero.Maui.zBind.z
 {
-    [ContentProperty("Expression")]
+    [ContentProperty(nameof(Expression))]
     public class Bind : IMarkupExtension<BindingBase>
     {
-        public string Expression { set; get; }
+        public string? Expression { set; get; }
         public BindingMode Mode { get; set; }
 
         //private IList<string> _bindingLookup;
 
-        public object Source { get; set; }
+        public object? Source { get; set; }
 
         /// <summary>
         /// For internal use.
         /// </summary>
-        public object ConstantResult { get; set; }
+        public object? ConstantResult { get; set; }
 
         public Bind()
         {
         }
 
-        private MultiBinding _multiBind;
-
-        internal BindableObject BindableTarget { get; private set; }
+        internal BindableObject? BindableTarget { get; private set; }
 
         public BindingBase ProvideValue(IServiceProvider serviceProvider)
         {
@@ -42,7 +40,7 @@ namespace FunctionZero.Maui.zBind.z
                 throw new XamlParseException("ZeroBind requires 'Expression' property to be set", lineInfo);
             }
 
-            object bindingSourceObject = Source;
+            object? bindingSourceObject = Source;
 
             var ep = ExpressionParserZero.Binding.ExpressionParserFactory.GetExpressionParser();
 
@@ -55,7 +53,7 @@ namespace FunctionZero.Maui.zBind.z
                         this.BindableTarget = bo;
                 }
 
-                _multiBind = new MultiBinding()
+                var multiBind = new MultiBinding()
                 {
                     Mode = Mode
                 };
@@ -73,12 +71,12 @@ namespace FunctionZero.Maui.zBind.z
                             {
                                 var binding = new Binding(variableName, BindingMode.OneWay, null, null, null, bindingSourceObject);
                                 bindingLookup.Add(variableName);
-                                _multiBind.Bindings.Add(binding);
+                                multiBind.Bindings.Add(binding);
                             }
                         }
                     }
                 }
-                _multiBind.Converter = new EvaluatorMultiConverter(bindingLookup, compiledExpression, this);
+                multiBind.Converter = new EvaluatorMultiConverter(bindingLookup, compiledExpression, this);
 
                 if (bindingLookup.Count == 0)
                 {
@@ -100,7 +98,7 @@ namespace FunctionZero.Maui.zBind.z
                     return new Binding(nameof(ConstantResult), BindingMode.OneTime, null, null, null, this);
                 }
 
-                return _multiBind;
+                return multiBind;
             }
             catch (ExpressionParserException ex)
             {
@@ -113,13 +111,13 @@ namespace FunctionZero.Maui.zBind.z
 
                 Debug.WriteLine(problem);
                 ConstantResult = problem;
-                return new Binding("ConstantResult", BindingMode.OneTime, null, null, null, this);
+                return new Binding(nameof(ConstantResult), BindingMode.OneTime, null, null, null, this);
             }
         }
 
         object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider)
         {
-            return (this as IMarkupExtension<BindingBase>).ProvideValue(serviceProvider);
+            return ProvideValue(serviceProvider);
         }
     }
 }

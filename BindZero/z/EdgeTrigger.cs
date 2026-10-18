@@ -11,9 +11,9 @@ namespace FunctionZero.Maui.zBind.z
 {
     public class EdgeTrigger : Behavior<Element>
     {
-        BindableObject _host;
-        private IBackingStore _risingBackingStore;
-        private IBackingStore _fallingBackingStore;
+        private BindableObject? _host;
+        private IBackingStore? _risingBackingStore;
+        private IBackingStore? _fallingBackingStore;
 
         protected override void OnAttachedTo(BindableObject host)
         {
@@ -30,6 +30,9 @@ namespace FunctionZero.Maui.zBind.z
         protected override void OnBindingContextChanged()
         {
             base.OnBindingContextChanged();
+
+            if (_host == null)
+                return;
 
             // Get the backing store from the Rising and Falling instances ...
             _risingBackingStore = Rising?.SourceGetter(_host);
@@ -85,9 +88,9 @@ namespace FunctionZero.Maui.zBind.z
 
         public static readonly BindableProperty RisingProperty = BindableProperty.Create(nameof(Rising), typeof(TreeAndSource), typeof(EdgeTrigger), null, BindingMode.OneWay, null, RisingChanged);
 
-        public TreeAndSource Rising
+        public TreeAndSource? Rising
         {
-            get { return (TreeAndSource)GetValue(RisingProperty); }
+            get { return (TreeAndSource?)GetValue(RisingProperty); }
             set { SetValue(RisingProperty, value); }
         }
 
@@ -97,7 +100,7 @@ namespace FunctionZero.Maui.zBind.z
             {
                 var self = (EdgeTrigger)bindable;
 
-                self._risingBackingStore = self.Rising.SourceGetter(self._host);
+                self._risingBackingStore = self._host == null ? null : self.Rising?.SourceGetter(self._host);
 
                 if (self.Condition == true)
                 {
@@ -105,14 +108,16 @@ namespace FunctionZero.Maui.zBind.z
                 }
             }
             catch (Exception ex)
-            { }
+            {
+                Debug.WriteLine(ex);
+            }
         }
 
         public static readonly BindableProperty FallingProperty = BindableProperty.Create(nameof(Falling), typeof(TreeAndSource), typeof(EdgeTrigger), null, BindingMode.OneWay, null, FallingChanged);
 
-        public TreeAndSource Falling
+        public TreeAndSource? Falling
         {
-            get { return (TreeAndSource)GetValue(FallingProperty); }
+            get { return (TreeAndSource?)GetValue(FallingProperty); }
             set { SetValue(FallingProperty, value); }
         }
 
@@ -122,7 +127,7 @@ namespace FunctionZero.Maui.zBind.z
             {
                 var self = (EdgeTrigger)bindable;
 
-                self._fallingBackingStore = self.Falling.SourceGetter(self._host);
+                self._fallingBackingStore = self._host == null ? null : self.Falling?.SourceGetter(self._host);
 
                 if (self.Condition == false)
                 {
@@ -130,7 +135,9 @@ namespace FunctionZero.Maui.zBind.z
                 }
             }
             catch (Exception ex)
-            { }
+            {
+                Debug.WriteLine(ex);
+            }
         }
     }
 }
