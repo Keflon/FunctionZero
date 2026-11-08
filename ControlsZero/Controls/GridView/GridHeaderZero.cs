@@ -7,7 +7,7 @@ namespace FunctionZero.Maui.Controls;
 /// </summary>
 internal sealed class GridHeaderZero : Layout
 {
-    private const double SplitterWidth = 8.0;
+    private const double SplitterWidth = 10.0;
     private readonly GridColumnLayout _columnLayout;
     private readonly List<View> _headers = new();
     private readonly List<GridSplitterZero> _splitters = new();
@@ -17,6 +17,60 @@ internal sealed class GridHeaderZero : Layout
     {
         _columnLayout = columnLayout;
         IsClippedToBounds = true;
+        BackgroundColor = Color.FromRgba(0, 0, 0, 0.01);
+
+        // Gestures live on the header, which never moves, so TotalX is not disturbed by the splitter moving under the pointer.
+        var pointer = new PointerGestureRecognizer();
+        pointer.PointerPressed += (s, e) => _pressedX = e.GetPosition(this)?.X;
+        GestureRecognizers.Add(pointer);
+
+        var pan = new PanGestureRecognizer();
+        pan.PanUpdated += Pan_PanUpdated;
+        GestureRecognizers.Add(pan);
+    }
+
+    private const double GrabTolerance = 8.0;
+    private double? _pressedX;
+    private GridSplitterZero _activeSplitter;
+
+    private void Pan_PanUpdated(object sender, PanUpdatedEventArgs e)
+    {
+        switch (e.StatusType)
+        {
+            case GestureStatus.Started:
+                _activeSplitter = FindSplitter(_pressedX);
+                _activeSplitter?.BeginResize();
+                break;
+            case GestureStatus.Running:
+                _activeSplitter?.Resize(e.TotalX);
+                break;
+            default:
+                _activeSplitter?.EndResize();
+                _activeSplitter = null;
+                _pressedX = null;
+                break;
+        }
+    }
+
+    private GridSplitterZero FindSplitter(double? x)
+    {
+        if (x == null)
+            return null;
+
+        var widths = _columnLayout.Widths;
+        var offsets = _columnLayout.Offsets;
+        GridSplitterZero best = null;
+        double bestDistance = GrabTolerance;
+        for (int c = 0; c < _splitters.Count && c < widths.Length; c++)
+        {
+            double distance = Math.Abs(x.Value - (offsets[c] + widths[c]));
+            if (distance <= bestDistance)
+            {
+                bestDistance = distance;
+                best = _splitters[c];
+            }
+        }
+        return best;
     }
 
     public event EventHandler ColumnResized;
@@ -42,8 +96,12 @@ internal sealed class GridHeaderZero : Layout
             }
             _headers.Add(header);
             Add(header);
+        }
 
-            var splitter = new GridSplitterZero(column);
+        // Splitters are added last so they sit above every header and receive the pointer.
+        foreach (var column in columns)
+        {
+            var splitter = new GridSplitterZero(column) { InputTransparent = true };
             splitter.Resizing += (s, e) => ColumnResized?.Invoke(this, EventArgs.Empty);
             _splitters.Add(splitter);
             Add(splitter);

@@ -362,7 +362,7 @@ public class RowVirtualizerZero : Layout
 
         public Size Measure(double widthConstraint, double heightConstraint)
         {
-            double width = Math.Max(_owner.ColumnLayout.TotalWidth, double.IsFinite(widthConstraint) ? widthConstraint : 0);
+            double width = Math.Max(_owner.ColumnLayout.TotalWidth, double.IsFinite(widthConstraint) ? widthConstraint : _owner.ColumnLayout.ViewportWidth);
 
             foreach (var child in _owner.Children)
                 if (child is RowZero row && row.IsParked == false)

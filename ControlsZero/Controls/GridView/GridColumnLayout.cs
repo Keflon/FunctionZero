@@ -10,9 +10,11 @@ internal sealed class GridColumnLayout
     public double[] Widths { get; private set; } = Array.Empty<double>();
     public double[] Offsets { get; private set; } = Array.Empty<double>();
     public double TotalWidth { get; private set; }
+    public double ViewportWidth { get; private set; }
 
     public void Compute(IReadOnlyList<GridColumnZero> columns, double viewportWidth, IReadOnlyList<double> autoWidths)
     {
+        ViewportWidth = double.IsFinite(viewportWidth) ? Math.Max(0, viewportWidth) : 0;
         int count = columns.Count;
         if (Widths.Length != count)
         {

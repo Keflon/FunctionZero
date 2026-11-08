@@ -80,7 +80,7 @@ public class GridColumnZero : Element
 
     #region HeaderProperty
 
-    public static readonly BindableProperty HeaderProperty = BindableProperty.Create(nameof(Header), typeof(object), typeof(GridColumnZero), null, BindingMode.OneWay, null, OnLayoutChanged);
+    public static readonly BindableProperty HeaderProperty = BindableProperty.Create(nameof(Header), typeof(object), typeof(GridColumnZero), null, BindingMode.OneWay, null, OnHeaderChanged);
 
     public object Header
     {
@@ -92,7 +92,7 @@ public class GridColumnZero : Element
 
     #region HeaderTemplateProperty
 
-    public static readonly BindableProperty HeaderTemplateProperty = BindableProperty.Create(nameof(HeaderTemplate), typeof(DataTemplate), typeof(GridColumnZero), null, BindingMode.OneWay, null, OnLayoutChanged);
+    public static readonly BindableProperty HeaderTemplateProperty = BindableProperty.Create(nameof(HeaderTemplate), typeof(DataTemplate), typeof(GridColumnZero), null, BindingMode.OneWay, null, OnHeaderChanged);
 
     public DataTemplate HeaderTemplate
     {
@@ -158,6 +158,11 @@ public class GridColumnZero : Element
 
     private static void OnLayoutChanged(BindableObject bindable, object oldValue, object newValue)
         => ((GridColumnZero)bindable).LayoutChanged?.Invoke(bindable, EventArgs.Empty);
+
+    private static void OnHeaderChanged(BindableObject bindable, object oldValue, object newValue)
+        => ((GridColumnZero)bindable).HeaderChanged?.Invoke(bindable, EventArgs.Empty);
+
+    internal event EventHandler HeaderChanged;
 
     private static void OnTemplateChanged(BindableObject bindable, object oldValue, object newValue)
     {

@@ -11,34 +11,29 @@ namespace FunctionZero.Maui.Controls
         internal GridSplitterZero(GridColumnZero column)
         {
             _column = column;
-            BackgroundColor = Colors.Transparent;
+            // Nearly transparent rather than Transparent so the platform hit-tests the whole grab area.
+            BackgroundColor = Color.FromRgba(0, 0, 0, 0.01);
             Content = new BoxView { Color = Colors.Gray, WidthRequest = 1, HorizontalOptions = LayoutOptions.Center };
-
-            var pan = new PanGestureRecognizer();
-            pan.PanUpdated += Pan_PanUpdated;
-            GestureRecognizers.Add(pan);
         }
 
         internal event EventHandler Resizing;
 
         internal double CurrentWidth { get; set; }
 
-        private void Pan_PanUpdated(object sender, PanUpdatedEventArgs e)
+        internal GridColumnZero Column => _column;
+
+        internal void BeginResize()
         {
-            switch (e.StatusType)
-            {
-                case GestureStatus.Started:
-                    _startWidth = CurrentWidth;
-                    Opacity = 0.5;
-                    break;
-                case GestureStatus.Running:
-                    _column.Width = new GridLength(Math.Max(0, _startWidth + e.TotalX));
-                    Resizing?.Invoke(this, EventArgs.Empty);
-                    break;
-                default:
-                    Opacity = 1.0;
-                    break;
-            }
+            _startWidth = CurrentWidth;
+            Opacity = 0.5;
         }
+
+        internal void Resize(double totalX)
+        {
+            _column.Width = new GridLength(Math.Max(0, _startWidth + totalX));
+            Resizing?.Invoke(this, EventArgs.Empty);
+        }
+
+        internal void EndResize() => Opacity = 1.0;
     }
 }

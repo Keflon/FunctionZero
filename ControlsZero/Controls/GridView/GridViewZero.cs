@@ -26,7 +26,7 @@ public class GridViewZero : ContentView
         columns.CollectionChanged += Columns_CollectionChanged;
         Columns = columns;
 
-        _virtualizer = new RowVirtualizerZero(_columnLayout) { RowStyle = DefaultRowStyle };
+        _virtualizer = new RowVirtualizerZero(_columnLayout) { RowStyle = DefaultRowStyle, HorizontalOptions = LayoutOptions.Start };
         _virtualizer.RowTapped += Virtualizer_RowTapped;
         _virtualizer.RowRealized += Virtualizer_RowRealized;
 
@@ -34,6 +34,7 @@ public class GridViewZero : ContentView
         {
             Orientation = ScrollOrientation.Vertical,
             Content = _virtualizer,
+            HorizontalScrollBarVisibility = ScrollBarVisibility.Never,
             HorizontalOptions = LayoutOptions.Fill,
             VerticalOptions = LayoutOptions.Fill
         };
@@ -41,7 +42,6 @@ public class GridViewZero : ContentView
         _scrollView.SizeChanged += (s, e) => UpdateViewport();
 
         _header = new GridHeaderZero(_columnLayout) { IsVisible = false };
-        _header.ColumnResized += (s, e) => UpdateColumnLayout();
 
         var root = new Grid
         {
@@ -101,6 +101,7 @@ public class GridViewZero : ContentView
         foreach (var column in _subscribedColumns)
         {
             column.LayoutChanged -= Column_LayoutChanged;
+            column.HeaderChanged -= Column_HeaderChanged;
             column.TemplateChanged -= Column_TemplateChanged;
             RemoveLogicalChild(column);
         }
@@ -109,6 +110,7 @@ public class GridViewZero : ContentView
         foreach (var column in Columns)
         {
             column.LayoutChanged += Column_LayoutChanged;
+            column.HeaderChanged += Column_HeaderChanged;
             column.TemplateChanged += Column_TemplateChanged;
             _subscribedColumns.Add(column);
             // Gives the column an inherited BindingContext and lets {x:Reference} / {Binding Source=...} resolve.
@@ -121,9 +123,10 @@ public class GridViewZero : ContentView
         UpdateRemainingItems();
     }
 
+    private void Column_HeaderChanged(object sender, EventArgs e) => _header.SetColumns(_subscribedColumns);
+
     private void Column_LayoutChanged(object sender, EventArgs e)
     {
-        _header.SetColumns(_subscribedColumns);
         UpdateColumnLayout();
     }
 
@@ -132,6 +135,11 @@ public class GridViewZero : ContentView
     private void UpdateColumnLayout(bool invalidateRows = true)
     {
         _columnLayout.Compute(_subscribedColumns, _scrollView.Width, Array.Empty<double>());
+
+        // The Windows ScrollView centers content narrower than its viewport, so the rows must always span the viewport.
+        double width = Math.Max(_columnLayout.TotalWidth, _scrollView.Width);
+        if (width > 0 && _virtualizer.WidthRequest != width)
+            _virtualizer.WidthRequest = width;
         _header.InvalidateColumns();
 
         if (invalidateRows)

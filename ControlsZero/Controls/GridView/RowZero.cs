@@ -101,7 +101,7 @@ internal sealed class RowLayoutManager : ILayoutManager
         for (int c = 0; c < count; c++)
             ((IView)cells[c]).Measure(widths[c], _row.RowHeight);
 
-        return new Size(layout.TotalWidth, _row.RowHeight);
+        return new Size(Math.Max(layout.TotalWidth, double.IsFinite(widthConstraint) ? widthConstraint : 0), _row.RowHeight);
     }
 
     public Size ArrangeChildren(Rect bounds)
@@ -115,6 +115,7 @@ internal sealed class RowLayoutManager : ILayoutManager
         for (int c = 0; c < count; c++)
             ((IView)cells[c]).Arrange(new Rect(bounds.X + offsets[c], bounds.Y, widths[c], _row.RowHeight));
 
-        return new Size(layout.TotalWidth, _row.RowHeight);
+        // Return the full slot; WinUI centres a panel that reports a smaller arranged size.
+        return new Size(Math.Max(layout.TotalWidth, bounds.Width), _row.RowHeight);
     }
 }

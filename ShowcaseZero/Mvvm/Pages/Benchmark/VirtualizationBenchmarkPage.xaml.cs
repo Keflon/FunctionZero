@@ -28,7 +28,7 @@ public partial class VirtualizationBenchmarkPage : ContentPage
 
         var gridView = new GridViewZero { ItemHeight = 30, HeaderVisible=true };
         for (int c = 0; c < columnCount; c++)
-            gridView.ColumnsSource.Add(new GridColumnZero { ItemTemplate = CreateCellTemplate(c) });
+            gridView.ColumnsSource.Add(new GridColumnZero { Header = $"Column {c}", ItemTemplate = CreateCellTemplate(c) });
 
         gridView.ItemsSource = Vm.Items;
         Host.Content = gridView;
