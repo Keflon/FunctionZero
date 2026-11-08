@@ -17,6 +17,7 @@
 
 	<Node Title="Experimental" >
 		<Node Title="TreeGrid" ActionKey="TreeGridExperimentalPage" Argument=""/>
+		<Node Title="Virtualization Benchmark" ActionKey="VirtualizationBenchmark" Argument=""/>
 	</Node>
 
 

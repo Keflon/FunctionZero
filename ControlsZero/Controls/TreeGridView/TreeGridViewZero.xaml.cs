@@ -51,15 +51,12 @@ public partial class TreeGridViewZero
         // TODO: For now, just brute-force it.
         //BatchBegin();
 
-        while (TheGridView.ColumnsSource.Count > 1)
-            TheGridView.ColumnsSource.RemoveAt(1);
+        while (TheGridView.Columns.Count > 1)
+            TheGridView.Columns.RemoveAt(1);
 
         if (ColumnsSource != null)
             foreach (var column in ColumnsSource)
-            {
-                column.ControlTemplate = columnControlTemplate;
-                TheGridView.ColumnsSource.Add(column);
-            }
+                TheGridView.Columns.Add(column);
         //BatchCommit();
     }
 
@@ -125,7 +122,9 @@ public partial class TreeGridViewZero
     public TreeGridViewZero()
     {
         InitializeComponent();
-        
+        // Non-tree columns present the node's Data; the tree column receives the TreeNodeContainer itself.
+        TheGridView.CellContextSelector = (column, item) => item is TreeNodeContainer<object> node ? node.Data : item;
+
         var columns = new ObservableCollection<GridColumnZero>();
         columns.CollectionChanged += ColumnsSource_CollectionChanged;
         ColumnsSource = columns;
@@ -199,23 +198,6 @@ public partial class TreeGridViewZero
                 self._rootContainer.IsExpanded = true;
             }
         }
-    }
-
-    public static readonly BindableProperty TreeItemControlTemplateProperty = BindableProperty.Create("TreeItemControlTemplate", typeof(ControlTemplate), typeof(TreeGridViewZero), null, propertyChanged: OnTreeItemControlTemplateChanged);
-
-    public ControlTemplate TreeItemControlTemplate
-    {
-        get { return (ControlTemplate)GetValue(TreeItemControlTemplateProperty); }
-        set { SetValue(TreeItemControlTemplateProperty, value); }
-    }
-
-    private static void OnTreeItemControlTemplateChanged(BindableObject bindable, object oldValue, object newValue)
-    {
-        var self = (TreeGridViewZero)bindable;
-        //self.Resources["FunctionZero.Maui.Controls.TreeNodeZero.defaultControlTemplate"] = newValue;
-
-        self.ListItemStyle.Setters[0].Value = newValue;
-
     }
 
     public static readonly BindableProperty IndentMultiplierProperty = BindableProperty.Create("IndentMultiplier", typeof(double), typeof(TreeGridViewZero), 15D);

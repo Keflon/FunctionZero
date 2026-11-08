@@ -1,61 +1,44 @@
-﻿namespace FunctionZero.Maui.Controls
+namespace FunctionZero.Maui.Controls
 {
+    /// <summary>
+    /// Resizes a <see cref="GridColumnZero"/> by dragging. Lives in the GridViewZero header.
+    /// </summary>
     public class GridSplitterZero : ContentView
     {
-        private int _columnIndexToResize;
-        private DropGestureRecognizer _dropGestureRecognizer;
+        private readonly GridColumnZero _column;
+        private double _startWidth;
 
-        public GridSplitterZero()
+        internal GridSplitterZero(GridColumnZero column)
         {
-            var dragGestureRecognizer = new DragGestureRecognizer() { CanDrag = true };
-            dragGestureRecognizer.DragStarting += DragGestureRecognizer_DragStarting;
-            dragGestureRecognizer.DropCompleted += DragGestureRecognizer_DropCompleted;
-            GestureRecognizers.Add(dragGestureRecognizer);
+            _column = column;
+            BackgroundColor = Colors.Transparent;
+            Content = new BoxView { Color = Colors.Gray, WidthRequest = 1, HorizontalOptions = LayoutOptions.Center };
 
-            _dropGestureRecognizer = new DropGestureRecognizer();
-            _dropGestureRecognizer.DragOver += _dropGestureRecognizer_DragOver;
+            var pan = new PanGestureRecognizer();
+            pan.PanUpdated += Pan_PanUpdated;
+            GestureRecognizers.Add(pan);
         }
 
-        private void _dropGestureRecognizer_DragOver(object? sender, DragEventArgs e)
+        internal event EventHandler Resizing;
+
+        internal double CurrentWidth { get; set; }
+
+        private void Pan_PanUpdated(object sender, PanUpdatedEventArgs e)
         {
-#if WINDOWS
-            var dragUI = e.PlatformArgs.DragEventArgs.DragUIOverride;
-            dragUI.IsCaptionVisible = false;
-            dragUI.IsGlyphVisible = false;
-            dragUI.IsContentVisible = false;
-#endif
-            var parentGrid = Parent as Grid;
-            double newWidth = (int)e.GetPosition(parentGrid)!.Value.X;
-
-            for (int c = 0; c < _columnIndexToResize; c++)
-                newWidth -= parentGrid.ColumnDefinitions[c].Width.Value;
-
-            if (newWidth < 0)
-                newWidth = 0;
-
-            parentGrid.ColumnDefinitions[_columnIndexToResize].Width = new GridLength(newWidth);
-            ForceGridRedraw(parentGrid);
-        }
-
-        private void ForceGridRedraw(Grid parentGrid)
-        {
-            this.InvalidateLayout();
-        }
-
-        private void DragGestureRecognizer_DragStarting(object? sender, DragStartingEventArgs e)
-        {
-            Opacity = 0.5;
-            var parentGrid = Parent as Grid;
-            parentGrid.GestureRecognizers.Add(_dropGestureRecognizer);
-            _columnIndexToResize = Grid.GetColumn(this) - 1;
-        }
-
-        private void DragGestureRecognizer_DropCompleted(object? sender, DropCompletedEventArgs e)
-        {
-            Opacity = 1.0;
-            var parentGrid = Parent as Grid;
-            parentGrid.GestureRecognizers.Remove(_dropGestureRecognizer);
-            ForceGridRedraw(parentGrid);
+            switch (e.StatusType)
+            {
+                case GestureStatus.Started:
+                    _startWidth = CurrentWidth;
+                    Opacity = 0.5;
+                    break;
+                case GestureStatus.Running:
+                    _column.Width = new GridLength(Math.Max(0, _startWidth + e.TotalX));
+                    Resizing?.Invoke(this, EventArgs.Empty);
+                    break;
+                default:
+                    Opacity = 1.0;
+                    break;
+            }
         }
     }
 }

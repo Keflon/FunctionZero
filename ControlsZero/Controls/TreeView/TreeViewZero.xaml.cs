@@ -163,22 +163,6 @@ namespace FunctionZero.Maui.Controls
             }
         }
 
-        public static readonly BindableProperty TreeItemControlTemplateProperty = BindableProperty.Create("TreeItemControlTemplate", typeof(ControlTemplate), typeof(TreeViewZero), null, propertyChanged: OnTreeItemControlTemplateChanged);
-
-        public ControlTemplate TreeItemControlTemplate
-        {
-            get { return (ControlTemplate)GetValue(TreeItemControlTemplateProperty); }
-            set { SetValue(TreeItemControlTemplateProperty, value); }
-        }
-
-        private static void OnTreeItemControlTemplateChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            var self = (TreeViewZero)bindable;
-            //self.Resources["FunctionZero.Maui.Controls.TreeNodeZero.defaultControlTemplate"] = newValue;
-
-            self.ListItemStyle.Setters[0].Value = newValue;
-
-        }
 
         public static readonly BindableProperty IndentMultiplierProperty = BindableProperty.Create("IndentMultiplier", typeof(double), typeof(TreeViewZero), 15D);
 

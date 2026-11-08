@@ -4,6 +4,7 @@
              xmlns:cz="clr-namespace:FunctionZero.Maui.Controls;assembly=FunctionZero.Maui.ControlsZero"
              xmlns:tg="clr-namespace:ShowcaseZero.Mvvm.Pages.TreeGrid"
              xmlns:aa="clr-namespace:SampleApp.Mvvm.ViewModels"
+             xmlns:tt="clr-namespace:ShowcaseZero.Services.BasicTreeNode"
              x:Class="ShowcaseZero.Mvvm.Pages.TreeGrid.TreeGridExperimentalPage"
              Title="Welcome to TreeGridExperimentalPage!">
 
@@ -12,9 +13,9 @@
             Grid.Column="0"
             SelectionMode="Single"
             ItemsSource="{Binding RootNode}" 
-            BackgroundColor="AliceBlue" 
+            BackgroundColor="Blue" 
             ItemHeight="30"
-            IndentMultiplier="20" 
+            IndentMultiplier="25"
             >
             <cz:TreeGridViewZero.Resources>
                 <Style TargetType="cz:Chevron">
@@ -29,10 +30,10 @@
 
                         <cz:TreeItemDataTemplateSelector  >
                             <cz:TreeItemDataTemplateSelector.DataTemplateContent>
-                                <cz:TreeItemDataTemplate ChildrenPropertyName="Children" IsExpandedPropertyName="IsExpanded" TargetType="{x:Type aa:FlyoutItemVm}" >
+                                <cz:TreeItemDataTemplate ChildrenPropertyName="Children" IsExpandedPropertyName="IsExpanded" TargetType="{x:Type tt:BasicTreeNode}" >
                                     <cz:TreeItemDataTemplate.DataTemplateContent>
                                         <DataTemplate>
-                                            <Label Text="{Binding Title}" BackgroundColor="Yellow" />
+                                            <Label Text="{Binding Name}" BackgroundColor="DarkMagenta" />
                                         </DataTemplate>
                                     </cz:TreeItemDataTemplate.DataTemplateContent>
                                 </cz:TreeItemDataTemplate>
@@ -47,21 +48,21 @@
                 <cz:GridColumnZero BackgroundColor="Red" >
                     <cz:GridColumnZero.ItemTemplate>
                         <DataTemplate>
-                            <Editor Text="{Binding Title}" />
+                            <Editor Text="{Binding Name}" />
                         </DataTemplate>
                     </cz:GridColumnZero.ItemTemplate>
                 </cz:GridColumnZero>
                 <cz:GridColumnZero BackgroundColor="Green" >
                     <cz:GridColumnZero.ItemTemplate>
                         <DataTemplate>
-                            <Label Text="{Binding Title}" Scale="0.8"/>
+                            <Label Text="{Binding Name}" Scale="0.8"/>
                         </DataTemplate>
                     </cz:GridColumnZero.ItemTemplate>
                 </cz:GridColumnZero>
                 <cz:GridColumnZero BackgroundColor="Blue" >
                     <cz:GridColumnZero.ItemTemplate>
                         <DataTemplate>
-                            <Label Text="{Binding Title}"/>
+                            <Label Text="{Binding Name}"/>
                         </DataTemplate>
                     </cz:GridColumnZero.ItemTemplate>
                 </cz:GridColumnZero>
@@ -78,7 +79,7 @@
          
         Margin="10">
             <cz:GridViewZero.ColumnsSource>
-                <cz:GridColumnZero BackgroundColor="Red" >
+                <cz:GridColumnZero BackgroundColor="Orange" >
                 </cz:GridColumnZero>
                 <cz:GridColumnZero BackgroundColor="Green" >
                     <cz:GridColumnZero.ItemTemplate>

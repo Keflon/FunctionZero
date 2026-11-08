@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShowcaseZero.Mvvm.Pages.Benchmark.VirtualizationBenchmarkPage"
+             xmlns:cz="clr-namespace:FunctionZero.Maui.Controls;assembly=FunctionZero.Maui.ControlsZero"
+             Title="Virtualization Benchmark">
+    <Grid RowDefinitions="Auto,Auto,*" Padding="10" RowSpacing="10" >
+        <HorizontalStackLayout Spacing="10">
+            <Label Text="Items:" VerticalOptions="Center"/>
+            <Picker x:Name="ItemCountPicker" WidthRequest="120">
+                <Picker.Items>
+                    <x:String>10000</x:String>
+                    <x:String>100000</x:String>
+                </Picker.Items>
+            </Picker>
+            <Label Text="Columns:" VerticalOptions="Center"/>
+            <Picker x:Name="ColumnCountPicker" WidthRequest="80">
+                <Picker.Items>
+                    <x:String>1</x:String>
+                    <x:String>3</x:String>
+                    <x:String>6</x:String>
+                </Picker.Items>
+            </Picker>
+            <Button Text="Run" Clicked="Run_Clicked"/>
+        </HorizontalStackLayout>
+        <Label Grid.Row="1" Text="{Binding Results}"/>
+        <ContentView Grid.Row="2" x:Name="Host"/>
+    </Grid>
+</ContentPage>

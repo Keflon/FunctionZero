@@ -1,7 +1,9 @@
 ﻿using FunctionZero.Maui.MvvmZero;
 using FunctionZero.Maui.Showcase.Services;
 using SampleApp.Mvvm.ViewModels;
+using ShowcaseZero.Services.BasicTreeNode;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
@@ -11,19 +13,26 @@ namespace ShowcaseZero.Mvvm.PageViewModels.TreeGridView
     {
         private readonly IPageServiceZero _pageService;
 
-        private ObservableCollection<FlyoutItemVm>? _children;
-        public ObservableCollection<FlyoutItemVm>? Children { get => _children; set => SetProperty(ref _children, value); }
+        //private ObservableCollection<FlyoutItemVm>? _children;
+        //public ObservableCollection<FlyoutItemVm>? Children { get => _children; set => SetProperty(ref _children, value); }
 
-        private FlyoutItemVm _rootNode;
-        public FlyoutItemVm RootNode { get => _rootNode; set => SetProperty(ref _rootNode, value); }
+        private BasicRootNode _rootNode;
+        public BasicRootNode RootNode { get => _rootNode; set => SetProperty(ref _rootNode, value); }
 
         public ObservableCollection<string> ListChildren { get; }
 
-        public TreeGridExperimentalPageVm(IPageServiceZero pageService, FlyoutFlyoutTreeBuilder treeBuilder)
+        public TreeGridExperimentalPageVm(IPageServiceZero pageService)
         {
             _pageService = pageService;
 
-            _ = treeBuilder.CreateTreeAsync().ContinueWith((thing) => Children = thing.Result);
+            RootNode = new BasicRootNode("Root!");
+
+            RootNode.Children.CollectionChanged += Children_CollectionChanged;
+
+            RootNode.Level0ChildCount = 3;
+            RootNode.Level1ChildCount = 3;
+            RootNode.Level2ChildCount = 3;
+            RootNode.Level3ChildCount = 3;
 
             var listChildren = new ObservableCollection<string>();
 
@@ -33,17 +42,11 @@ namespace ShowcaseZero.Mvvm.PageViewModels.TreeGridView
             ListChildren = listChildren;
         }
 
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void Children_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
-            base.OnPropertyChanged(propertyName);
-
-            if (propertyName == nameof(Children))
-            {
-                Debug.WriteLine("XXX");
-                RootNode = new FlyoutItemVm("Root Node", null);
-                foreach (var item in Children)
-                    RootNode.Children.Add(item);
-            }
+            Debug.WriteLine(RootNode.Children.Count);
+            RootNode.IsExpanded = true;
         }
+
     }
 }

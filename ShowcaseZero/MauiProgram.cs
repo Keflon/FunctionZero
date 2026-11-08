@@ -6,6 +6,8 @@ using LocalizationZero.Localization;
 using Microsoft.Extensions.Logging;
 using ShowcaseZero.Localization;
 using ShowcaseZero.Mvvm.Pages;
+using ShowcaseZero.Mvvm.Pages.Benchmark;
+using ShowcaseZero.Mvvm.PageViewModels.Benchmark;
 using ShowcaseZero.Mvvm.Pages.ListView;
 using ShowcaseZero.Mvvm.Pages.Localization;
 using ShowcaseZero.Mvvm.Pages.MaskView;
@@ -45,6 +47,7 @@ namespace ShowcaseZero
                         .MapVmToView<TreeGridExperimentalPageVm, TreeGridExperimentalPage>()
                         .MapVmToView<LocalizationSamplePageVm, LocalizationSamplePage>()
                         .MapVmToView<MaskViewPageVm, MaskViewPage>()
+                        .MapVmToView<VirtualizationBenchmarkPageVm, VirtualizationBenchmarkPage>()
                     
                         ;
                     })
@@ -88,6 +91,8 @@ namespace ShowcaseZero
                 .AddSingleton<LocalizationSamplePage>()
                 .AddSingleton<MaskViewPage>()
                 .AddSingleton<MaskViewPageVm>()
+                .AddSingleton<VirtualizationBenchmarkPageVm>()
+                .AddTransient<VirtualizationBenchmarkPage>()
 
                 .AddSingleton<FlyoutFlyoutTreeBuilder>()
                 .AddSingleton<TreeFactory>()

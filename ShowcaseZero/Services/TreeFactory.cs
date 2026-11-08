@@ -2,6 +2,7 @@
 using FunctionZero.ObjectGraphZero.Factory;
 using SampleApp.Mvvm.ViewModels;
 using ShowcaseZero.Mvvm.PageViewModels;
+using ShowcaseZero.Mvvm.PageViewModels.Benchmark;
 using ShowcaseZero.Mvvm.PageViewModels.ListView;
 using ShowcaseZero.Mvvm.PageViewModels.Localization;
 using ShowcaseZero.Mvvm.PageViewModels.MaskView;
@@ -26,7 +27,7 @@ namespace FunctionZero.Maui.Showcase.Services
             var treeGridViewMultiPages = new  ObservableCollection<object> { _pageService.GetViewModel <TreeGridViewAboutPageVm>(), _pageService.GetViewModel <TreeGridViewSamplePageVm>() };
             //var experimentalMultiPages = new  ObservableCollection<object> { treeGridExperimentalPageVm };
             // Do not use the experimental TreeGridExperimentalPageVm here, because it has a dependency on TreeFactory, causing a cycle.
-            var experimentalMultiPages = new  ObservableCollection<object> { _pageService.GetViewModel<TreeViewBasicPageVm>() };
+            var experimentalMultiPages = new  ObservableCollection<object> { _pageService.GetViewModel<TreeViewBasicPageVm>(), _pageService.GetViewModel<TreeGridExperimentalPageVm>() };
 
             var listViewMultiPage = _pageService.GetMultiPage(vm => true, listViewMultiPages);
             var treeViewMultiPage = _pageService.GetMultiPage(vm => true, treeViewMultiPages);
@@ -43,6 +44,7 @@ namespace FunctionZero.Maui.Showcase.Services
                 {"TreeGridView",   (flyoutItemVm) => _pageService.FlyoutController.Detail = treeGridViewMultiPage},
                 {"MaskView",   (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<MaskViewPageVm>(true, vm => { }) },
                 //{"MemoryTest", (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<MemoryTestPageVm>(true, vm => { }) },
+                {"VirtualizationBenchmark",   (flyoutItemVm) => _pageService.FlyoutController.SetDetailVm<VirtualizationBenchmarkPageVm>(true, vm => { }) },
                 {"TreeGridExperimentalPage",   (flyoutItemVm) => _pageService.FlyoutController.Detail = experimentalMultiPage},
             };
         }
