@@ -81,11 +81,8 @@
 
                     <Border Margin="0,26,0,0" Padding="14" CornerRadius="12" Background="#10152B"
                             IsEnabled="{z:Bind Expression=IsChecked, Source={x:Reference GlowToggle}}">
-                        <!--<TextBlock Text="This panel's IsEnabled property is bound directly to the toggle above."
-                                   TextWrapping="Wrap" FontSize="12" Foreground="#AEB7D3" />-->
-
-                        <TextBlock Text="{z:Bind Expression=IsChecked, Source={x:Reference GlowToggle}}"
-                          TextWrapping="Wrap" FontSize="12" Foreground="#AEB7D3" />
+                        <TextBlock Text="This panel's IsEnabled property is bound directly to the toggle above."
+                                   TextWrapping="Wrap" FontSize="12" Foreground="#AEB7D3" />
 
                     </Border>
                 </StackPanel>

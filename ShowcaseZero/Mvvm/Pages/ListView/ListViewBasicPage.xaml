@@ -2,11 +2,15 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShowcaseZero.Mvvm.Pages.ListView.ListViewBasicPage"
+             xmlns:cz="clr-namespace:FunctionZero.Maui.Controls;assembly=FunctionZero.Maui.ControlsZero"
              Title="ListViewBasicPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to ListViewBasicPage!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
-</ContentPage>
+    <Grid>
+        <cz:ListViewZero ItemsSource="{Binding Items}">
+            <cz:ListViewZero.ItemTemplate>
+                <DataTemplate>
+                    <Label Text="{Binding Name}" TranslationX="{Binding Value}" BackgroundColor="Red"/>
+                </DataTemplate>
+            </cz:ListViewZero.ItemTemplate>
+        </cz:ListViewZero>
+    </Grid>
+</ContentPage> 
