@@ -15,6 +15,7 @@ public class GridViewZero : ContentView
     private readonly GridHeaderZero _header;
     private readonly ScrollView _scrollView;
     private readonly RowVirtualizerZero _virtualizer;
+    private readonly GridDividerOverlayZero _dividers;
     private readonly List<GridColumnZero> _subscribedColumns = new();
     private bool _isHandlingNativeScroll;
     private bool _updateColumnsRequested;
@@ -50,6 +51,10 @@ public class GridViewZero : ContentView
         };
         root.Add(_header, 0, 0);
         root.Add(_scrollView, 0, 1);
+
+        _dividers = new GridDividerOverlayZero(_columnLayout);
+        _dividers.DividerDragged += (index, status, totalX) => _header.DragSplitter(index, status, totalX);
+        root.Add(_dividers, 0, 1);
         Content = root;
 
         SelectedItems = new List<object>();
@@ -118,6 +123,7 @@ public class GridViewZero : ContentView
         }
 
         _header.SetColumns(_subscribedColumns);
+        _dividers.SetCount(_subscribedColumns.Count);
         UpdateColumnLayout(invalidateRows: false);
         _virtualizer.SetColumns(_subscribedColumns);
         UpdateRemainingItems();
@@ -141,12 +147,52 @@ public class GridViewZero : ContentView
         if (width > 0 && _virtualizer.WidthRequest != width)
             _virtualizer.WidthRequest = width;
         _header.InvalidateColumns();
+        _dividers.Invalidate();
 
         if (invalidateRows)
             foreach (var row in _virtualizer.RealizedRows)
                 ((IView)row).InvalidateMeasure();
 
         ((IView)_virtualizer).InvalidateMeasure();
+    }
+
+    #endregion
+
+    #region ColumnSpacingProperty
+
+    public static readonly BindableProperty ColumnSpacingProperty = BindableProperty.Create(nameof(ColumnSpacing), typeof(double), typeof(GridViewZero), 0.0, BindingMode.OneWay, null, ColumnSpacingChanged);
+
+    /// <summary>Gap after each column, in the header and the rows. The gap shows a divider that can be dragged to resize the column.</summary>
+    public double ColumnSpacing
+    {
+        get { return (double)GetValue(ColumnSpacingProperty); }
+        set { SetValue(ColumnSpacingProperty, value); }
+    }
+
+    private static void ColumnSpacingChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        var self = (GridViewZero)bindable;
+        self._columnLayout.Spacing = Math.Max(0, (double)newValue);
+        self.UpdateColumnLayout();
+    }
+
+    #endregion
+
+    #region DividerColorProperty
+
+    public static readonly BindableProperty DividerColorProperty = BindableProperty.Create(nameof(DividerColor), typeof(Color), typeof(GridViewZero), Colors.Gray, BindingMode.OneWay, null, DividerColorChanged);
+
+    public Color DividerColor
+    {
+        get { return (Color)GetValue(DividerColorProperty); }
+        set { SetValue(DividerColorProperty, value); }
+    }
+
+    private static void DividerColorChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        var self = (GridViewZero)bindable;
+        self._header.DividerColor = (Color)newValue;
+        self._dividers.DividerColor = (Color)newValue;
     }
 
     #endregion

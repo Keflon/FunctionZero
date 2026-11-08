@@ -7,13 +7,21 @@ namespace FunctionZero.Maui.Controls
     {
         private readonly GridColumnZero _column;
         private double _startWidth;
+        private readonly BoxView _line;
+
+        internal Color DividerColor
+        {
+            get => _line.Color;
+            set => _line.Color = value;
+        }
 
         internal GridSplitterZero(GridColumnZero column)
         {
             _column = column;
             // Nearly transparent rather than Transparent so the platform hit-tests the whole grab area.
             BackgroundColor = Color.FromRgba(0, 0, 0, 0.01);
-            Content = new BoxView { Color = Colors.Gray, WidthRequest = 1, HorizontalOptions = LayoutOptions.Center };
+            _line = new BoxView { Color = Colors.Gray, HorizontalOptions = LayoutOptions.Fill, VerticalOptions = LayoutOptions.Fill };
+            Content = _line;
         }
 
         internal event EventHandler Resizing;

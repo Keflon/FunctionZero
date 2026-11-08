@@ -7,7 +7,7 @@ namespace FunctionZero.Maui.Controls;
 /// </summary>
 internal sealed class GridHeaderZero : Layout
 {
-    private const double SplitterWidth = 10.0;
+    private const double MinimumSplitterWidth = 1.0;
     private readonly GridColumnLayout _columnLayout;
     private readonly List<View> _headers = new();
     private readonly List<GridSplitterZero> _splitters = new();
@@ -52,6 +52,27 @@ internal sealed class GridHeaderZero : Layout
         }
     }
 
+    /// <summary>Lets the row dividers drive the same resize logic as the header splitters.</summary>
+    internal void DragSplitter(int index, GestureStatus status, double totalX)
+    {
+        if (index < 0 || index >= _splitters.Count)
+            return;
+
+        var splitter = _splitters[index];
+        switch (status)
+        {
+            case GestureStatus.Started:
+                splitter.BeginResize();
+                break;
+            case GestureStatus.Running:
+                splitter.Resize(totalX);
+                break;
+            default:
+                splitter.EndResize();
+                break;
+        }
+    }
+
     private GridSplitterZero FindSplitter(double? x)
     {
         if (x == null)
@@ -60,10 +81,10 @@ internal sealed class GridHeaderZero : Layout
         var widths = _columnLayout.Widths;
         var offsets = _columnLayout.Offsets;
         GridSplitterZero best = null;
-        double bestDistance = GrabTolerance;
+        double bestDistance = Math.Max(GrabTolerance, _columnLayout.Spacing / 2);
         for (int c = 0; c < _splitters.Count && c < widths.Length; c++)
         {
-            double distance = Math.Abs(x.Value - (offsets[c] + widths[c]));
+            double distance = Math.Abs(x.Value - (offsets[c] + widths[c] + _columnLayout.Spacing / 2));
             if (distance <= bestDistance)
             {
                 bestDistance = distance;
@@ -74,6 +95,21 @@ internal sealed class GridHeaderZero : Layout
     }
 
     public event EventHandler ColumnResized;
+
+    private double SplitterWidth => Math.Max(MinimumSplitterWidth, _columnLayout.Spacing);
+
+    private Color _dividerColor = Colors.Gray;
+
+    public Color DividerColor
+    {
+        get => _dividerColor;
+        set
+        {
+            _dividerColor = value ?? Colors.Gray;
+            foreach (var splitter in _splitters)
+                splitter.DividerColor = _dividerColor;
+        }
+    }
 
     public void SetColumns(IReadOnlyList<GridColumnZero> columns)
     {
@@ -101,7 +137,7 @@ internal sealed class GridHeaderZero : Layout
         // Splitters are added last so they sit above every header and receive the pointer.
         foreach (var column in columns)
         {
-            var splitter = new GridSplitterZero(column) { InputTransparent = true };
+            var splitter = new GridSplitterZero(column) { InputTransparent = true, DividerColor = _dividerColor };
             splitter.Resizing += (s, e) => ColumnResized?.Invoke(this, EventArgs.Empty);
             _splitters.Add(splitter);
             Add(splitter);
@@ -137,7 +173,7 @@ internal sealed class GridHeaderZero : Layout
             {
                 var size = ((IView)_owner._headers[c]).Measure(widths[c], double.PositiveInfinity);
                 height = Math.Max(height, size.Height);
-                ((IView)_owner._splitters[c]).Measure(SplitterWidth, double.PositiveInfinity);
+                ((IView)_owner._splitters[c]).Measure(_owner.SplitterWidth, double.PositiveInfinity);
             }
             return new Size(double.IsFinite(widthConstraint) ? widthConstraint : _owner._columnLayout.TotalWidth, Math.Max(height, 24));
         }
@@ -149,8 +185,10 @@ internal sealed class GridHeaderZero : Layout
             for (int c = 0; c < _owner._headers.Count && c < widths.Length; c++)
             {
                 ((IView)_owner._headers[c]).Arrange(new Rect(bounds.X + offsets[c], bounds.Y, widths[c], bounds.Height));
-                double splitterX = bounds.X + offsets[c] + widths[c] - SplitterWidth / 2;
-                ((IView)_owner._splitters[c]).Arrange(new Rect(splitterX, bounds.Y, SplitterWidth, bounds.Height));
+                // The splitter fills the gap after the column; with no gap it straddles the column edge.
+                double splitterWidth = _owner.SplitterWidth;
+                double splitterX = bounds.X + offsets[c] + widths[c] + (_owner._columnLayout.Spacing - splitterWidth) / 2;
+                ((IView)_owner._splitters[c]).Arrange(new Rect(splitterX, bounds.Y, splitterWidth, bounds.Height));
             }
             return bounds.Size;
         }

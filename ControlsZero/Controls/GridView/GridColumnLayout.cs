@@ -12,6 +12,9 @@ internal sealed class GridColumnLayout
     public double TotalWidth { get; private set; }
     public double ViewportWidth { get; private set; }
 
+    /// <summary>Gap after every column. The gap hosts the divider used to resize the column.</summary>
+    public double Spacing { get; set; }
+
     public void Compute(IReadOnlyList<GridColumnZero> columns, double viewportWidth, IReadOnlyList<double> autoWidths)
     {
         ViewportWidth = double.IsFinite(viewportWidth) ? Math.Max(0, viewportWidth) : 0;
@@ -49,7 +52,8 @@ internal sealed class GridColumnLayout
             fixedTotal += Widths[c];
         }
 
-        double remaining = double.IsFinite(viewportWidth) && viewportWidth > 0 ? Math.Max(0, viewportWidth - fixedTotal) : 0;
+        double gaps = Spacing * count;
+        double remaining = double.IsFinite(viewportWidth) && viewportWidth > 0 ? Math.Max(0, viewportWidth - fixedTotal - gaps) : 0;
 
         for (int c = 0; c < count; c++)
         {
@@ -62,7 +66,7 @@ internal sealed class GridColumnLayout
         for (int c = 0; c < count; c++)
         {
             Offsets[c] = offset;
-            offset += Widths[c];
+            offset += Widths[c] + Spacing;
         }
         TotalWidth = offset;
     }
