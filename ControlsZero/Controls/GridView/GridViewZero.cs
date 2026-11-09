@@ -11,7 +11,7 @@ namespace FunctionZero.Maui.Controls;
 [ContentProperty(nameof(Columns))]
 public class GridViewZero : ContentView
 {
-    private readonly GridColumnLayout _columnLayout = new();
+    private readonly GridColumnLayout _columnLayout = new() { Spacing = DefaultColumnSpacing };
     private readonly GridHeaderZero _header;
     private readonly ScrollView _scrollView;
     private readonly RowVirtualizerZero _virtualizer;
@@ -160,7 +160,9 @@ public class GridViewZero : ContentView
 
     #region ColumnSpacingProperty
 
-    public static readonly BindableProperty ColumnSpacingProperty = BindableProperty.Create(nameof(ColumnSpacing), typeof(double), typeof(GridViewZero), 0.0, BindingMode.OneWay, null, ColumnSpacingChanged);
+    public const double DefaultColumnSpacing = 5.0;
+
+    public static readonly BindableProperty ColumnSpacingProperty = BindableProperty.Create(nameof(ColumnSpacing), typeof(double), typeof(GridViewZero), DefaultColumnSpacing, BindingMode.OneWay, null, ColumnSpacingChanged);
 
     /// <summary>Gap after each column, in the header and the rows. The gap shows a divider that can be dragged to resize the column.</summary>
     public double ColumnSpacing

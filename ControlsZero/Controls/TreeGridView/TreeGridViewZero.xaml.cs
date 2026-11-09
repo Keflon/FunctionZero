@@ -60,6 +60,53 @@ public partial class TreeGridViewZero
         //BatchCommit();
     }
 
+    #region Header and divider properties
+
+    public static readonly BindableProperty ColumnSpacingProperty = BindableProperty.Create(nameof(ColumnSpacing), typeof(double), typeof(TreeGridViewZero), GridViewZero.DefaultColumnSpacing);
+
+    /// <summary>Gap after each column. The gap shows a divider that can be dragged to resize the column.</summary>
+    public double ColumnSpacing
+    {
+        get { return (double)GetValue(ColumnSpacingProperty); }
+        set { SetValue(ColumnSpacingProperty, value); }
+    }
+
+    public static readonly BindableProperty DividerColorProperty = BindableProperty.Create(nameof(DividerColor), typeof(Color), typeof(TreeGridViewZero), Colors.Gray);
+
+    public Color DividerColor
+    {
+        get { return (Color)GetValue(DividerColorProperty); }
+        set { SetValue(DividerColorProperty, value); }
+    }
+
+    public static readonly BindableProperty HeaderVisibleProperty = BindableProperty.Create(nameof(HeaderVisible), typeof(bool), typeof(TreeGridViewZero), false);
+
+    public bool HeaderVisible
+    {
+        get { return (bool)GetValue(HeaderVisibleProperty); }
+        set { SetValue(HeaderVisibleProperty, value); }
+    }
+
+    public static readonly BindableProperty TreeColumnHeaderProperty = BindableProperty.Create(nameof(TreeColumnHeader), typeof(object), typeof(TreeGridViewZero), null);
+
+    /// <summary>Header for the tree column, which is always the first column.</summary>
+    public object TreeColumnHeader
+    {
+        get { return GetValue(TreeColumnHeaderProperty); }
+        set { SetValue(TreeColumnHeaderProperty, value); }
+    }
+
+    public static readonly BindableProperty TreeColumnWidthProperty = BindableProperty.Create(nameof(TreeColumnWidth), typeof(GridLength), typeof(TreeGridViewZero), new GridLength(250));
+
+    [TypeConverter(typeof(GridLengthTypeConverter))]
+    public GridLength TreeColumnWidth
+    {
+        get { return (GridLength)GetValue(TreeColumnWidthProperty); }
+        set { SetValue(TreeColumnWidthProperty, value); }
+    }
+
+    #endregion
+
     public static readonly BindableProperty ItemHeightProperty = BindableProperty.Create(nameof(ItemHeight), typeof(float), typeof(TreeGridViewZero), (float)30.0, BindingMode.OneWay, null);
 
     public float ItemHeight

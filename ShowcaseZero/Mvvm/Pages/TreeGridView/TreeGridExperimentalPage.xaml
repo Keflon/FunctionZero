@@ -15,7 +15,7 @@
             ItemsSource="{Binding RootNode}" 
             BackgroundColor="Blue" 
             ItemHeight="30"
-            IndentMultiplier="25"
+            IndentMultiplier="25" HeaderVisible="True" TreeColumnHeader="Tree"
             >
             <cz:TreeGridViewZero.Resources>
                 <Style TargetType="cz:Chevron">
@@ -45,21 +45,21 @@
             </cz:TreeGridViewZero.TreeItemTemplate>
 
             <cz:TreeGridViewZero.ColumnsSource>
-                <cz:GridColumnZero BackgroundColor="Red" >
+                <cz:GridColumnZero Header="Name (edit)" BackgroundColor="Red" >
                     <cz:GridColumnZero.ItemTemplate>
                         <DataTemplate>
                             <Editor Text="{Binding Name}" />
                         </DataTemplate>
                     </cz:GridColumnZero.ItemTemplate>
                 </cz:GridColumnZero>
-                <cz:GridColumnZero BackgroundColor="Green" >
+                <cz:GridColumnZero Header="Name (scaled)" BackgroundColor="Green" >
                     <cz:GridColumnZero.ItemTemplate>
                         <DataTemplate>
                             <Label Text="{Binding Name}" Scale="0.8"/>
                         </DataTemplate>
                     </cz:GridColumnZero.ItemTemplate>
                 </cz:GridColumnZero>
-                <cz:GridColumnZero BackgroundColor="Blue" >
+                <cz:GridColumnZero Header="Name" BackgroundColor="Blue" >
                     <cz:GridColumnZero.ItemTemplate>
                         <DataTemplate>
                             <Label Text="{Binding Name}"/>
@@ -75,13 +75,11 @@
         <cz:GridViewZero 
             Grid.Column="1"
         SelectionMode="Single"
-        ItemsSource="{Binding ListChildren}"
-         
-        Margin="10">
+        ItemsSource="{Binding ListChildren}" HeaderVisible="True" Margin="10">
             <cz:GridViewZero.ColumnsSource>
-                <cz:GridColumnZero BackgroundColor="Orange" >
+                <cz:GridColumnZero Header="Item" BackgroundColor="Orange" >
                 </cz:GridColumnZero>
-                <cz:GridColumnZero BackgroundColor="Green" >
+                <cz:GridColumnZero Header="Rotated" BackgroundColor="Green" >
                     <cz:GridColumnZero.ItemTemplate>
                         <tg:TestDataTemplateSelector >
                             <tg:TestDataTemplateSelector.First>
@@ -101,7 +99,7 @@
                         </DataTemplate>-->
                     </cz:GridColumnZero.ItemTemplate>
                 </cz:GridColumnZero>
-                <cz:GridColumnZero BackgroundColor="Blue" >
+                <cz:GridColumnZero Header="Default" BackgroundColor="Blue" >
                 </cz:GridColumnZero>
             </cz:GridViewZero.ColumnsSource>
         </cz:GridViewZero>

@@ -13,7 +13,7 @@
         VerticalOptions="Fill"
 
 
-            ItemHeight="{Binding ItemHeight, Source={x:Reference Self}}"
+            ColumnSpacing="0" ItemHeight="{Binding ItemHeight, Source={x:Reference Self}}"
             ItemsSource="{Binding ItemsSource, Source={x:Reference Self}}"
             ScrollOffset="{Binding ScrollOffset, Source={x:Reference Self}, Mode=TwoWay}"
             SelectedItem="{Binding SelectedItem, Source={x:Reference Self}, Mode=TwoWay}"
